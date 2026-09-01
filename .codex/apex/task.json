@@ -1,5 +1,5 @@
 {
-  "current_task": "task-1788018121",
+  "current_task": "task-1788259000",
   "created_at": "2026-08-29T15:41:42Z",
   "tasks": {
     "task-1788018121": {
@@ -14,6 +14,24 @@
         "cursor-skills": "https://cursor.com/docs/skills",
         "cursor-subagents": "https://cursor.com/docs/subagents",
         "fusengine-harness": "@fusengine/harness npm tarball 0.1.90 and local source/dist"
+      }
+    },
+    "task-1788259000": {
+      "subject": "Correct Cursor global-default and explicit project installation",
+      "status": "verified",
+      "phase": "verify",
+      "started_at": null,
+      "started_at_status": "unknown: previous timestamp was later than the measured current time",
+      "doc_consulted": {
+        "cursor-hooks": "https://cursor.com/docs/hooks",
+        "cursor-plugins": "https://cursor.com/docs/plugins",
+        "claude-reference-readme": "Adjacent Claude plugins repository: root README.md",
+        "claude-reference-doc-index": "Adjacent Claude plugins repository: docs/README.md",
+        "claude-reference-installer": "Adjacent Claude plugins repository: setup.sh and scripts/install-hooks.ts",
+        "cursor-installation": "docs/getting-started/installation.md",
+        "cursor-global-installation": "docs/reference/global-installation.md",
+        "cursor-loader": "docs/reference/project-loader.md",
+        "cursor-compatibility": "docs/reference/migration-compatibility.md"
       }
     }
   }

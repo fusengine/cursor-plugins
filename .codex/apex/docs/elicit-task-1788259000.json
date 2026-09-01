@@ -1,0 +1,82 @@
+{
+  "task_slug": "task-1788259000",
+  "generated_at": null,
+  "generated_at_status": "unknown: no trustworthy measured timestamp was available",
+  "mode": "auto",
+  "expert_agent": "general-purpose",
+  "owner_corrections": [
+    "on a passé 2 jours dessus pourque je voient des bug ? c'est une blague",
+    "bordel de dieu je t'ai donner un exemple a porter sur cursor"
+  ],
+  "scope_reset": {
+    "status": "confirmed",
+    "reason": "The verbatim owner correction in the APEX task document makes user-global Cursor installation the default and retains project mode as explicit.",
+    "red": "tests/global-install.test.sh failed because install.sh required --project",
+    "green": "The fake-HOME global suite and all five project suites pass on the current disk."
+  },
+  "challenger_history": [
+    {
+      "gate": "elicit-v1",
+      "verdict": "rejected",
+      "resolved_by": "Manifest-first loading, transactional staging, and sectioned technical documentation"
+    },
+    {
+      "gate": "elicit-v2",
+      "verdict": "rejected",
+      "resolved_by": "Physical loader containment, lstat symlink guards, hook-origin receipts, and post-commit backup recovery"
+    },
+    {
+      "gate": "elicit-v3",
+      "verdict": "rejected",
+      "resolved_by": "Exact hook origin, preflight transactional uninstall, complete responsibility parity, and a Cursor-only public README"
+    },
+    {
+      "gate": "elicit-v4",
+      "verdict": "rejected",
+      "resolved_by": "Stable tokenized hook occurrence identity and explicit classification of all 22 adjacent setup responsibilities"
+    },
+    {
+      "gate": "elicit-v5",
+      "verdict": "confirmed",
+      "resolved_by": "Unique hook relocation, sole crash-backup recovery, atomic finalization, and intact owned-rule updates"
+    },
+    {
+      "gate": "global-default-elicit",
+      "verdict": "confirmed",
+      "resolved_by": "Fake-HOME global lifecycle proof, immediate-child plugin layout, transaction recovery, and preserved explicit project regressions"
+    }
+  ],
+  "sniper_history": [
+    {
+      "gate": "examine-v1",
+      "verdict": "failed",
+      "resolved_by": "Unique hook relocation, sole crash-backup recovery, atomic finalization, and intact owned-rule updates"
+    },
+    {
+      "gate": "global-default-final-sniper",
+      "verdict": "pass",
+      "in_scope_errors": 0,
+      "resolved_by": "No additional correction required"
+    }
+  ],
+  "techniques": [
+    {
+      "technique_id": "CQ-01",
+      "verdict": "pass",
+      "correction_applied": true,
+      "evidence": "Global default uses lstat guards, ownership hashes, same-filesystem snapshot swaps, and recovery across both rename-before-journal crash windows; project protections remain green; global eLicit and final sniper confirmed"
+    },
+    {
+      "technique_id": "DOC-01",
+      "verdict": "pass",
+      "correction_applied": true,
+      "evidence": "README and installation docs lead with no-argument global scope and retain explicit project scope; responsibility parity is updated; global eLicit challenger confirmed"
+    },
+    {
+      "technique_id": "INT-01",
+      "verdict": "pass",
+      "correction_applied": true,
+      "evidence": "Fake-HOME tests prove 24 immediate global plugin roots, dry-run isolation, refresh, ownership refusal, rollback, crash-window recovery, and conservative uninstall; all five project suites pass; global Verify challenger confirmed"
+    }
+  ]
+}

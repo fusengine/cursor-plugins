@@ -25,6 +25,12 @@
   and Bun's `$` turns that into an uncaught throw, so the command failed even though the project
   deploy had already succeeded. Project mode now stops after its own deploy, and a missing directory
   is no longer an error for `makeScriptsExecutable`
+- fix(uninstall): `--uninstall` now removes the whole `~/.cursor/.fusengine-global` control root.
+  It used to leave ~50 files behind for good — the deployed hook loader and its `src/` tree, plus the
+  harness `node_modules` the wrapper self-installs there: the receipt only tracks plugins and the rule,
+  so nothing could reclaim them, and a non-recursive `rmdir` failed silently on the non-empty directory.
+  User plugins, a modified rule, `~/.cursor/.env` and the hooks/MCP config are untouched, as before
+- fix(installer): `.DS_Store` is no longer copied into the deployed loader tree
 - fix(env): `FUSE_HARNESS_REFS` now scans `~/.cursor/plugins/local` — it was one level short and
   silently produced an empty list
 - chore(repo): added `.gitignore` (`node_modules` ignored, `bun.lock` committed) and the missing

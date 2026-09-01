@@ -18,7 +18,7 @@ import { $ } from "bun";
  */
 export function copyLoaderTree(srcDir: string, destDir: string): boolean {
 	if (!existsSync(join(srcDir, "hooks-loader.ts"))) return false;
-	const skip = new Set(["node_modules", "__tests__", "bun.lock", "package.json"]);
+	const skip = new Set(["node_modules", "__tests__", "bun.lock", "package.json", ".DS_Store"]);
 	rmSync(destDir, { recursive: true, force: true });
 	mkdirSync(destDir, { recursive: true });
 	cpSync(join(srcDir, "hooks-loader.ts"), join(destDir, "hooks-loader.ts"));

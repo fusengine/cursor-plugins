@@ -21,7 +21,7 @@ import {
 	backupSettings, configureDefaults, configureHooks, enableAgentTeams,
 	isAgentTeamsEnabled, loadSettings, promptLanguage, saveSettings,
 } from "./settings-manager";
-import { installClaudeMd, installDeps, scanAndPrepare, setupStatusline } from "./setup-plugins";
+import { installDeps, scanAndPrepare, setupStatusline } from "./setup-plugins";
 
 /** Run the complete setup process */
 export async function runSetup(

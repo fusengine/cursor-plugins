@@ -1,37 +1,44 @@
-# Fusengine plugins for Cursor
+# Fusengine Cursor Plugins
 
-An ecosystem of 24 Cursor plugins for supervised engineering workflows, framework guidance,
-security, design, Git, SEO, and code-quality checks.
+![version](https://img.shields.io/badge/version-0.0.1-blue?style=flat-square)
+![plugins](https://img.shields.io/badge/plugins-24-brightgreen?style=flat-square)
+![runtime](https://img.shields.io/badge/runtime-Cursor%20CLI-black?style=flat-square)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
+
+> **Cursor plugin marketplace.** 24 expert plugins for APEX workflows, SOLID/DRY
+> enforcement, framework guidance, security, design, Git, SEO, and code quality.
 
 ## Quick install
 
-Install for every Cursor workspace owned by the current user:
+```bash
+# Register the marketplace
+agent plugin marketplace add https://github.com/fusengine/cursor-plugins.git
 
-```sh
-./install.sh --dry-run
-./install.sh
+# Clone the sources and run the bundled global installer
+git clone --depth 1 https://github.com/fusengine/cursor-plugins.git
+./cursor-plugins/install.sh --dry-run
+./cursor-plugins/install.sh
 ```
 
-The default scope is `~/.cursor/`: 24 individual plugin roots are copied directly below
-`~/.cursor/plugins/local/`, and the global rule is copied to `~/.cursor/rules/fuse-global.mdc`.
+Windows PowerShell:
 
-To install into only one repository, use the explicit project mode:
-
-```sh
-./install.sh --project /absolute/path/to/your-project
+```powershell
+agent plugin marketplace add https://github.com/fusengine/cursor-plugins.git
+git clone --depth 1 https://github.com/fusengine/cursor-plugins.git
+.\cursor-plugins\install.ps1 -DryRun
+.\cursor-plugins\install.ps1
 ```
 
-Reload Cursor after installation. Node.js is required by the installer and plugin hooks.
+These are two distinct steps: `agent plugin marketplace add` registers
+`fusengine-plugins`; it does not install the plugins. The bundled installer then
+installs them globally for the current user. Its default target is `~/.cursor/`
+on macOS/Linux or `%USERPROFILE%\.cursor\` on Windows. The cloned
+`cursor-plugins/` directory is the source checkout, not Cursor's marketplace
+cache.
 
-## How it works
-
-```text
-Global:  ~/.cursor/plugins/local/<plugin-name> → Cursor loads 24 plugin roots
-Project: workspaceOpen → project-local loader → Cursor loads 24 plugin roots
-Runtime: plugin hooks → @fusengine/harness
-```
-
-The harness runs hook mechanics after plugin discovery; it does not install the plugins.
+**Prerequisites:** Cursor CLI, Git, and Node.js available to Cursor. For project
+scope, detailed installation, and filesystem layouts, see
+[Installation and scope](docs/getting-started/installation.md).
 
 ## Documentation
 

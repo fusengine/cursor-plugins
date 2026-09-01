@@ -20,6 +20,11 @@
   submission checklist requires; it resolves the shared harness (vendored binary → self-heal
   `bun install` → pinned `npx`) and tracks the `latest` release, so the plugin also works when
   installed from the marketplace, where no installer ever runs
+- fix(installer): `--project` no longer exits 1 on a fresh `$HOME`. It used to fall through to the
+  global setup stage, which scans `~/.cursor/plugins/local`; on a missing directory `find` exits 1
+  and Bun's `$` turns that into an uncaught throw, so the command failed even though the project
+  deploy had already succeeded. Project mode now stops after its own deploy, and a missing directory
+  is no longer an error for `makeScriptsExecutable`
 - fix(env): `FUSE_HARNESS_REFS` now scans `~/.cursor/plugins/local` — it was one level short and
   silently produced an empty list
 - chore(repo): added `.gitignore` (`node_modules` ignored, `bun.lock` committed) and the missing

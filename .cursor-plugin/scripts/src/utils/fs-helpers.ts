@@ -56,7 +56,11 @@ export async function copyExecutable(
  * Rend tous les scripts .sh exécutables dans un répertoire
  */
 export async function makeScriptsExecutable(dir: string): Promise<number> {
-	const result = await $`find ${dir} -name "*.sh" -type f`.quiet();
+	// A missing directory is not an error here: BSD find exits 1 on it, and Bun's
+	// `$` turns any non-zero exit into a throw, which aborted the whole install
+	// over a directory that simply has nothing to chmod.
+	if (!existsSync(dir)) return 0;
+	const result = await $`find ${dir} -name "*.sh" -type f`.nothrow().quiet();
 	const files = result.text().trim().split("\n").filter(Boolean);
 	for (const file of files) {
 		await $`chmod +x ${file}`.quiet();

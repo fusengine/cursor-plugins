@@ -58,7 +58,10 @@ function runDeployEngine(argv: string[]): void {
 async function main(): Promise<void> {
 	const argv = process.argv.slice(2);
 	runDeployEngine(argv);
-	if (argv.includes("--dry-run") || argv.includes("--uninstall")) return;
+	// The configuration stage works on PATHS, which are all global (~/.cursor).
+	// `--project` deploys into <project>/.cursor and wires its own hooks, so it
+	// must not fall through to the global setup wizard.
+	if (argv.includes("--dry-run") || argv.includes("--uninstall") || argv.includes("--project")) return;
 	await runSetup(PATHS, argv.includes("--skip-env"));
 }
 

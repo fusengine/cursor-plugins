@@ -24,7 +24,6 @@ esac
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 LOCAL_DIR="$HOME/.cursor/plugins/local"
-LINK_NAME="fusengine"
 MARKETPLACE="$ROOT/.cursor-plugin/marketplace.json"
 EXPECTED_PLUGINS=24
 SOLID_MAX_LINES="${FUSE_SOLID_MAX_LINES:-200}"
@@ -452,48 +451,34 @@ if [ "$REPOSITORY_ONLY" = true ]; then
   pass "repository-only mode — installed Cursor configuration checks skipped"
 else
 
-resolve_link() {
-  local l="$1" t
-  t="$(readlink "$l")" || return 1
-  case "$t" in
-    /*) : ;;
-    *)  t="$(dirname "$l")/$t" ;;
-  esac
-  ( cd "$t" >/dev/null 2>&1 && pwd -P ) || printf '%s' "$t"
-}
-
+# install.sh's deployment engine (.cursor-plugin/scripts/src/services/global-install.ts)
+# lays each marketplace plugin out as an immediate flat child of $LOCAL_DIR — it never
+# symlinks the repo in. Check that layout instead of a symlink.
 if [ ! -d "$LOCAL_DIR" ]; then
   fail "$LOCAL_DIR does not exist — the marketplace is not installed. Run ./install.sh"
-else
-  linked_as=""
-  wrong_target=""
-  for entry in "$LOCAL_DIR"/*; do
-    [ -L "$entry" ] || continue
-    target="$(resolve_link "$entry" || true)"
-    if [ "$target" = "$ROOT" ]; then
-      linked_as="$(basename "$entry")"
-      break
-    fi
-    if [ "$(basename "$entry")" = "$LINK_NAME" ]; then
-      wrong_target="$target"
-    fi
-  done
-  if [ -n "$linked_as" ]; then
-    pass "$LOCAL_DIR/$linked_as is a symlink to this repo"
-    [ "$linked_as" = "$LINK_NAME" ] || warn "installed under the name '$linked_as', install.sh uses '$LINK_NAME' — harmless, but two runs would create two entries"
-  elif [ -n "$wrong_target" ]; then
-    fail "$LOCAL_DIR/$LINK_NAME points to ${wrong_target:-<broken>}, not to $ROOT"
-  elif [ -e "$LOCAL_DIR/$LINK_NAME" ]; then
-    fail "$LOCAL_DIR/$LINK_NAME exists but is not a symlink to this repo"
+elif command -v node >/dev/null 2>&1; then
+  missing="$(FUSE_MARKETPLACE="$MARKETPLACE" FUSE_LOCAL="$LOCAL_DIR" node -e '
+    const fs = require("fs");
+    const path = require("path");
+    const market = JSON.parse(fs.readFileSync(process.env.FUSE_MARKETPLACE, "utf8"));
+    const missing = market.plugins
+      .map((p) => p.name)
+      .filter((name) => !fs.existsSync(path.join(process.env.FUSE_LOCAL, name, ".cursor-plugin", "plugin.json")));
+    process.stdout.write(missing.join(" "));
+  ')"
+  if [ -z "$missing" ]; then
+    pass "$LOCAL_DIR holds a flat copy of every marketplace plugin"
   else
-    fail "no symlink in $LOCAL_DIR resolves to $ROOT — the marketplace is not installed. Run ./install.sh"
+    fail "$LOCAL_DIR is missing plugin copies: $missing — Run ./install.sh"
   fi
+else
+  warn "node not on PATH — skipped the flat plugin-copy check under $LOCAL_DIR"
 fi
 
 if command -v npx >/dev/null 2>&1; then
-  pass "npx on PATH — hooks can run 'npx -y @fusengine/harness hook cursor'"
+  pass "npx on PATH — the hook.sh wrapper can fall back to 'npx -y @fusengine/harness hook cursor'"
 else
-  fail "npx not on PATH — every hook command would fail"
+  fail "npx not on PATH — the hook.sh fallback would fail if the vendored harness is missing"
 fi
 
 RULE_SRC="$ROOT/.cursor-plugin/plugins/fuse-rules/user-rules/fuse-global.mdc"
@@ -505,7 +490,9 @@ elif [ ! -e "$RULE_DST" ]; then
 elif diff -q "$RULE_SRC" "$RULE_DST" >/dev/null 2>&1; then
   pass "$RULE_DST is identical to the repo copy"
 else
-  fail "$RULE_DST differs from $RULE_SRC — stale or hand-edited. Run ./install.sh --force to replace it."
+  fail "$RULE_DST differs from $RULE_SRC — stale or hand-edited."
+  printf '      global-install.ts refuses to overwrite a modified owned rule; run\n'
+  printf '      ./install.sh --uninstall then ./install.sh to replace it.\n'
   diff "$RULE_SRC" "$RULE_DST" | head -20 | sed 's/^/      /'
 fi
 fi

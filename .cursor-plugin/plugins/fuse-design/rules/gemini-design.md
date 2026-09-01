@@ -1,3 +1,8 @@
+---
+description: Gemini Design MCP optional path quick reference — direct HTML/CSS generation remains the default
+alwaysApply: false
+---
+
 # Gemini Design MCP — Optional Path Quick Reference
 
 **Direct HTML/CSS generation is the default and the primary path** (see

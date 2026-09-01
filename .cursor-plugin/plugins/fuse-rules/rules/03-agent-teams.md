@@ -1,3 +1,8 @@
+---
+description: Agent team delegation rules — exclusive file ownership, well-scoped tasks
+alwaysApply: true
+---
+
 ## Agent Teams
 
 **Lead = Coordinator ONLY.** Never codes, only orchestrates.

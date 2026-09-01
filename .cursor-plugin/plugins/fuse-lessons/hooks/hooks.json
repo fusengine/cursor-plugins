@@ -3,27 +3,27 @@
   "hooks": {
     "beforeSubmitPrompt": [
       {
-        "command": "npx -y @fusengine/harness hook cursor lessons"
+        "command": "./scripts/hook.sh lessons"
       }
     ],
     "sessionStart": [
       {
-        "command": "npx -y @fusengine/harness hook cursor lessons"
+        "command": "./scripts/hook.sh lessons"
       }
     ],
     "subagentStart": [
       {
-        "command": "npx -y @fusengine/harness hook cursor lessons"
+        "command": "./scripts/hook.sh lessons"
       }
     ],
     "stop": [
       {
-        "command": "npx -y @fusengine/harness hook cursor lessons"
+        "command": "./scripts/hook.sh lessons"
       }
     ],
     "postToolUse": [
       {
-        "command": "npx -y @fusengine/harness hook cursor lessons",
+        "command": "./scripts/hook.sh lessons",
         "matcher": "Write"
       }
     ]

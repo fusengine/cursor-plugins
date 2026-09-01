@@ -5,7 +5,12 @@
 - Cursor
 - Cursor CLI (`agent`)
 - Git
-- Node.js available to Cursor
+- Bun — required; `install.sh` / `install.ps1` exec straight into
+  `.cursor-plugin/scripts/install-hooks.ts`, which deploys the plugins (the
+  global or project engine under `src/services/`) and then runs the
+  configuration stage (hooks, `.env`, MCP servers, shell loaders, vendored
+  harness). Install it with
+  `curl -fsSL https://bun.sh/install | bash`.
 
 ## Marketplace registration and global installation
 

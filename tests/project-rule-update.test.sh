@@ -9,7 +9,14 @@ PROJECT="$TMP/project"
 FAKE_HOME="$TMP/home"
 mkdir -p "$PROJECT" "$FAKE_HOME"
 
-if rg -n 'fs\.writeFileSync\((rulePath|hooksPath)' "$ROOT/.cursor-plugin/scripts/project-install.mjs"; then
+INSTALLER="$ROOT/.cursor-plugin/scripts/src/services/project-install.ts"
+# Guard the guard: a missing target would make `rg` fail the same way as "no
+# match", silently turning this check into a no-op.
+if [ ! -f "$INSTALLER" ]; then
+  printf 'missing installer under test: %s\n' "$INSTALLER" >&2
+  exit 1
+fi
+if rg -n 'writeFileSync\((rulePath|hooksPath)' "$INSTALLER"; then
   printf 'direct finalization writes remain\n' >&2
   exit 1
 fi

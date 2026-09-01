@@ -1,3 +1,8 @@
+---
+description: Tooling rules — MCP server usage, git, hooks, and documentation standards
+alwaysApply: true
+---
+
 ## MCP Servers
 
 | Server | Usage | Agent |

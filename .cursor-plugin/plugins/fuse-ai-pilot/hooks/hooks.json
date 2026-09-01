@@ -3,28 +3,28 @@
   "hooks": {
     "subagentStart": [
       {
-        "command": "npx -y @fusengine/harness hook cursor aipilot"
+        "command": "./scripts/hook.sh aipilot"
       }
     ],
     "subagentStop": [
       {
-        "command": "npx -y @fusengine/harness hook cursor aipilot"
+        "command": "./scripts/hook.sh aipilot"
       }
     ],
     "sessionEnd": [
       {
-        "command": "npx -y @fusengine/harness hook cursor aipilot"
+        "command": "./scripts/hook.sh aipilot"
       }
     ],
     "preToolUse": [
       {
-        "command": "npx -y @fusengine/harness hook cursor",
+        "command": "./scripts/hook.sh",
         "matcher": "Task"
       }
     ],
     "postToolUse": [
       {
-        "command": "npx -y @fusengine/harness hook cursor aipilot",
+        "command": "./scripts/hook.sh aipilot",
         "matcher": "Write"
       }
     ]

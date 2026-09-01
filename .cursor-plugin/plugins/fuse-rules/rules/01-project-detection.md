@@ -1,3 +1,8 @@
+---
+description: Project detection — routes tasks to the matching domain agent
+alwaysApply: true
+---
+
 ## Project Detection -> Domain Agent
 
 Scan: plugin agents using runtime-provided paths when actually present (Cursor SessionStart delivery remains runtime-unverified; never hardcode marketplace paths) + ~/.cursor/agents/*.md

@@ -1,3 +1,8 @@
+---
+description: Reusable component-pattern snippets for stacks that render JSX/Tailwind (React/Next.js) on top of generated HTML/CSS
+alwaysApply: true
+---
+
 # Design Rules (STRICT — NO EXCEPTIONS)
 
 > Forbidden fonts, contrast thresholds, and the screenshot/review procedure are defined

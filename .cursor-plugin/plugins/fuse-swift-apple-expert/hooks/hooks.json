@@ -3,13 +3,13 @@
   "hooks": {
     "preToolUse": [
       {
-        "command": "npx -y @fusengine/harness hook cursor",
+        "command": "./scripts/hook.sh",
         "matcher": "Write"
       }
     ],
     "postToolUse": [
       {
-        "command": "npx -y @fusengine/harness hook cursor"
+        "command": "./scripts/hook.sh"
       }
     ]
   }

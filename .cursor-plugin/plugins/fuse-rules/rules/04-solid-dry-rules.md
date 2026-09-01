@@ -1,3 +1,8 @@
+---
+description: SOLID/DRY enforcement — which SOLID skill and interfaces path to use per stack
+alwaysApply: true
+---
+
 ## SOLID Skill per Stack (read before coding)
 
 | Agent | Skill | Interfaces |

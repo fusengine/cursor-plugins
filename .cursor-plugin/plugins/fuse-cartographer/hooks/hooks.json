@@ -3,12 +3,12 @@
   "hooks": {
     "sessionStart": [
       {
-        "command": "npx -y @fusengine/harness hook cursor carto"
+        "command": "./scripts/hook.sh carto"
       }
     ],
     "postToolUse": [
       {
-        "command": "npx -y @fusengine/harness hook cursor carto",
+        "command": "./scripts/hook.sh carto",
         "matcher": "Write"
       }
     ]

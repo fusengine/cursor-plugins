@@ -1,3 +1,8 @@
+---
+description: Subagent conduct — mandatory cartography navigation and hook compliance
+alwaysApply: true
+---
+
 ## Cartography (MANDATORY — Step 1)
 `.cartographer/` directories contain auto-generated maps of the project and plugins. Each `index.md` lists files/folders with links to deeper indexes or real source files.
 1. Read .cartographer/project/index.md and any plugin-skills-map path actually supplied in the current runtime context; do not assume Cursor SubagentStart injects one.

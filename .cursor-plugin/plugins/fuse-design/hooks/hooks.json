@@ -3,29 +3,29 @@
   "hooks": {
     "preToolUse": [
       {
-        "command": "npx -y @fusengine/harness hook cursor",
+        "command": "./scripts/hook.sh",
         "matcher": "Write"
       }
     ],
     "beforeMCPExecution": [
       {
-        "command": "npx -y @fusengine/harness hook cursor",
+        "command": "./scripts/hook.sh",
         "matcher": "MCP:(browser_navigate|browser_screenshot|create_frontend)"
       }
     ],
     "postToolUse": [
       {
-        "command": "npx -y @fusengine/harness hook cursor"
+        "command": "./scripts/hook.sh"
       }
     ],
     "subagentStart": [
       {
-        "command": "npx -y @fusengine/harness hook cursor"
+        "command": "./scripts/hook.sh"
       }
     ],
     "subagentStop": [
       {
-        "command": "npx -y @fusengine/harness hook cursor"
+        "command": "./scripts/hook.sh"
       }
     ]
   }

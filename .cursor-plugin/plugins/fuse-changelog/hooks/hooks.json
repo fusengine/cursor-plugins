@@ -3,13 +3,13 @@
   "hooks": {
     "postToolUse": [
       {
-        "command": "npx -y @fusengine/harness hook cursor changelog",
+        "command": "./scripts/hook.sh changelog",
         "matcher": "WebFetch|WebSearch"
       }
     ],
     "afterMCPExecution": [
       {
-        "command": "npx -y @fusengine/harness hook cursor changelog",
+        "command": "./scripts/hook.sh changelog",
         "matcher": "MCP:(web_search_exa|get_code_context_exa|deep_researcher_start|deep_researcher_check)"
       }
     ]

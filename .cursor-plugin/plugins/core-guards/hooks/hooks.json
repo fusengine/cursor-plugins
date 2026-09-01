@@ -3,49 +3,49 @@
   "hooks": {
     "preToolUse": [
       {
-        "command": "npx -y @fusengine/harness hook cursor",
+        "command": "./scripts/hook.sh",
         "matcher": "Write|Shell|WebFetch"
       }
     ],
     "beforeMCPExecution": [
       {
-        "command": "npx -y @fusengine/harness hook cursor",
+        "command": "./scripts/hook.sh",
         "matcher": "MCP:(query-docs|web_search_exa|get_code_context_exa)"
       }
     ],
     "postToolUse": [
       {
-        "command": "npx -y @fusengine/harness hook cursor"
+        "command": "./scripts/hook.sh"
       }
     ],
     "sessionStart": [
       {
-        "command": "npx -y @fusengine/harness hook cursor"
+        "command": "./scripts/hook.sh"
       }
     ],
     "beforeSubmitPrompt": [
       {
-        "command": "npx -y @fusengine/harness hook cursor"
+        "command": "./scripts/hook.sh"
       }
     ],
     "subagentStart": [
       {
-        "command": "npx -y @fusengine/harness hook cursor"
+        "command": "./scripts/hook.sh"
       }
     ],
     "subagentStop": [
       {
-        "command": "npx -y @fusengine/harness hook cursor"
+        "command": "./scripts/hook.sh"
       }
     ],
     "postToolUseFailure": [
       {
-        "command": "npx -y @fusengine/harness hook cursor"
+        "command": "./scripts/hook.sh"
       }
     ],
     "stop": [
       {
-        "command": "npx -y @fusengine/harness hook cursor core --sound stop"
+        "command": "./scripts/hook.sh core --sound stop"
       },
       {
         "type": "prompt",
@@ -55,12 +55,12 @@
     ],
     "preCompact": [
       {
-        "command": "npx -y @fusengine/harness hook cursor"
+        "command": "./scripts/hook.sh"
       }
     ],
     "sessionEnd": [
       {
-        "command": "npx -y @fusengine/harness hook cursor"
+        "command": "./scripts/hook.sh"
       }
     ]
   }

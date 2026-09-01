@@ -25,14 +25,30 @@ jobs:
         with:
           bun-version: latest
 
+      # The shell-loader tests spawn zsh and fish, neither of which ships on
+      # ubuntu-latest; without them those cases skip themselves and the loaders
+      # go untested. fish lives in universe, enabled by default on this image.
+      - name: Install the shells under test
+        run: sudo apt-get update && sudo apt-get install -y zsh fish
+        working-directory: .
+
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
       - name: Typecheck
         run: bunx tsc --noEmit
 
+      # No test may skip here: a skip means a shell is missing from the runner,
+      # which is exactly the silent coverage loss the step above prevents.
       - name: Unit tests
-        run: bun test
+        run: |
+          set -euo pipefail
+          bun test 2>&1 | tee /tmp/bun-test.log
+          if grep -qE '^ *[0-9]+ skip' /tmp/bun-test.log; then
+            echo "::error::a unit test skipped on CI — a required shell is missing from the runner"
+            grep -E '\(skip\)' /tmp/bun-test.log || true
+            exit 1
+          fi
 
   integration:
     name: Install flows (sandboxed HOME)

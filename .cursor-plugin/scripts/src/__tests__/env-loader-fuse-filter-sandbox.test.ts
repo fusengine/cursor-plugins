@@ -37,15 +37,28 @@ afterEach(() => {
 });
 
 describe("shell loaders: FUSE_* filtered, API keys and quoting preserved", () => {
-	test.each([
+	// A `for` loop rather than test.each: bun:test has no per-row skip inside
+	// each(), and each case must skip on its own when its shell is missing —
+	// runProbe spawns argv[0] directly, so an absent binary throws ENOENT and
+	// FAILS the test instead of skipping it (ubuntu-latest ships neither zsh nor
+	// fish). CI installs both, so a skip there means a missing tool, never
+	// silent loss of coverage.
+	const LOADER_CASES: Array<[string, string[], string]> = [
 		["bash", ["bash", "--noprofile", "--norc", "-c"], "cursor-env.bash"],
 		["zsh", ["zsh", "-f", "-c"], "cursor-env.zsh"],
 		["sh (POSIX)", ["sh", "-c"], "cursor-env.bash"],
-	])("%s loader skips FUSE_* and keeps every other key verbatim", async (_n, argv, file) => {
-		const loader = join(ENV_SHELL_DIR, file);
-		const got = await runProbe([...argv, `. "${loader}"\n${PROBE}`], tmpHome);
-		expect(got).toEqual(EXPECTED);
-	});
+	];
+
+	for (const [name, argv, file] of LOADER_CASES) {
+		test.skipIf(!Bun.which(argv[0]))(
+			`${name} loader skips FUSE_* and keeps every other key verbatim`,
+			async () => {
+				const loader = join(ENV_SHELL_DIR, file);
+				const got = await runProbe([...argv, `. "${loader}"\n${PROBE}`], tmpHome);
+				expect(got).toEqual(EXPECTED);
+			},
+		);
+	}
 
 	test("the block install-env.sh appends to an rc file filters FUSE_* too", async () => {
 		const rcFile = join(tmpHome, "fake_rc.sh");

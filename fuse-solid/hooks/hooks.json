@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor solid",
+        "timeout": 5
+      }
+    ],
+    "preToolUse": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor solid",
+        "matcher": "Write",
+        "timeout": 10
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor solid",
+        "matcher": "Write",
+        "timeout": 10
+      }
+    ]
+  }
+}

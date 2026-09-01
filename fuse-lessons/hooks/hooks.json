@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeSubmitPrompt": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor lessons"
+      }
+    ],
+    "sessionStart": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor lessons"
+      }
+    ],
+    "subagentStart": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor lessons"
+      }
+    ],
+    "stop": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor lessons"
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor lessons",
+        "matcher": "Write"
+      }
+    ]
+  }
+}

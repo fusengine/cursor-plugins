@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor rules"
+      }
+    ],
+    "subagentStart": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor rules"
+      }
+    ],
+    "beforeSubmitPrompt": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor rules"
+      }
+    ]
+  }
+}

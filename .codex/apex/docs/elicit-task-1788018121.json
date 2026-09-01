@@ -1,0 +1,38 @@
+{
+  "task_slug": "task-1788018121",
+  "generated_at": "2026-08-29T23:03:45Z",
+  "mode": "auto",
+  "expert_agent": "ultimate_sniper_cursor_plugins",
+  "techniques": [
+    {
+      "technique_id": "CQ-01",
+      "verdict": "pass",
+      "correction_applied": false,
+      "evidence": "Fresh post-correction probes passed: all 7 embedded Bash blocks parse; stdin Write produced a prospective 2-line result; unique Edit succeeded; duplicate Edit exited 2 unless replace_all=true. The strengthened repository-only verifier reports 39 PASS, 0 FAIL, 1 WARN."
+    },
+    {
+      "technique_id": "DOC-01",
+      "verdict": "pass",
+      "correction_applied": true,
+      "evidence": "Official Cursor plugin documentation confirms that rules/ participates in default discovery. The root and four affected plugin READMEs now acknowledge those discovered candidates while keeping verbatim plain-.md activation runtime-unverified because the Rules format documentation focuses on .mdc plus frontmatter."
+    },
+    {
+      "technique_id": "INT-01",
+      "verdict": "pass",
+      "correction_applied": true,
+      "evidence": "The final harness prompt uses Cursor's documented mcp_server_name field, accepts the documented Claude hookSpecificOutput compatibility envelope, still targets native event-specific top-level responses, and scopes default compatibility to the response parser of already-loaded hooks. It preserves the owner correction 'les mécaniques sont dans les hooks' and distinguishes hook manifests (event, matcher, command, timeout, direct prompt) from harness mechanics executed by 62 commands (stdin normalization, gates, state, native responses, exit 2). Negative probes prove verify.sh rejects removal of either the required field list or the fourth correction in the APEX task."
+    },
+    {
+      "technique_id": "TEST-06",
+      "verdict": "pass",
+      "correction_applied": false,
+      "evidence": "All 2,448 frontmatter blocks pass strict Psych safe_load with the documented Date allowance; all 82 repository JSON files parse through verify.sh; behavioral probes pass; and the harness read-only aggregate remains 11,818 files with SHA-1 f8b5307424cbb2d070ea3cf0937108c81513d6a4. No unauthorized hook drift or measured harness endpoint drift was detected."
+    },
+    {
+      "technique_id": "MAINT-02",
+      "verdict": "pass",
+      "correction_applied": true,
+      "evidence": "Fresh repository-wide review corrected active fixed source-file ceilings in both harness mandates, fusecore, nextjs-tanstack-form, and nextjs-zustand. All now use FUSE_SOLID_MAX_LINES (positive integer, default 200) as the only ceiling. A broad numeric-ceiling search found no competing active source-file, change-size, or PR-size policy; remaining numeric limits are UI/content constraints, examples, measurements, or passive commentary. The final eLicit challenger returned CONFIRMED."
+    }
+  ]
+}

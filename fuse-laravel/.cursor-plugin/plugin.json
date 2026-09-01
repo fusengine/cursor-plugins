@@ -1,0 +1,20 @@
+{
+  "name": "fuse-laravel",
+  "version": "1.2.5",
+  "description": "Expert Laravel 13 + PHP 8.3+ with SOLID principles, first-class PHP Attributes, Laravel AI SDK, JSON:API Resources, native vector search (pgvector), Eloquent, Livewire, queues with routing, and comprehensive documentation",
+  "author": {
+    "name": "Fusengine",
+    "email": "hello@fusengine.ch"
+  },
+  "homepage": "https://github.com/fusengine/agents",
+  "repository": "https://github.com/fusengine/agents",
+  "license": "MIT",
+  "keywords": [
+    "laravel",
+    "php",
+    "eloquent",
+    "livewire",
+    "blade",
+    "solid"
+  ]
+}

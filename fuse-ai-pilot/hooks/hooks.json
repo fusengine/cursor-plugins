@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "hooks": {
+    "subagentStart": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor aipilot"
+      }
+    ],
+    "subagentStop": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor aipilot"
+      }
+    ],
+    "sessionEnd": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor aipilot"
+      }
+    ],
+    "preToolUse": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor",
+        "matcher": "Task"
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor aipilot",
+        "matcher": "Write"
+      }
+    ]
+  }
+}

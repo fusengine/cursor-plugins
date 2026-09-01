@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "hooks": {
+    "postToolUse": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor seo",
+        "matcher": "Write"
+      }
+    ]
+  }
+}

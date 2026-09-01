@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor security",
+        "matcher": "Write"
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor security",
+        "matcher": "Read"
+      }
+    ],
+    "afterMCPExecution": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor security",
+        "matcher": "MCP:(resolve-library-id|query-docs|web_search_exa|get_code_context_exa|deep_researcher_start|deep_researcher_check)"
+      }
+    ]
+  }
+}

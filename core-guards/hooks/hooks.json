@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor",
+        "matcher": "Write|Shell|WebFetch"
+      }
+    ],
+    "beforeMCPExecution": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor",
+        "matcher": "MCP:(query-docs|web_search_exa|get_code_context_exa)"
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor"
+      }
+    ],
+    "sessionStart": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor"
+      }
+    ],
+    "beforeSubmitPrompt": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor"
+      }
+    ],
+    "subagentStart": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor"
+      }
+    ],
+    "subagentStop": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor"
+      }
+    ],
+    "postToolUseFailure": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor"
+      }
+    ],
+    "stop": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor core --sound stop"
+      },
+      {
+        "type": "prompt",
+        "prompt": "Check if the assistant followed the APEX workflow. Look for: 1) Was an explore/research agent launched before coding? 2) Were files compliant with the FUSE_SOLID_MAX_LINES policy (default 200 lines)? 3) Was sniper validation run after modifications? 4) For code changes: was elicitation self-review (APEX 3.5) run and its findings addressed BEFORE sniper? 5) Was functional verification (APEX eXAMINE Phase 4, Manual Testing — the change actually works, acceptance criteria re-checked) completed before considering the task done? If any step was missed AND code was modified, respond with {\"ok\": false, \"reason\": \"Missing step: [describe what was missed]\"}. If no code was modified or all steps were followed, respond with {\"ok\": true}. Context: $ARGUMENTS",
+        "timeout": 15
+      }
+    ],
+    "preCompact": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor"
+      }
+    ],
+    "sessionEnd": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor"
+      }
+    ]
+  }
+}

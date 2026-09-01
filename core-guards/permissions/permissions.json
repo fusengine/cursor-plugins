@@ -1,0 +1,14 @@
+{
+  "approvalMode": "allowlist",
+  "terminalAllowlist": [
+    "bun run",
+    "bun test",
+    "gh pr"
+  ],
+  "mcpAllowlist": [
+    "context7:resolve-library-id",
+    "context7:query-docs",
+    "exa:web_search_exa",
+    "exa:get_code_context_exa"
+  ]
+}

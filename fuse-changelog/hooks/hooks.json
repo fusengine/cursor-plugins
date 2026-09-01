@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "hooks": {
+    "postToolUse": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor changelog",
+        "matcher": "WebFetch|WebSearch"
+      }
+    ],
+    "afterMCPExecution": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor changelog",
+        "matcher": "MCP:(web_search_exa|get_code_context_exa|deep_researcher_start|deep_researcher_check)"
+      }
+    ]
+  }
+}

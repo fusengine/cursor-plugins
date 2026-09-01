@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor",
+        "matcher": "Write"
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor"
+      }
+    ]
+  }
+}

@@ -1,0 +1,116 @@
+---
+name: single-responsibility
+applies-to: "**/*.php"
+description: SRP Guide - When and how to split files by responsibility and apply the repository source-size rule for Laravel 13
+when-to-use: file too long, controller doing too much, fat models, refactoring
+keywords: single responsibility, SRP, splitting, lines, controller, service
+priority: high
+related: decision-guide.md, templates/code-templates.md, templates/controller-templates.md
+---
+
+# Single Responsibility Principle (SRP) for Laravel
+
+**One class = One reason to change**
+
+---
+
+## When to Apply SRP?
+
+### Symptoms of Violation
+
+1. **Class approaches `FUSE_SOLID_MAX_LINES` (default 200)** -> Split by responsibility
+2. **Controller has business logic** -> Extract to Service
+3. **Model has queries AND business logic** -> Split
+4. **Service handles validation + logic + notifications** -> Extract each
+
+### Source-size ceiling
+
+All source-file types use `FUSE_SOLID_MAX_LINES` (default 200) as the only size ceiling. Split controllers, requests, actions, services, repositories, models, DTOs, and policies by responsibility when cohesion drops.
+
+---
+
+## How to Split? - MODULAR PATHS (FuseCore MANDATORY)
+
+When file approaches limit, split using FuseCore modular structure:
+
+```
+FuseCore/[Module]/App/
+|- Contracts/               # Module interfaces ONLY
+|  \- UserRepositoryInterface.php
+|- Services/                # Module business logic
+|  \- UserService.php
+|- Repositories/            # Module data access
+|  \- EloquentUserRepository.php
+|- Actions/                 # Single operations
+|  \- CreateUserAction.php
+|- DTOs/                    # Data transfer
+|  \- CreateUserDTO.php
+|- Http/
+|  |- Controllers/          # HTTP layer only
+|  |- Requests/             # Validation only
+|  \- Resources/            # API transformation only
+|- Events/                  # Domain events
+|- Listeners/               # Event handlers
+\- Policies/                # Authorization
+```
+
+Shared code goes in `FuseCore/Core/App/`.
+
+### Split Example
+
+Before (fat controller of 120 lines):
+```
+UserController -> Validation, CRUD, Email, Report
+```
+
+After (in `FuseCore/User/App/`):
+```
+Http/Controllers/UserController.php    -> HTTP only
+Http/Requests/StoreUserRequest.php     -> Validation
+Services/UserService.php               -> Business logic
+Repositories/EloquentUserRepository.php -> Data access
+DTOs/CreateUserDTO.php                 -> Data structure
+Events/UserCreated.php                 -> Domain event
+```
+
+---
+
+## Layer Responsibilities
+
+| Layer | Allowed | Forbidden |
+|-------|---------|-----------|
+| Controller | Route to Service, return Resource | Business logic, queries, validation |
+| FormRequest | Validation rules, `toDTO()` | Business logic, queries |
+| Service | Orchestrate logic, call Repository | Direct queries, HTTP concerns |
+| Repository | Eloquent queries | Business logic, HTTP concerns |
+| Action | Single focused operation | Multiple operations |
+| DTO | Data structure, `from()` factory | Logic, side effects |
+
+---
+
+## Decision Criteria
+
+1. **Can you describe class in one sentence?** -> No -> Split
+2. **Does controller have DB queries?** -> Yes -> Extract to Repository
+3. **Does service validate data?** -> Yes -> Move to FormRequest
+4. **Does model have business logic?** -> Yes -> Extract to Service
+
+---
+
+## Where to Find Code Templates?
+
+-> `templates/code-templates.md` - Service, DTO, Repository, Interface
+-> `templates/controller-templates.md` - Controller, Action, FormRequest, Policy
+
+---
+
+## SRP Checklist
+
+- [ ] Source files stay within `FUSE_SOLID_MAX_LINES` (default 200)
+- [ ] Controllers contain HTTP orchestration only
+- [ ] Services contain business logic only
+- [ ] Repositories contain queries only
+- [ ] Models contain relations and casts only
+- [ ] Interfaces in `FuseCore/[Module]/App/Contracts/` only
+- [ ] Validation in FormRequests only
+- [ ] No business logic in Controllers

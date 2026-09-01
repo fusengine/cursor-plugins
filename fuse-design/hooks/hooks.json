@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "hooks": {
+    "preToolUse": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor",
+        "matcher": "Write"
+      }
+    ],
+    "beforeMCPExecution": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor",
+        "matcher": "MCP:(browser_navigate|browser_screenshot|create_frontend)"
+      }
+    ],
+    "postToolUse": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor"
+      }
+    ],
+    "subagentStart": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor"
+      }
+    ],
+    "subagentStop": [
+      {
+        "command": "npx -y @fusengine/harness hook cursor"
+      }
+    ]
+  }
+}

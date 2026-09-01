@@ -3,46 +3,66 @@
 ## Prerequisites
 
 - Cursor
+- Cursor CLI (`agent`)
+- Git
 - Node.js available to Cursor
-- A clone of this repository
 
-## macOS and Linux
+## Marketplace registration and global installation
 
-Install globally for the current user:
+Run these commands from a directory where `cursor-plugins/` does not already
+exist.
 
-```sh
-./install.sh --dry-run
-./install.sh
+### macOS and Linux
+
+```bash
+agent plugin marketplace add https://github.com/fusengine/cursor-plugins.git
+git clone --depth 1 https://github.com/fusengine/cursor-plugins.git
+./cursor-plugins/install.sh --dry-run
+./cursor-plugins/install.sh
 ```
 
-The no-argument command targets `~/.cursor/`, not the current repository.
-
-Install into one repository only:
-
-```sh
-./install.sh --project /absolute/path/to/your-project --dry-run
-./install.sh --project /absolute/path/to/your-project
-```
-
-## Windows PowerShell
+### Windows PowerShell
 
 ```powershell
-.\install.ps1 -DryRun
-.\install.ps1
+agent plugin marketplace add https://github.com/fusengine/cursor-plugins.git
+git clone --depth 1 https://github.com/fusengine/cursor-plugins.git
+.\cursor-plugins\install.ps1 -DryRun
+.\cursor-plugins\install.ps1
 ```
 
-Use explicit project scope when needed:
+Marketplace registration and bundled installation are distinct. The official
+`agent plugin marketplace add` command registers `fusengine-plugins`; it does
+not install the 24 plugins. The repository's installer performs the global
+installation and defaults to `~/.cursor/` on macOS/Linux or
+`%USERPROFILE%\.cursor\` on Windows. The cloned `cursor-plugins/` directory is
+the installer source checkout, not a Cursor marketplace cache. Cursor does not
+document a stable marketplace checkout path.
+
+## Project scope
+
+Project scope is optional and applies only to the target repository. Run the
+commands below from the directory that contains the cloned `cursor-plugins/`
+checkout.
+
+### macOS and Linux project install
+
+```sh
+./cursor-plugins/install.sh --project /absolute/path/to/your-project --dry-run
+./cursor-plugins/install.sh --project /absolute/path/to/your-project
+```
+
+### Windows PowerShell project install
 
 ```powershell
-.\install.ps1 -Project C:\path\to\your-project -DryRun
-.\install.ps1 -Project C:\path\to\your-project
+.\cursor-plugins\install.ps1 -Project C:\path\to\your-project -DryRun
+.\cursor-plugins\install.ps1 -Project C:\path\to\your-project
 ```
 
-PowerShell delegates to the same Node installer as the Bash entry point. The Bash integration
-test proves the macOS/Linux path. PowerShell parity remains runtime-unverified until executed on
-Windows.
+PowerShell delegates to the same Node installer as the Bash entry point. The
+Bash integration test proves the macOS/Linux path. PowerShell parity remains
+runtime-unverified until executed on Windows.
 
-## Global layout
+## Global installation layout
 
 ```text
 ~/.cursor/
@@ -53,11 +73,12 @@ Windows.
     └── receipt.json
 ```
 
-Each marketplace plugin is copied as an immediate child of `plugins/local`; the marketplace root
-is never installed as one plugin. Existing foreign plugin directories are preserved. Reinstall
-refreshes only intact installer-owned copies and refuses modified or colliding targets.
+The bundled installer copies each repository plugin as an immediate child of
+`plugins/local`; the marketplace root is never installed as one plugin.
+Existing foreign plugin directories are preserved. Reinstall refreshes only
+intact installer-owned copies and refuses modified or colliding targets.
 
-## Project layout
+## Project installation layout
 
 ```text
 <project>/.cursor/
@@ -71,28 +92,30 @@ refreshes only intact installer-owned copies and refuses modified or colliding t
     └── plugins/<plugin-name>/
 ```
 
-Plugin files are copied into the project instead of linked to an external checkout. The project
-therefore remains self-contained and the loader never depends on an external symlink target.
+Plugin files are copied into the project instead of linked to an external
+checkout. The project therefore remains self-contained and the loader never
+depends on an external symlink target.
 
-## Scope distinction
+## Installer scope distinction
 
 `<project>/.cursor/` is project scope. It applies only when Cursor opens that repository.
 
-`~/.cursor/` on macOS/Linux and `%USERPROFILE%\.cursor\` on Windows are user-global scope and are
-the default. `<project>/.cursor/` is selected only by `--project` or `-Project`. Both modes copy
-plugin sources; neither depends on an external checkout symlink.
+`~/.cursor/` on macOS/Linux and `%USERPROFILE%\.cursor\` on Windows are
+user-global scope and are the default. `<project>/.cursor/` is selected only by
+`--project` or `-Project`. Both modes copy plugin sources; neither depends on an
+external checkout symlink.
 
 ## Verification
 
 ```sh
-bash tests/global-install.test.sh
-bash tests/project-install.test.sh
-bash tests/project-loader-containment.test.sh
-bash tests/project-install-transaction.test.sh
-bash tests/project-rule-update.test.sh
-bash tests/project-uninstall-regressions.test.sh
-./verify-project.sh /absolute/path/to/your-project
-./verify.sh --repository-only
+bash cursor-plugins/tests/global-install.test.sh
+bash cursor-plugins/tests/project-install.test.sh
+bash cursor-plugins/tests/project-loader-containment.test.sh
+bash cursor-plugins/tests/project-install-transaction.test.sh
+bash cursor-plugins/tests/project-rule-update.test.sh
+bash cursor-plugins/tests/project-uninstall-regressions.test.sh
+./cursor-plugins/verify-project.sh /absolute/path/to/your-project
+./cursor-plugins/verify.sh --repository-only
 ```
 
 All integration tests use temporary projects and fake home directories.
@@ -102,15 +125,16 @@ All integration tests use temporary projects and fake home directories.
 Remove only intact installer-owned global artifacts:
 
 ```sh
-./install.sh --uninstall
+./cursor-plugins/install.sh --uninstall
 ```
 
 Remove one project installation:
 
 ```sh
-./install.sh --project /absolute/path/to/your-project --uninstall
+./cursor-plugins/install.sh --project /absolute/path/to/your-project --uninstall
 ```
 
-Global uninstall preserves foreign or modified plugin directories and rules. Project uninstall
-removes only its owned `workspaceOpen` entry, managed directory, and unchanged rule. Both modes
-validate ownership and target types before destructive mutation.
+Global uninstall preserves foreign or modified plugin directories and rules.
+Project uninstall removes only its owned `workspaceOpen` entry, managed
+directory, and unchanged rule. Both modes validate ownership and target types
+before destructive mutation.

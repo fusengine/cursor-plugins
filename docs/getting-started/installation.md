@@ -9,53 +9,48 @@
 
 ## Marketplace registration and global installation
 
-Run these commands from a directory where `cursor-plugins/` does not already
-exist.
-
 ### macOS and Linux
 
 ```bash
 agent plugin marketplace add https://github.com/fusengine/cursor-plugins.git
-git clone --depth 1 https://github.com/fusengine/cursor-plugins.git
-./cursor-plugins/install.sh --dry-run
-./cursor-plugins/install.sh
+~/.cursor/plugins/marketplaces/github.com/fusengine/cursor-plugins/*/install.sh --dry-run
+~/.cursor/plugins/marketplaces/github.com/fusengine/cursor-plugins/*/install.sh
 ```
 
 ### Windows PowerShell
 
 ```powershell
 agent plugin marketplace add https://github.com/fusengine/cursor-plugins.git
-git clone --depth 1 https://github.com/fusengine/cursor-plugins.git
-.\cursor-plugins\install.ps1 -DryRun
-.\cursor-plugins\install.ps1
+$installer = Get-ChildItem "$HOME\.cursor\plugins\marketplaces\github.com\fusengine\cursor-plugins\*\install.ps1" | Select-Object -First 1
+& $installer.FullName -DryRun
+& $installer.FullName
 ```
 
 Marketplace registration and bundled installation are distinct. The official
 `agent plugin marketplace add` command registers `fusengine-plugins`; it does
 not install the 24 plugins. The repository's installer performs the global
 installation and defaults to `~/.cursor/` on macOS/Linux or
-`%USERPROFILE%\.cursor\` on Windows. The cloned `cursor-plugins/` directory is
-the installer source checkout, not a Cursor marketplace cache. Cursor does not
-document a stable marketplace checkout path.
+`%USERPROFILE%\.cursor\` on Windows. Cursor's marketplace checkout contains the
+installer runtime and all 24 plugin sources under `.cursor-plugin/`, so no
+second clone is required.
 
 ## Project scope
 
 Project scope is optional and applies only to the target repository. Run the
-commands below from the directory that contains the cloned `cursor-plugins/`
-checkout.
+same marketplace installer path with an explicit project target.
 
 ### macOS and Linux project install
 
 ```sh
-./cursor-plugins/install.sh --project /absolute/path/to/your-project --dry-run
-./cursor-plugins/install.sh --project /absolute/path/to/your-project
+~/.cursor/plugins/marketplaces/github.com/fusengine/cursor-plugins/*/install.sh --project /absolute/path/to/your-project --dry-run
+~/.cursor/plugins/marketplaces/github.com/fusengine/cursor-plugins/*/install.sh --project /absolute/path/to/your-project
 ```
 
 ### Windows PowerShell project install
 
 ```powershell
-.\cursor-plugins\install.ps1 -Project C:\path\to\your-project -DryRun
-.\cursor-plugins\install.ps1 -Project C:\path\to\your-project
+& $installer.FullName -Project C:\path\to\your-project -DryRun
+& $installer.FullName -Project C:\path\to\your-project
 ```
 
 PowerShell delegates to the same Node installer as the Bash entry point. The
@@ -108,14 +103,8 @@ external checkout symlink.
 ## Verification
 
 ```sh
-bash cursor-plugins/tests/global-install.test.sh
-bash cursor-plugins/tests/project-install.test.sh
-bash cursor-plugins/tests/project-loader-containment.test.sh
-bash cursor-plugins/tests/project-install-transaction.test.sh
-bash cursor-plugins/tests/project-rule-update.test.sh
-bash cursor-plugins/tests/project-uninstall-regressions.test.sh
-./cursor-plugins/verify-project.sh /absolute/path/to/your-project
-./cursor-plugins/verify.sh --repository-only
+~/.cursor/plugins/marketplaces/github.com/fusengine/cursor-plugins/*/verify-project.sh /absolute/path/to/your-project
+~/.cursor/plugins/marketplaces/github.com/fusengine/cursor-plugins/*/verify.sh --repository-only
 ```
 
 All integration tests use temporary projects and fake home directories.
@@ -125,13 +114,13 @@ All integration tests use temporary projects and fake home directories.
 Remove only intact installer-owned global artifacts:
 
 ```sh
-./cursor-plugins/install.sh --uninstall
+~/.cursor/plugins/marketplaces/github.com/fusengine/cursor-plugins/*/install.sh --uninstall
 ```
 
 Remove one project installation:
 
 ```sh
-./cursor-plugins/install.sh --project /absolute/path/to/your-project --uninstall
+~/.cursor/plugins/marketplaces/github.com/fusengine/cursor-plugins/*/install.sh --project /absolute/path/to/your-project --uninstall
 ```
 
 Global uninstall preserves foreign or modified plugin directories and rules.

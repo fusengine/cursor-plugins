@@ -8,4 +8,4 @@ command -v node >/dev/null 2>&1 || {
   printf 'error: node is required because Cursor hooks and the installer use it\n' >&2
   exit 1
 }
-exec node "$ROOT/scripts/install.mjs" "$@"
+exec node "$ROOT/.cursor-plugin/scripts/install.mjs" "$@"

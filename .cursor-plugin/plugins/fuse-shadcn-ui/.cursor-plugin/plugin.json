@@ -1,0 +1,22 @@
+{
+  "name": "fuse-shadcn-ui",
+  "version": "1.0.16",
+  "description": "Expert shadcn/ui with Radix UI and Base UI detection, component patterns, registries, theming, and migration",
+  "author": {
+    "name": "Fusengine",
+    "email": "hello@fusengine.ch"
+  },
+  "homepage": "https://github.com/fusengine/agents",
+  "repository": "https://github.com/fusengine/agents",
+  "license": "MIT",
+  "keywords": [
+    "shadcn-ui",
+    "radix-ui",
+    "base-ui",
+    "components",
+    "theming",
+    "migration",
+    "registries",
+    "detection"
+  ]
+}

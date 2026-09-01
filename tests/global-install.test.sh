@@ -11,6 +11,7 @@ SOURCE="$TMP/source"
 mkdir -p "$HOME_DIR" "$PROJECT" "$SOURCE/.cursor-plugin"
 cp "$ROOT/.cursor-plugin/marketplace.json" "$SOURCE/.cursor-plugin/marketplace.json"
 for plugin in $(node -e 'for(const p of require(process.argv[1]).plugins)console.log(p.source)' "$ROOT/.cursor-plugin/marketplace.json"); do
+  mkdir -p "$(dirname "$SOURCE/$plugin")"
   cp -R "$ROOT/$plugin" "$SOURCE/$plugin"
 done
 
@@ -36,16 +37,16 @@ const [marketFile, localRoot] = process.argv.slice(2);
 const market = JSON.parse(fs.readFileSync(marketFile, 'utf8'));
 if (market.plugins.length !== 24) throw Error('expected 24 source plugins');
 for (const entry of market.plugins) {
-  const root = path.join(localRoot, entry.source);
-  if (!fs.statSync(root).isDirectory()) throw Error(`missing immediate plugin: ${entry.source}`);
-  if (!fs.statSync(path.join(root, '.cursor-plugin/plugin.json')).isFile()) throw Error(`invalid plugin root: ${entry.source}`);
+  const root = path.join(localRoot, entry.name);
+  if (!fs.statSync(root).isDirectory()) throw Error(`missing immediate plugin: ${entry.name}`);
+  if (!fs.statSync(path.join(root, '.cursor-plugin/plugin.json')).isFile()) throw Error(`invalid plugin root: ${entry.name}`);
 }
 NODE
 
 mkdir -p "$HOME_DIR/.cursor/plugins/local/foreign-plugin"
 printf 'foreign\n' > "$HOME_DIR/.cursor/plugins/local/foreign-plugin/keep.txt"
-printf '\nGLOBAL_SOURCE_REFRESH\n' >> "$SOURCE/core-guards/README.md"
-printf '\nGLOBAL_RULE_REFRESH\n' >> "$SOURCE/fuse-rules/user-rules/fuse-global.mdc"
+printf '\nGLOBAL_SOURCE_REFRESH\n' >> "$SOURCE/.cursor-plugin/plugins/core-guards/README.md"
+printf '\nGLOBAL_RULE_REFRESH\n' >> "$SOURCE/.cursor-plugin/plugins/fuse-rules/user-rules/fuse-global.mdc"
 global_install
 grep -q GLOBAL_SOURCE_REFRESH "$HOME_DIR/.cursor/plugins/local/core-guards/README.md"
 grep -q GLOBAL_RULE_REFRESH "$HOME_DIR/.cursor/rules/fuse-global.mdc"
@@ -104,6 +105,6 @@ if HOME="$SYMLINK_HOME" NODE_ENV=test FUSE_INSTALL_TEST_SOURCE_ROOT="$SOURCE" "$
 fi
 test -z "$(find "$EXTERNAL" -mindepth 1 -print -quit)"
 
-grep -q 'scripts/install.mjs' "$ROOT/install.ps1"
+grep -q '.cursor-plugin/scripts/install.mjs' "$ROOT/install.ps1"
 grep -Fq "if (\$Project)" "$ROOT/install.ps1"
 printf 'PASS default global install, refresh, rollback, refusal, and uninstall\n'

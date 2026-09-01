@@ -1,3 +1,8 @@
+---
+description: APEX workflow auto-trigger — when to use the full APEX methodology vs skip it
+alwaysApply: true
+---
+
 ## APEX Auto-Trigger
 
 **USE APEX:** create, implement, add, build, refactor, migrate, new component, multi-file, architecture changes

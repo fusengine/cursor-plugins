@@ -1,6 +1,6 @@
 # Fusengine Cursor Plugins
 
-![version](https://img.shields.io/badge/version-1.39.26-blue?style=flat-square)
+![version](https://img.shields.io/badge/version-0.1.1-blue?style=flat-square)
 ![plugins](https://img.shields.io/badge/plugins-24-brightgreen?style=flat-square)
 ![runtime](https://img.shields.io/badge/runtime-Cursor%20CLI-black?style=flat-square)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
@@ -34,7 +34,8 @@ installs them globally for the current user. Its default target is `~/.cursor/`
 on macOS/Linux or `%USERPROFILE%\.cursor\` on Windows. The `Cursor marketplace snapshot`
 supplies the complete installer and all 24 plugin sources.
 
-**Prerequisites:** Cursor CLI, Git, and Node.js available to Cursor. For project
+**Prerequisites:** Cursor CLI, Git, and Bun available to Cursor (install with
+`curl -fsSL https://bun.sh/install | bash`). For project
 scope, detailed installation, and filesystem layouts, see
 [Installation and scope](docs/getting-started/installation.md).
 

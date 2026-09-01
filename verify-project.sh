@@ -4,8 +4,9 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
-command -v node >/dev/null 2>&1 || {
-  printf 'error: node is required\n' >&2
+command -v bun >/dev/null 2>&1 || {
+  printf 'error: bun is required\n' >&2
+  printf '       install it with: curl -fsSL https://bun.sh/install | bash\n' >&2
   exit 1
 }
-exec node "$ROOT/.cursor-plugin/scripts/project-verify.mjs" "$@"
+exec bun "$ROOT/.cursor-plugin/scripts/verify.ts" "$@"

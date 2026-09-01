@@ -1,10 +1,9 @@
 ---
 name: cartographer
 description: "Use when: /map command, finding skills/agents, understanding ecosystem layout. Do NOT use for: code generation, debugging, file editing."
-model: grok-4.6
+model: grok-4.6[effort=low]
 color: green
 tools: Read, Write, Glob, Grep
-effort: low
 ---
 
 ## Allowed tools

@@ -44,6 +44,8 @@ directory.
 
 ## Runtime boundary
 
-Global Cursor discovery needs no project `workspaceOpen` loader. Plugin hook commands may invoke
-`npx -y @fusengine/harness hook cursor` after discovery. That command executes hook mechanics; it
-does not install plugins. The installer does not modify the harness.
+Global Cursor discovery needs no project `workspaceOpen` loader. Plugin hook commands invoke
+`./scripts/hook.sh`, the wrapper each plugin ships, after discovery. It resolves the harness from
+the shared vendored install under `$HOME/.cursor/.fusengine-global`, self-heals it once if missing,
+and falls back to pinned `npx`. That command executes hook mechanics; it does not install plugins.
+The installer vendors the shared harness but never modifies it.

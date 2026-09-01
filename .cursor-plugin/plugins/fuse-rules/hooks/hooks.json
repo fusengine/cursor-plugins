@@ -3,17 +3,17 @@
   "hooks": {
     "sessionStart": [
       {
-        "command": "npx -y @fusengine/harness hook cursor rules"
+        "command": "./scripts/hook.sh rules"
       }
     ],
     "subagentStart": [
       {
-        "command": "npx -y @fusengine/harness hook cursor rules"
+        "command": "./scripts/hook.sh rules"
       }
     ],
     "beforeSubmitPrompt": [
       {
-        "command": "npx -y @fusengine/harness hook cursor rules"
+        "command": "./scripts/hook.sh rules"
       }
     ]
   }

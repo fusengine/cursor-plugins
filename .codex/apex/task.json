@@ -1,5 +1,5 @@
 {
-  "current_task": "task-1788259000",
+  "current_task": "readme-remote-installation",
   "created_at": "2026-08-29T15:41:42Z",
   "tasks": {
     "task-1788018121": {
@@ -32,6 +32,18 @@
         "cursor-global-installation": "docs/reference/global-installation.md",
         "cursor-loader": "docs/reference/project-loader.md",
         "cursor-compatibility": "docs/reference/migration-compatibility.md"
+      }
+    },
+    "readme-remote-installation": {
+      "subject": "Replace clone-local README installation with a verified remote Cursor installation flow",
+      "status": "in_progress",
+      "phase": "validation",
+      "started_at": "2026-09-01T10:26:23Z",
+      "doc_consulted": {
+        "cursor-cli-changelog": "https://cursor.com/docs/cli/changelog",
+        "cursor-cli-slash-commands": "https://cursor.com/docs/cli/reference/slash-commands",
+        "cursor-plugins": "https://cursor.com/docs/plugins",
+        "codex-reference-readme": "Adjacent Codex plugins repository: root README.md"
       }
     }
   }

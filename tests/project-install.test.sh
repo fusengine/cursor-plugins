@@ -20,6 +20,14 @@ cat > "$PROJECT/.cursor/hooks.json" <<'JSON'
 }
 JSON
 printf 'keep\n' > "$PROJECT/.cursor/keep.txt"
+# Bun keeps two caches under $HOME: transpiled sources (Library/Caches/bun on
+# macOS, .cache/bun on Linux) and auto-installed packages ($HOME/.bun/install/
+# cache, populated on a checkout with no node_modules). Both are the runtime's
+# own bookkeeping, not installer output, and either would defeat the "project
+# install writes nothing to HOME" assertion below. Redirect them out of the
+# sandbox so the assertion stays a strict, unscoped snapshot of $FAKE_HOME.
+export BUN_RUNTIME_TRANSPILER_CACHE_PATH=0
+export BUN_INSTALL_CACHE_DIR="$TMP/bun-install-cache"
 HOME_BEFORE="$(find "$FAKE_HOME" -print | sort)"
 
 HOME="$FAKE_HOME" "$ROOT/install.sh" --project "$PROJECT"
@@ -107,7 +115,7 @@ HOME="$FAKE_HOME" "$ROOT/install.sh" --project "$PROJECT" >/dev/null
 test -f "$TMP/external-plugins/core-guards/.cursor-plugin/plugin.json"
 printf 'PASS loader rejects external plugin symlink escapes\n'
 
-grep -q 'install.mjs' "$ROOT/install.ps1"
+grep -q 'install-hooks.ts' "$ROOT/install.ps1"
 grep -q -- '--project' "$ROOT/install.ps1"
 grep -q 'DryRun' "$ROOT/install.ps1"
 grep -q 'Uninstall' "$ROOT/install.ps1"

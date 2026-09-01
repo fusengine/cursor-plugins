@@ -19,9 +19,19 @@ global_install() {
   HOME="$HOME_DIR" NODE_ENV=test FUSE_INSTALL_TEST_SOURCE_ROOT="$SOURCE" "$ROOT/install.sh" "$@"
 }
 
-BEFORE_DRY="$(find "$HOME_DIR" -print | sort)"
+# Bun keeps two caches under $HOME: transpiled sources (Library/Caches/bun on
+# macOS, .cache/bun on Linux) and auto-installed packages ($HOME/.bun/install/
+# cache, populated on a checkout with no node_modules). Both are the runtime's
+# own bookkeeping, not installer state. Redirecting them out of the sandbox
+# keeps the snapshot below an unscoped assertion over the whole fake HOME
+# rather than a narrower one over ~/.cursor alone.
+export BUN_RUNTIME_TRANSPILER_CACHE_PATH=0
+export BUN_INSTALL_CACHE_DIR="$TMP/bun-install-cache"
+snapshot_home() { find "$HOME_DIR" -print | sort; }
+BEFORE_DRY="$(snapshot_home)"
 (cd "$PROJECT" && global_install --dry-run)
-test "$BEFORE_DRY" = "$(find "$HOME_DIR" -print | sort)"
+test "$BEFORE_DRY" = "$(snapshot_home)"
+test ! -e "$HOME_DIR/.cursor"
 test ! -e "$PROJECT/.cursor"
 
 (cd "$PROJECT" && global_install)
@@ -78,11 +88,21 @@ if global_install 2>"$TMP/modified.error"; then
   exit 1
 fi
 grep -q 'refusing to overwrite modified owned' "$TMP/modified.error"
+# Guard the guard: the removal assertion below is only meaningful if the
+# configuration stage actually deployed the loader tree here first. Without
+# this, `test ! -e .fusengine-global` could pass on a directory that was never
+# populated.
+test -d "$HOME_DIR/.cursor/.fusengine-global/scripts"
 global_install --uninstall
 grep -q USER_PLUGIN_EDIT "$HOME_DIR/.cursor/plugins/local/core-guards/README.md"
 grep -q USER_RULE_EDIT "$HOME_DIR/.cursor/rules/fuse-global.mdc"
 test -f "$HOME_DIR/.cursor/plugins/local/foreign-plugin/keep.txt"
 test ! -e "$HOME_DIR/.cursor/plugins/local/fuse-ai-pilot"
+# The control root belongs to the installer in full, so uninstall takes all of
+# it: the receipt, the ownership marker, and the vendored hook runtime the
+# configuration stage writes under scripts/. Asserting on the whole directory
+# rather than on receipt.json alone is deliberate -- the narrower assertion used
+# to pass while ~50 loader files stayed behind for good.
 test ! -e "$HOME_DIR/.cursor/.fusengine-global"
 
 COLLISION_HOME="$TMP/collision-home"
@@ -105,6 +125,6 @@ if HOME="$SYMLINK_HOME" NODE_ENV=test FUSE_INSTALL_TEST_SOURCE_ROOT="$SOURCE" "$
 fi
 test -z "$(find "$EXTERNAL" -mindepth 1 -print -quit)"
 
-grep -q '.cursor-plugin/scripts/install.mjs' "$ROOT/install.ps1"
+grep -q '.cursor-plugin/scripts/install-hooks.ts' "$ROOT/install.ps1"
 grep -Fq "if (\$Project)" "$ROOT/install.ps1"
 printf 'PASS default global install, refresh, rollback, refusal, and uninstall\n'

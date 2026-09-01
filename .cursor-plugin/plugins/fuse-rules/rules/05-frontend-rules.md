@@ -1,3 +1,8 @@
+---
+description: Frontend task rules — UI workflow routing through the design expert
+alwaysApply: true
+---
+
 ## Frontend Tasks
 
 ### UI Workflow (MANDATORY: route through `fuse-design:design-expert`)

@@ -1,3 +1,8 @@
+---
+description: React/Next.js state management rules — TanStack Query and Zustand placement
+alwaysApply: true
+---
+
 ## State Management (React / Next.js)
 
 | State Type | Solution | Location |

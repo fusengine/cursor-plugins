@@ -1,3 +1,8 @@
+---
+description: Critical global rules — response language and writing style, applied to every session
+alwaysApply: true
+---
+
 ## Response Language
 - Conversation / replies to the user: **in the user's language** (per the user's own configuration) — a shared rule must NEVER hardcode a human language, or every plugin user is forced into it
 - Written artifacts — docs (*.md), **code comments, lessons (`MEMORY/LESSON.md`), commit messages, CHANGELOG, skill/agent files**: **English** (international standard), regardless of conversation language

@@ -71,11 +71,17 @@ is project-scoped because it lives below the target repository's `.cursor/rules/
 Individual plugins carry `hooks/hooks.json`. Their commands invoke:
 
 ```text
-npx -y @fusengine/harness hook cursor
+./scripts/hook.sh
 ```
 
-This is runtime execution after Cursor has discovered a plugin. It is not installation. `npx -y`
-may download the package on first use and resolves an unpinned published version, so network and
+Each plugin ships that wrapper. It resolves the harness itself, in order: the shared vendored
+install under `$HOME/.cursor/.fusengine-global`, then a one-shot self-heal `bun install` of that
+same directory, then pinned `npx` as a last resort. The path stays relative to the plugin, as the
+Cursor submission checklist requires, and the plugin therefore works when installed from the
+marketplace, where no installer ever runs.
+
+This is runtime execution after Cursor has discovered a plugin. It is not installation. The `npx`
+fallback may download the package on first use, so network and
 package availability can affect the first hook execution.
 
 The harness is maintained in a separate repository. This installer neither edits nor deploys its

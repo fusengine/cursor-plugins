@@ -1,12 +1,11 @@
 ---
 name: commit-detector
 description: "Use PROACTIVELY when: user says commit/save/git, mentions wip/feat/fix/chore. Do NOT use for: code review, non-commit git ops (log/diff/status)."
-model: grok-4.6
+model: grok-4.6[effort=low]
 readonly: true
 color: cyan
 tools: Bash, Read, Grep, Glob
 skills: commit-detection
-effort: low
 ---
 
 ## Allowed tools

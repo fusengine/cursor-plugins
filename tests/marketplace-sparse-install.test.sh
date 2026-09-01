@@ -16,11 +16,17 @@ IGNORED_PATHS="$TMP/ignored-paths"
 FIXTURE_PATHS="$TMP/fixture-paths"
 mkdir -p "$ORIGIN_WORK" "$FAKE_HOME" "$PROJECT" "$BASELINE"
 
-if (cd "$ROOT" && find .cursor-plugin/plugins .cursor-plugin/scripts -type l -print -quit | grep -q .); then
-  printf 'FAIL nested marketplace material contains a symlink\n' >&2
+# Scoped to git-TRACKED material only: a cone-sparse checkout ships exactly
+# `git ls-files`, never whatever a prior `bun install` happened to leave on
+# this dev machine's disk (node_modules/, .harness/, .impeccable/, .DS_Store
+# are all gitignored on purpose -- `bun install` regenerates node_modules,
+# see ensure-harness-deps.ts). A raw `find` over the working tree would flag
+# that untracked, intentionally-ignored runtime cruft as a false failure.
+if git -C "$ROOT" ls-files -s .cursor-plugin/plugins .cursor-plugin/scripts | grep -q '^120000'; then
+  printf 'FAIL nested marketplace material contains a tracked symlink\n' >&2
   exit 1
 fi
-(cd "$ROOT" && find .cursor-plugin/plugins .cursor-plugin/scripts -type f -print | sed 's#^./##' | sort) > "$REQUIRED_PATHS"
+git -C "$ROOT" ls-files .cursor-plugin/plugins .cursor-plugin/scripts | sort > "$REQUIRED_PATHS"
 if git -C "$ROOT" check-ignore --no-index --stdin < "$REQUIRED_PATHS" > "$IGNORED_PATHS"; then
   printf 'FAIL nested marketplace material is ignored:\n' >&2
   cat "$IGNORED_PATHS" >&2
@@ -80,7 +86,7 @@ for (const relative of priorRuntime) {
   const nestedFile = path.join(root, '.cursor-plugin/scripts', relative);
   requireRegular(nestedFile);
 }
-requireRegular(path.join(root, '.cursor-plugin/scripts/install.mjs'));
+requireRegular(path.join(root, '.cursor-plugin/scripts/install-hooks.ts'));
 NODE
 
 cp -R "$ROOT/.cursor-plugin" "$ORIGIN_WORK/.cursor-plugin"
@@ -105,8 +111,8 @@ git -C "$CACHE" sparse-checkout set .cursor-plugin
 git -C "$CACHE" checkout -q --detach HEAD
 
 test ! -e "$CACHE/scripts"
-if ! test -f "$CACHE/.cursor-plugin/scripts/install.mjs"; then
-  printf 'FAIL sparse checkout omits .cursor-plugin/scripts/install.mjs\n' >&2
+if ! test -f "$CACHE/.cursor-plugin/scripts/install-hooks.ts"; then
+  printf 'FAIL sparse checkout omits .cursor-plugin/scripts/install-hooks.ts\n' >&2
   exit 1
 fi
 

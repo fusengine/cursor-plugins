@@ -1,3 +1,8 @@
+---
+description: Mandatory framework-expert handoff after generating UI, for wiring components into the codebase
+alwaysApply: true
+---
+
 # Framework Integration Rules (MANDATORY)
 
 After generating UI (direct HTML/CSS by default, or via the optional Gemini Design MCP

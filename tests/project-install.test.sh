@@ -48,7 +48,7 @@ const loaded = JSON.parse(output);
 if (!Array.isArray(loaded.pluginPaths)) throw Error('pluginPaths missing');
 if (loaded.pluginPaths.length !== market.plugins.length) throw Error('marketplace/pluginPaths count mismatch');
 const physicalProject = fs.realpathSync(project);
-const expected = market.plugins.map((entry) => path.resolve(physicalProject, '.cursor/fusengine/plugins', entry.source)).sort();
+const expected = market.plugins.map((entry) => path.resolve(physicalProject, '.cursor/fusengine/plugins', entry.name)).sort();
 if (JSON.stringify([...loaded.pluginPaths].sort()) !== JSON.stringify(expected)) throw Error('plugin paths differ from marketplace');
 const root = path.resolve(physicalProject, '.cursor/fusengine');
 if (loaded.pluginPaths.includes(root)) throw Error('marketplace root returned as a plugin');

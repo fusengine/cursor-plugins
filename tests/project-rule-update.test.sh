@@ -9,7 +9,7 @@ PROJECT="$TMP/project"
 FAKE_HOME="$TMP/home"
 mkdir -p "$PROJECT" "$FAKE_HOME"
 
-if rg -n 'fs\.writeFileSync\((rulePath|hooksPath)' "$ROOT/scripts/project-install.mjs"; then
+if rg -n 'fs\.writeFileSync\((rulePath|hooksPath)' "$ROOT/.cursor-plugin/scripts/project-install.mjs"; then
   printf 'direct finalization writes remain\n' >&2
   exit 1
 fi

@@ -28,8 +28,10 @@ function buildStage({ stageRoot, sourceRoot, plugins, receipt }) {
     fs.cpSync(plugin.source, path.join(stageRoot, "plugins", plugin.name), { recursive: true });
     if (failAfter === index + 1) throw new Error(`injected copy failure after plugin ${plugin.name}`);
   }
-  fs.copyFileSync(path.join(sourceRoot, "scripts", "load-project-plugins.mjs"), path.join(stageRoot, "load-plugins.mjs"));
-  fs.copyFileSync(path.join(sourceRoot, "scripts", "project-plugin-inventory.mjs"), path.join(stageRoot, "project-plugin-inventory.mjs"));
+  const runtimeRoot = path.join(sourceRoot, ".cursor-plugin", "scripts");
+  fs.copyFileSync(path.join(runtimeRoot, "load-project-plugins.mjs"), path.join(stageRoot, "load-plugins.mjs"));
+  fs.copyFileSync(path.join(runtimeRoot, "project-plugin-inventory.mjs"), path.join(stageRoot, "project-plugin-inventory.mjs"));
+  fs.copyFileSync(path.join(runtimeRoot, "marketplace-sources.mjs"), path.join(stageRoot, "marketplace-sources.mjs"));
   fs.copyFileSync(path.join(sourceRoot, ".cursor-plugin", "marketplace.json"), path.join(stageRoot, "marketplace.json"));
   fs.writeFileSync(path.join(stageRoot, "install-receipt.json"), `${JSON.stringify(receipt, null, 2)}\n`);
   validateStage(stageRoot, plugins);

@@ -8,4 +8,4 @@ command -v node >/dev/null 2>&1 || {
   printf 'error: node is required\n' >&2
   exit 1
 }
-exec node "$ROOT/scripts/project-verify.mjs" "$@"
+exec node "$ROOT/.cursor-plugin/scripts/project-verify.mjs" "$@"

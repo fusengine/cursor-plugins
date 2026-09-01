@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { validateMarketplaceEntry } from "./marketplace-sources.mjs";
 
 function requireRealPath(target, kind) {
   const stat = fs.lstatSync(target);
@@ -32,22 +33,19 @@ export function resolvePluginPaths(managedRoot) {
 
   const seen = new Set();
   return marketplace.plugins.map((entry) => {
-    const source = entry?.source;
-    if (typeof source !== "string" || !/^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(source) || path.basename(source) !== source) {
-      throw new Error(`unsafe marketplace plugin source: ${String(source)}`);
-    }
-    if (seen.has(source)) throw new Error(`duplicate marketplace plugin source: ${source}`);
-    seen.add(source);
-    const pluginPath = path.join(pluginsRoot, source);
+    const identity = validateMarketplaceEntry(entry);
+    if (seen.has(identity.name)) throw new Error(`duplicate marketplace plugin name: ${identity.name}`);
+    seen.add(identity.name);
+    const pluginPath = path.join(pluginsRoot, identity.name);
     requireRealPath(pluginPath, "directory");
     const pluginPhysical = fs.realpathSync(pluginPath);
-    if (path.dirname(pluginPhysical) !== pluginsRootPhysical) throw new Error(`plugin root resolves outside managed plugins: ${source}`);
+    if (path.dirname(pluginPhysical) !== pluginsRootPhysical) throw new Error(`plugin root resolves outside managed plugins: ${identity.name}`);
     const metadataPath = path.join(pluginPath, ".cursor-plugin");
     requireRealPath(metadataPath, "directory");
     const manifestPath = path.join(metadataPath, "plugin.json");
     requireRealPath(manifestPath, "file");
     const plugin = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-    if (plugin.name !== entry.name || entry.name !== source) throw new Error(`plugin identity mismatch: ${source}`);
+    if (plugin.name !== identity.name) throw new Error(`plugin identity mismatch: ${identity.name}`);
     return pluginPhysical;
   });
 }

@@ -13,7 +13,12 @@ marketplace entry as an individual immediate child:
 ```
 
 It does not copy or link the multi-plugin marketplace root as one child. The source marketplace
-manifest must declare exactly 24 safe, unique plugin basenames whose manifest names match.
+stores all 24 plugin roots under `.cursor-plugin/plugins/`; each manifest source must match that
+deterministic nested path and each installed target remains the flat plugin name.
+
+Cursor's cone-sparse marketplace checkout always materializes `.cursor-plugin/`. The same subtree
+therefore carries the manifest, installer runtime, and every plugin source without a second clone
+or a network bootstrap.
 
 ## Ownership and updates
 

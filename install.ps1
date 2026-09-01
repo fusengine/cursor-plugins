@@ -12,7 +12,7 @@ if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
     throw "node is required because Cursor hooks and the installer use it"
 }
 
-$Arguments = @((Join-Path $Root "scripts/install.mjs"))
+$Arguments = @((Join-Path $Root ".cursor-plugin/scripts/install.mjs"))
 if ($Project) { $Arguments += @("--project", $Project) }
 if ($DryRun) { $Arguments += "--dry-run" }
 if ($Uninstall) { $Arguments += "--uninstall" }

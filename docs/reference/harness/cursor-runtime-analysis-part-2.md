@@ -139,7 +139,7 @@ dans le binaire avant d'acter la perte.
 | Fichiers de règles | 9 | `rules/` participe à la découverte par défaut ; l'activation native de ces fichiers `.md` sans frontmatter reste à vérifier dans Cursor |
 | Chaînes de commande de hook | 62 | toutes utilisent actuellement la forme non épinglée `npx -y @fusengine/harness hook cursor ...` ; ne pas épingler `0.1.90` |
 | Events sans équivalent | 3 | `PermissionRequest`, `Notification` (documentés « No »), `SubagentStart` (natif Cursor uniquement) |
-| `core-guards/statusline/` | 1 sous-projet | aucun mécanisme d'enregistrement plugin Cursor — `/statusline` intégré CLI = piste de remplacement, pas de portage |
+| `.cursor-plugin/plugins/core-guards/statusline/` | 1 sous-projet | aucun mécanisme d'enregistrement plugin Cursor — `/statusline` intégré CLI = piste de remplacement, pas de portage |
 
 ## Annexe — répartition de l'effort
 

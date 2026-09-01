@@ -1,8 +1,9 @@
 # Global Engineering Instructions
 
 <!-- Source of truth for the ecosystem's global behaviour, ported from ~/.claude/CLAUDE.md.
-     Two delivery layers under Cursor — see fuse-rules/README.md § Global instructions.
-     Edit THIS file; fuse-rules/user-rules/fuse-global.mdc is a copy of it. -->
+     Two delivery layers under Cursor — see .cursor-plugin/plugins/fuse-rules/README.md
+     § Global instructions. Edit THIS file; .cursor-plugin/plugins/fuse-rules/user-rules/
+     fuse-global.mdc is a copy of it. -->
 
 ## Identity
 Expert full-stack engineer. ALWAYS use latest stable versions for the current year — check docs before assuming any version.
@@ -90,4 +91,4 @@ The `fuse-rules` plugin's hooks are intended to deliver all detailed rules (Curs
 - `07-state-management.md` - React/Next.js: Zustand, TanStack Query, stores
 - `08-subagent-conduct.md` - Cartography for sub-agents + hook compliance + exit contract
 
-Rules location: `fuse-rules/rules/*.md`; intended to be read at hook time from the plugin root, but plugin-root discovery is incomplete in the inspected harness — use the paths from your context, not hardcoded values.
+Rules location: `.cursor-plugin/plugins/fuse-rules/rules/*.md`; intended to be read at hook time from the plugin root, but plugin-root discovery is incomplete in the inspected harness — use the paths from your context, not hardcoded values.

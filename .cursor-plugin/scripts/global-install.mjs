@@ -5,9 +5,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { hashDirectory, hashFile } from "./global-artifacts.mjs";
 import { commitGlobalSnapshot, recoverGlobalTransaction } from "./global-install-transaction.mjs";
+import { resolveMarketplacePlugins } from "./marketplace-sources.mjs";
 import { assertNotSymlink, withProjectLock } from "./project-install-files.mjs";
 
-const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const sourceRoot = process.env.NODE_ENV === "test" && process.env.FUSE_INSTALL_TEST_SOURCE_ROOT
   ? path.resolve(process.env.FUSE_INSTALL_TEST_SOURCE_ROOT)
   : repositoryRoot;
@@ -57,13 +58,7 @@ function readReceipt() {
 function inventory() {
   const market = readJson(path.join(sourceRoot, ".cursor-plugin", "marketplace.json"));
   if (!Array.isArray(market.plugins) || market.plugins.length !== 24) throw new Error("global install requires exactly 24 marketplace plugins");
-  return market.plugins.map((entry) => {
-    if (typeof entry.source !== "string" || path.basename(entry.source) !== entry.source) throw new Error(`unsafe global plugin source: ${entry.source}`);
-    const source = path.join(sourceRoot, entry.source);
-    const manifest = readJson(path.join(source, ".cursor-plugin", "plugin.json"));
-    if (manifest.name !== entry.name || entry.name !== entry.source) throw new Error(`global plugin identity mismatch: ${entry.source}`);
-    return { name: entry.source, source };
-  });
+  return resolveMarketplacePlugins(sourceRoot, market);
 }
 
 function preflightOwned(receipt, plugins) {
@@ -91,10 +86,13 @@ function stageLocal(nonce) {
 function installGlobal() {
   recoverGlobalTransaction(cursorRoot);
   const plugins = inventory();
+  const rulesPlugin = plugins.find((plugin) => plugin.name === "fuse-rules");
+  if (!rulesPlugin) throw new Error("global install requires fuse-rules");
+  const ruleSource = path.join(rulesPlugin.source, "user-rules", "fuse-global.mdc");
   validatePathChain(plugins.map((plugin) => plugin.name));
   const previous = readReceipt();
   preflightOwned(previous, plugins);
-  const rule = fs.readFileSync(path.join(sourceRoot, "fuse-rules", "user-rules", "fuse-global.mdc"));
+  const rule = fs.readFileSync(ruleSource);
   if (options.dryRun) {
     process.stdout.write(`Would install 24 plugins under ${localRoot}\nWould write ${rulePath}\nDry run: nothing written.\n`);
     return;
@@ -109,7 +107,7 @@ function installGlobal() {
       fs.cpSync(plugin.source, target, { recursive: true });
       hashes[plugin.name] = hashDirectory(target);
     }
-    const receipt = Buffer.from(`${JSON.stringify({ version: 1, plugins: hashes, ruleHash: hashFile(path.join(sourceRoot, "fuse-rules", "user-rules", "fuse-global.mdc")) }, null, 2)}\n`);
+    const receipt = Buffer.from(`${JSON.stringify({ version: 1, plugins: hashes, ruleHash: hashFile(ruleSource) }, null, 2)}\n`);
     commitGlobalSnapshot({ cursorRoot, stageRoot: stage, finalFiles: [
       { path: rulePath, content: rule }, { path: receiptPath, content: receipt }, { path: controlMarker, content: markerContent },
     ] });

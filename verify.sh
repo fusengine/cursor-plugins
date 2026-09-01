@@ -77,6 +77,8 @@ const path = require('path');
 const ROOT = process.env.FUSE_ROOT;
 const EXPECTED = Number(process.env.FUSE_EXPECTED);
 const SOLID_MAX_LINES = Number(process.env.FUSE_SOLID_MAX_LINES);
+const PLUGIN_ROOT_REL = path.join('.cursor-plugin', 'plugins');
+const PLUGIN_ROOT = path.join(ROOT, PLUGIN_ROOT_REL);
 const lines = [];
 const P = (s) => lines.push('PASS\t' + s);
 const F = (s) => lines.push('FAIL\t' + s);
@@ -137,12 +139,13 @@ if (mk) {
     sources = plugins.map((p) => p.source);
   }
 
-  // Bijection entries <-> top-level plugin folders.
-  const dirs = fs.readdirSync(ROOT, { withFileTypes: true })
-    .filter((e) => e.isDirectory() && fs.existsSync(path.join(ROOT, e.name, '.cursor-plugin', 'plugin.json')))
+  // Bijection entries <-> deterministic marketplace plugin folders.
+  const dirs = fs.readdirSync(PLUGIN_ROOT, { withFileTypes: true })
+    .filter((e) => e.isDirectory() && fs.existsSync(path.join(PLUGIN_ROOT, e.name, '.cursor-plugin', 'plugin.json')))
     .map((e) => e.name);
-  const missing = sources.filter((s) => dirs.indexOf(s) === -1);
-  const extra = dirs.filter((d) => sources.indexOf(d) === -1);
+  const names = plugins.map((p) => p.name);
+  const missing = names.filter((name) => dirs.indexOf(name) === -1);
+  const extra = dirs.filter((d) => names.indexOf(d) === -1);
   if (missing.length === 0 && extra.length === 0 && sources.length === dirs.length) {
     P('entries <-> folders is a strict bijection (' + dirs.length + ' each way)');
   } else {
@@ -155,8 +158,8 @@ if (mk) {
   let manifestOk = 0;
   for (const entry of (Array.isArray(mk.plugins) ? mk.plugins : [])) {
     const src = String(entry.source || '');
-    if (src !== entry.name) { F(entry.name + ': source "' + src + '" differs from name (R1)'); continue; }
-    if (src.indexOf('/') !== -1) { F(entry.name + ': source is not a bare folder name'); continue; }
+    const expectedSource = path.join(PLUGIN_ROOT_REL, entry.name);
+    if (src !== expectedSource) { F(entry.name + ': source "' + src + '" differs from deterministic path "' + expectedSource + '"'); continue; }
     const pjPath = path.join(ROOT, src, '.cursor-plugin', 'plugin.json');
     if (!fs.existsSync(pjPath)) { F(entry.name + ': missing ' + rel(pjPath)); continue; }
     let pj;
@@ -286,7 +289,7 @@ if (skills.length === 0) W('no SKILL.md found');
 
 // -------------------------------------------------- 7. global user rule source
 H('7. Global user rule (source file in the repo)');
-const RULE_REL = path.join('fuse-rules', 'user-rules', 'fuse-global.mdc');
+const RULE_REL = path.join(PLUGIN_ROOT_REL, 'fuse-rules', 'user-rules', 'fuse-global.mdc');
 const rulePath = path.join(ROOT, RULE_REL);
 if (!fs.existsSync(rulePath)) {
   W(RULE_REL + ' is not in the repo — global-rule checks skipped. The marketplace does not depend on it.');
@@ -323,15 +326,15 @@ const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
 const filesUnder = (p) => collect(path.join(ROOT, p), (n) => n.endsWith('.md'));
 
 const nativeApexFiles = [
-  ...filesUnder(path.join('fuse-ai-pilot', 'skills', 'apex-methodology')),
-  ...filesUnder(path.join('fuse-ai-pilot', 'skills', 'elicitation')),
-  ...filesUnder(path.join('fuse-ai-pilot', 'skills', 'verification')),
+  ...filesUnder(path.join(PLUGIN_ROOT_REL, 'fuse-ai-pilot', 'skills', 'apex-methodology')),
+  ...filesUnder(path.join(PLUGIN_ROOT_REL, 'fuse-ai-pilot', 'skills', 'elicitation')),
+  ...filesUnder(path.join(PLUGIN_ROOT_REL, 'fuse-ai-pilot', 'skills', 'verification')),
 ];
 const claudeApex = nativeApexFiles.filter((f) => /\.claude\/apex/.test(fs.readFileSync(f, 'utf8')));
 if (claudeApex.length === 0) P('native Cursor APEX, elicitation, and verification instructions use .cursor/apex');
 else claudeApex.forEach((f) => F(rel(f) + ': native Cursor state still references .claude/apex'));
 
-const cacheDoc = path.join('fuse-ai-pilot', 'docs', 'cache-formats.md');
+const cacheDoc = path.join(PLUGIN_ROOT_REL, 'fuse-ai-pilot', 'docs', 'cache-formats.md');
 if (!/\.claude\/cache/.test(read(cacheDoc)) && /\.harness\/cache/.test(read(cacheDoc))) {
   P('harness cache documentation uses .harness/cache');
 } else {
@@ -339,13 +342,13 @@ if (!/\.claude\/cache/.test(read(cacheDoc)) && /\.harness\/cache/.test(read(cach
 }
 
 const nativeCommandFiles = [
-  'fuse-security/commands/scan.md',
-  'fuse-security/skills/security-scan/SKILL.md',
-  'fuse-changelog/skills/changelog-scan/SKILL.md',
-  'fuse-cartographer/commands/map.md',
-  'fuse-cartographer/skills/map-ecosystem/SKILL.md',
-  'fuse-ai-pilot/commands/update-harness.md',
-  'fuse-ai-pilot/commands/cleanup-context.md',
+  path.join(PLUGIN_ROOT_REL, 'fuse-security', 'commands', 'scan.md'),
+  path.join(PLUGIN_ROOT_REL, 'fuse-security', 'skills', 'security-scan', 'SKILL.md'),
+  path.join(PLUGIN_ROOT_REL, 'fuse-changelog', 'skills', 'changelog-scan', 'SKILL.md'),
+  path.join(PLUGIN_ROOT_REL, 'fuse-cartographer', 'commands', 'map.md'),
+  path.join(PLUGIN_ROOT_REL, 'fuse-cartographer', 'skills', 'map-ecosystem', 'SKILL.md'),
+  path.join(PLUGIN_ROOT_REL, 'fuse-ai-pilot', 'commands', 'update-harness.md'),
+  path.join(PLUGIN_ROOT_REL, 'fuse-ai-pilot', 'commands', 'cleanup-context.md'),
 ];
 const claudeExecutable = /\$\{?CLAUDE_PLUGIN_ROOT\}?|\.claude\/plugins\/marketplaces|~\/\.claude\/scripts/;
 let nativeCommandsOk = 0;
@@ -356,7 +359,7 @@ for (const f of nativeCommandFiles) {
 if (nativeCommandsOk === nativeCommandFiles.length) P('native Cursor commands contain no unresolved Claude-only executable path');
 
 const agentCreatorFiles = collect(
-  path.join(ROOT, 'fuse-ai-pilot', 'skills', 'agent-creator'),
+  path.join(PLUGIN_ROOT, 'fuse-ai-pilot', 'skills', 'agent-creator'),
   (n) => /\.(md|mdc|markdown|txt)$/.test(n),
 );
 const claudeRootGuidance = agentCreatorFiles.filter((f) => /CLAUDE_PLUGIN_ROOT/.test(fs.readFileSync(f, 'utf8')));
@@ -403,7 +406,7 @@ const promptLines = normalizedPrompt === '' ? 0 : normalizedPrompt.split('\n').l
 if (promptLines <= SOLID_MAX_LINES) P('harness prompt stays within FUSE_SOLID_MAX_LINES=' + SOLID_MAX_LINES);
 else F(promptRel + ': prompt has ' + promptLines + ' lines, exceeding FUSE_SOLID_MAX_LINES=' + SOLID_MAX_LINES);
 
-const designChecklist = path.join('fuse-design', 'skills', 'design-review', 'references', 'pre-flight-checklist.md');
+const designChecklist = path.join(PLUGIN_ROOT_REL, 'fuse-design', 'skills', 'design-review', 'references', 'pre-flight-checklist.md');
 const designText = read(designChecklist);
 if (!/cd "\$CLAUDE_PLUGIN_ROOT\/scripts\/layout-check"|bun run layout-check\.ts/.test(designText)) {
   P('missing fuse-design layout-check is not presented as an executable mandatory step');
@@ -411,12 +414,12 @@ if (!/cd "\$CLAUDE_PLUGIN_ROOT\/scripts\/layout-check"|bun run layout-check\.ts/
   F(designChecklist + ': missing layout-check is still presented as executable and mandatory');
 }
 
-const postCommitFiles = filesUnder(path.join('fuse-commit-pro', 'skills', 'post-commit'));
+const postCommitFiles = filesUnder(path.join(PLUGIN_ROOT_REL, 'fuse-commit-pro', 'skills', 'post-commit'));
 const claudeManifest = postCommitFiles.filter((f) => /\.claude-plugin/.test(fs.readFileSync(f, 'utf8')));
 if (claudeManifest.length === 0) P('post-commit marketplace instructions use the Cursor manifest layout');
 else claudeManifest.forEach((f) => F(rel(f) + ': executable marketplace instructions still use .claude-plugin'));
 
-const projectDetection = read(path.join('fuse-rules', 'rules', '01-project-detection.md'));
+const projectDetection = read(path.join(PLUGIN_ROOT_REL, 'fuse-rules', 'rules', '01-project-detection.md'));
 if (!/~\/\.claude\/agents/.test(projectDetection) && /~\/\.cursor\/agents/.test(projectDetection)) {
   P('native custom-agent discovery uses ~/.cursor/agents');
 } else {
@@ -493,7 +496,7 @@ else
   fail "npx not on PATH — every hook command would fail"
 fi
 
-RULE_SRC="$ROOT/fuse-rules/user-rules/fuse-global.mdc"
+RULE_SRC="$ROOT/.cursor-plugin/plugins/fuse-rules/user-rules/fuse-global.mdc"
 RULE_DST="$HOME/.cursor/rules/fuse-global.mdc"
 if [ ! -f "$RULE_SRC" ]; then
   warn "no global rule in the repo ($RULE_SRC) — deployment check skipped, not failed."

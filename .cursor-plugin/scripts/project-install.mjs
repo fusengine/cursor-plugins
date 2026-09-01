@@ -5,11 +5,12 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { assertNotSymlink, restoreFile, withProjectLock, writeFileAtomic } from "./project-install-files.mjs";
+import { resolveMarketplacePlugins } from "./marketplace-sources.mjs";
 import { mergeLoaderHook } from "./project-hooks.mjs";
 import { recoverManagedRoot, replaceManagedRoot } from "./project-install-transaction.mjs";
 import { uninstallProject } from "./project-uninstall.mjs";
 
-const sourceRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const sourceRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const markerName = ".managed-by-fusengine";
 const args = process.argv.slice(2);
 const options = { dryRun: false, uninstall: false, project: "" };
@@ -80,15 +81,6 @@ function buildRule() {
   return `---\ndescription: Fusengine project engineering rules.\nalwaysApply: true\n---\n\n${agents}`;
 }
 
-function validatePlugins(market) {
-  return market.plugins.map((entry) => {
-    if (typeof entry.source !== "string" || path.basename(entry.source) !== entry.source) fail(`unsafe plugin source: ${entry.source}`);
-    const source = path.join(sourceRoot, entry.source);
-    if (!fs.existsSync(path.join(source, ".cursor-plugin", "plugin.json"))) fail(`invalid plugin source: ${entry.source}`);
-    return { name: entry.source, source };
-  });
-}
-
 function install() {
   assertNotSymlink(cursorRoot);
   assertNotSymlink(managedRoot);
@@ -99,7 +91,7 @@ function install() {
   assertNotSymlink(managedRoot);
   const market = readJson(path.join(sourceRoot, ".cursor-plugin", "marketplace.json"));
   if (!Array.isArray(market.plugins) || market.plugins.length === 0) fail("marketplace has no plugins");
-  const plugins = validatePlugins(market);
+  const plugins = resolveMarketplacePlugins(sourceRoot, market);
   const previousReceipt = fs.existsSync(receiptPath) ? readJson(receiptPath) : {};
   const originalHooks = fs.existsSync(hooksPath) ? fs.readFileSync(hooksPath) : null;
   const originalRule = fs.existsSync(rulePath) ? fs.readFileSync(rulePath) : null;

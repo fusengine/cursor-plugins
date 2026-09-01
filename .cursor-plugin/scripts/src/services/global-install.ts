@@ -134,11 +134,17 @@ function uninstallGlobal(): void {
 		];
 		if (removeRule) finalFiles.push({ path: paths.rulePath, content: null });
 		commitGlobalSnapshot({ cursorRoot: paths.cursorRoot, stageRoot: stage, finalFiles });
-		try {
-			fs.rmdirSync(paths.controlRoot);
-		} catch {
-			/* preserved if non-empty */
+		// The control root is ours in full: readGlobalReceipt refused to go any
+		// further unless the ownership marker matched, and every install rewrites
+		// the whole tree anyway (copyLoaderTree removes it first). So take it down
+		// entirely — a non-recursive rmdir with a swallowed error left the deployed
+		// loader, its src/ tree and the harness node_modules the wrapper installs
+		// there behind forever, with no code path able to reclaim them.
+		const stat = fs.lstatSync(paths.controlRoot);
+		if (stat.isSymbolicLink() || !stat.isDirectory()) {
+			throw new Error(`expected real directory: ${paths.controlRoot}`);
 		}
+		fs.rmSync(paths.controlRoot, { recursive: true, force: true });
 	} catch (error) {
 		if (fs.existsSync(stage)) fs.rmSync(stage, { recursive: true });
 		throw error;

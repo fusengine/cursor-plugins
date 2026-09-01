@@ -88,19 +88,22 @@ if global_install 2>"$TMP/modified.error"; then
   exit 1
 fi
 grep -q 'refusing to overwrite modified owned' "$TMP/modified.error"
+# Guard the guard: the removal assertion below is only meaningful if the
+# configuration stage actually deployed the loader tree here first. Without
+# this, `test ! -e .fusengine-global` could pass on a directory that was never
+# populated.
+test -d "$HOME_DIR/.cursor/.fusengine-global/scripts"
 global_install --uninstall
 grep -q USER_PLUGIN_EDIT "$HOME_DIR/.cursor/plugins/local/core-guards/README.md"
 grep -q USER_RULE_EDIT "$HOME_DIR/.cursor/rules/fuse-global.mdc"
 test -f "$HOME_DIR/.cursor/plugins/local/foreign-plugin/keep.txt"
 test ! -e "$HOME_DIR/.cursor/plugins/local/fuse-ai-pilot"
-# uninstallGlobal() only reverses what the receipt tracks (receipt.json,
-# .managed-by-fusengine, and the rule when unmodified); it deliberately
-# preserves .fusengine-global/scripts (the vendored shared hook runtime the
-# separate configuration stage writes there) when the directory is not
-# empty -- see global-install.ts's `/* preserved if non-empty */`. So the
-# receipt-managed artifacts must be gone, not the whole control root.
-test ! -e "$HOME_DIR/.cursor/.fusengine-global/receipt.json"
-test ! -e "$HOME_DIR/.cursor/.fusengine-global/.managed-by-fusengine"
+# The control root belongs to the installer in full, so uninstall takes all of
+# it: the receipt, the ownership marker, and the vendored hook runtime the
+# configuration stage writes under scripts/. Asserting on the whole directory
+# rather than on receipt.json alone is deliberate -- the narrower assertion used
+# to pass while ~50 loader files stayed behind for good.
+test ! -e "$HOME_DIR/.cursor/.fusengine-global"
 
 COLLISION_HOME="$TMP/collision-home"
 mkdir -p "$COLLISION_HOME/.cursor/plugins/local/core-guards"

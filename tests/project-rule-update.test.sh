@@ -8,6 +8,8 @@ trap 'rm -rf "$TMP"' EXIT
 PROJECT="$TMP/project"
 FAKE_HOME="$TMP/home"
 mkdir -p "$PROJECT" "$FAKE_HOME"
+# $FAKE_HOME stays deliberately empty: `install.sh --project` must succeed on a
+# fresh HOME, without any global install having ever run.
 
 INSTALLER="$ROOT/.cursor-plugin/scripts/src/services/project-install.ts"
 # Guard the guard: a missing target would make `rg` fail the same way as "no

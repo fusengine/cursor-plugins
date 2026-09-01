@@ -7,6 +7,8 @@ TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 FAKE_HOME="$TMP/home"
 mkdir -p "$FAKE_HOME"
+# $FAKE_HOME stays deliberately empty: `install.sh --project` must succeed on a
+# fresh HOME, without any global install having ever run.
 
 MULTI="$TMP/multiple-hooks"
 mkdir -p "$MULTI/.cursor"

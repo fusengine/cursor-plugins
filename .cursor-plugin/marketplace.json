@@ -36,7 +36,7 @@
       "name": "fuse-ai-pilot",
       "source": ".cursor-plugin/plugins/fuse-ai-pilot",
       "description": "AI Pilot workflow agents: sniper (code quality), research-expert, explore-codebase, websearch",
-      "version": "1.2.40",
+      "version": "1.2.41",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"

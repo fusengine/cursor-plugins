@@ -27,6 +27,13 @@
         "command": "./scripts/hook.sh aipilot",
         "matcher": "Write"
       }
+    ],
+    "beforeMCPExecution": [
+      {
+        "matcher": "MCP:(query-docs|resolve-library-id|web_search_exa|get_code_context_exa)",
+        "command": "./scripts/hook.sh aipilot",
+        "failClosed": false
+      }
     ]
   }
 }

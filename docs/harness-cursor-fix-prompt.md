@@ -168,6 +168,59 @@ Include regression tests for the `0.1.90` tarball defects so a source-only fix c
 
 Require **version >0.1.90 before publishing or pinning**. Select the minimum valid next version only after packed parity is proven. This task must not publish or pin it.
 
+## Measured defects — RED commands that must flip
+
+These three were obtained by executing the CLI against payloads built from `cursor.com/docs/hooks`,
+never from a repository fixture. A forged fixture is what produced the original false green. Each
+command below gives the wrong answer today; the task is done when each gives the right one.
+
+```bash
+cd <fuse-harness>
+
+# 1. BLOCKING — must become allow, returns deny today.
+#    Phase is derived from `filePath && edits.length > 0` instead of `hook_event_name`
+#    (src/adapters/cursor/normalize.ts:33), so a degenerate afterFileEdit falls into the PRE
+#    pipeline and blocks. This is the "must not accidentally enter a different lifecycle branch"
+#    clause above, and it contradicts the module's own contract in
+#    src/adapters/cursor/index.ts:36-44 — "We deliberately never emit permission:\"deny\" here".
+#    Same cause, same fix: postToolUse, afterShellExecution and beforeReadFile also return deny
+#    on real payloads today. postToolUse has no `permission` field in its documented schema at all.
+echo '{"hook_event_name":"afterFileEdit","file_path":"/tmp/x.ts","edits":[]}' | bun src/cli/bin.ts hook cursor core
+
+# 2. Must become deny, returns allow today.
+#    cursorToolName() (src/adapters/cursor/normalize.ts:14-18) does `tool === "Shell" || (!tool && hasCommand)`.
+#    Any tool_name present and different from "Shell" that still carries a command disarms every
+#    Bash guard: "Terminal", lowercase "shell", and the documented "MCP:<tool_name>" form.
+#    Exact-match allowlisting is literally the logic that produced the original P0.
+#    Robust criterion: a `command` is present => arm the guards, whatever the tool is called.
+echo '{"hook_event_name":"preToolUse","tool_name":"Terminal","tool_input":{"command":"rm -rf /"}}' | bun src/cli/bin.ts hook cursor core
+
+# 3. Three consecutive runs must give identical counts and identical failing test names.
+bun test 2>&1 | tail -3
+```
+
+Also verify, and decide explicitly: the `afterFileEdit` size/DRY verdict is currently computed
+from the fanned-out `edits[]` and then discarded (`src/runtime/post-outcome.ts:30`, plus the
+`&& !cursorAfterFileEdit` guards in `handle-post.ts`). Net effect for the user is identical to
+before the fix. Either emit it as `permission:"allow"` + `user_message` — the only channel
+`afterFileEdit` exposes — or record it as a real loss. What is not acceptable is the current
+state, where `test/cursor-cli-p0.test.ts` locks the silence in with `toEqual({exit:0, stdout:""})`:
+a test that freezes a defect makes it permanent.
+
+## Work isolation — required before any "no regression" claim
+
+At last measurement the working tree held 25 modified files plus 6 untracked, including
+`src/policy/guards/bash-write.ts`, `bash-write-safe-paths.ts`, `bash-write-redirects.ts`,
+`protected-path.ts`, `src/policy/shell-read-refs.ts`, `src/prompt/types.ts`,
+`src/runtime/confirm/confirm-gate.ts` and `codex-confirm.ts` — none of them Cursor adapter files.
+The tree also changed *during* verification (12 modified files at the start, 25 at the end).
+
+Separate the `bash-write` work from the Cursor fix, then re-run the suite on a frozen tree.
+While both live in the same tree, "0 failures" is unfalsifiable and the one deterministic
+failure — `test/approval-never.test.ts:67`, where `evaluate(never(...))` returns `deny` instead
+of `warn`, reproducible in the repo and absent from a pristine HEAD export — cannot be attributed
+to either effort.
+
 ## Verification report
 
 Report:

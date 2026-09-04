@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.1.2] - 04-09-2026
+
+- feat(fuse-ai-pilot): `beforeMCPExecution` wired to the `aipilot` scope (matcher
+  `MCP:(query-docs|resolve-library-id|web_search_exa|get_code_context_exa)`, `failClosed: false`).
+  The harness doc-cache gate lives under that scope, but the event was only wired by `core-guards`
+  and `fuse-design`, both in scope `core` — so the gate was never reached. `core-guards` still fires
+  on the three shared doc tools; Cursor merges both results with `deny > allow`, and
+  `resolve-library-id` is now covered for the first time
+- chore(fuse-ai-pilot): PATCH bump 1.2.40 → 1.2.41, mirrored in `.cursor-plugin/marketplace.json`
+- docs(harness): the Cursor adapter defects measured against real payloads are recorded in
+  `docs/harness-cursor-fix-prompt.md`, with the RED commands that must flip and the requirement to
+  isolate the `bash-write` work before any "no regression" claim. All three were fixed in
+  `@fusengine/harness@0.1.94`, verified against the published package — the `hook.sh` wrappers track
+  `latest`, so nothing is pinned here
+
 ## [0.1.1] - 01-09-2026
 
 - refactor(installer)!: installer engine ported to TypeScript/bun — no `.mjs` left under

@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.3] - 07-09-2026
+
+- fix(hooks): stop Cursor plugin hooks failing silently on every event —
+  `plugin-scanner.ts` read the nested Claude Code `entry.hooks[]` shape
+  instead of Cursor's flat `{ command, matcher?, type? }`, `matchesFilter`
+  always tested `tool_name` instead of the command line / synthesized
+  `MCP:<tool_name>` / `subagent_type` per event, and `./scripts/hook.sh`
+  was never resolved to an absolute `cwd` before spawn. Also rewrote the
+  `hooks-harness-exclusive` anti-regression gate (22 → 106 assertions,
+  proven red path against shell-injection payloads)
+
 ## [0.1.2] - 04-09-2026
 
 - feat(fuse-ai-pilot): `beforeMCPExecution` wired to the `aipilot` scope (matcher

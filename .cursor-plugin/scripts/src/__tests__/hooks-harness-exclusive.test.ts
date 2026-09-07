@@ -1,27 +1,30 @@
 /**
  * Anti-regression gate for the "harness exclusif" migration.
  *
- * Every `type: "command"` hook in every `plugins/<name>/hooks/hooks.json`
- * must delegate to @fusengine/harness, resolved from the marketplace's own
- * shared install under plugins/marketplaces/fusengine-plugins/plugins/
- * node_modules (installDeps' node_modules — reused as-is, no separate
- * per-user $HOME/.cursor/node_modules bootstrap anymore).
+ * Cursor plugin manifests are FLAT (`{ command, matcher?, type? }`) and their paths
+ * must be relative — the manifest can therefore never name the harness binary. The
+ * previous version of this gate looked for `block.hooks[]` (Claude Code's nested
+ * shape) and for a `bun …/@fusengine/harness/… hook cursor` command inside the
+ * manifest: on flat manifests the inner loop never ran, so the whole suite produced
+ * 22 assertions, none of them about a command. The invariant is checked at the two
+ * layers that actually carry it:
+ *   1. every command entry delegates to `./scripts/hook.sh` (relative, per Cursor's
+ *      submission checklist);
+ *   2. that wrapper exists and invokes the harness binary.
  * Native `type: "prompt"` hooks are allowed and left untouched.
- * Pure helpers live in ./hooks-harness-exclusive.helpers (kept separate to
- * respect the 100-line SOLID limit on this file).
+ * @see https://cursor.com/docs/reference/plugins — Hooks format / Submitting a plugin
  */
 import { describe, expect, test } from "bun:test";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
+	WRAPPER_RELATIVE_PATH,
 	discoverHooksFiles,
-	isHarnessCommand,
+	isHarnessWrapper,
+	isWrapperCommand,
 	pluginNameOf,
+	pluginRootOf,
 } from "./hooks-harness-exclusive.helpers";
-
-/** Absolute prefix every harness command must resolve through post-migration. */
-const MARKETPLACE_HARNESS_PATH =
-	"$HOME/.cursor/plugins/local/node_modules/@fusengine/harness";
 
 const PLUGINS_DIR = join(__dirname, "../../../plugins");
 const hooksFiles = discoverHooksFiles(PLUGINS_DIR);
@@ -50,45 +53,60 @@ describe("hooks-harness-exclusive (anti-regression gate)", () => {
 				expect(config).toBeDefined();
 			});
 
-			const events = config?.hooks ?? {};
+			const wrapper = join(pluginRootOf(filePath), WRAPPER_RELATIVE_PATH);
 
-			for (const [eventName, blocks] of Object.entries(events)) {
-				for (const [blockIdx, block] of (blocks as Array<Record<string, unknown>>).entries()) {
-					const hooks = (block.hooks as Array<Record<string, unknown>>) ?? [];
+			test(`${WRAPPER_RELATIVE_PATH} exists and invokes the harness binary`, () => {
+				if (!existsSync(wrapper)) {
+					throw new Error(`${pluginName}: missing wrapper ${WRAPPER_RELATIVE_PATH}`);
+				}
+				expect(isHarnessWrapper(readFileSync(wrapper, "utf-8"))).toBe(true);
+			});
 
-					for (const [hookIdx, hook] of hooks.entries()) {
-						const label = `${eventName}[${blockIdx}].hooks[${hookIdx}]`;
+			for (const [eventName, rawEntries] of Object.entries(config?.hooks ?? {})) {
+				// Guarded like the JSON.parse above: a manifest can carry a malformed
+				// event value (not an array) or a malformed entry (null/primitive).
+				// Both must fail a NAMED test, never throw here — a throw in this loop
+				// runs during describe collection and voids every test already queued
+				// for this plugin (verified empirically: bun:test reports 0 ran, not a
+				// failure, for the whole describe scope).
+				if (!Array.isArray(rawEntries)) {
+					test(`${eventName}: hook entries must be an array`, () => {
+						throw new Error(
+							`${pluginName} / ${eventName}: expected an array of hook entries, got ${typeof rawEntries}`,
+						);
+					});
+					continue;
+				}
 
-						if (hook.type === "prompt") continue; // native LLM hook, allowed as-is
+				for (const [idx, entry] of rawEntries.entries()) {
+					const label = `${eventName}[${idx}]`;
 
-						test(`${label}: type is "command"`, () => {
-							if (hook.type !== "command") {
-								throw new Error(
-									`${pluginName} / ${label}: unexpected hook type "${hook.type}" — only "command" and "prompt" are allowed`,
-								);
-							}
-							expect(hook.type).toBe("command");
+					if (entry === null || typeof entry !== "object") {
+						test(`${label}: must be an object`, () => {
+							throw new Error(`${pluginName} / ${label}: expected a hook entry object, got ${entry}`);
 						});
-
-						test(`${label}: command delegates to harness on the marketplace shared path`, () => {
-							const command = String(hook.command);
-							const harness = isHarnessCommand(command);
-
-							// No more per-user bootstrap: every command must resolve the
-							// harness binary straight from the marketplace's node_modules.
-							if (!harness) {
-								throw new Error(
-									`${pluginName} / ${label}: command does not delegate to harness: "${command}"`,
-								);
-							}
-							if (!command.includes(MARKETPLACE_HARNESS_PATH)) {
-								throw new Error(
-									`${pluginName} / ${label}: harness command not on marketplace shared path: "${command}"`,
-								);
-							}
-							expect(harness).toBe(true);
-						});
+						continue;
 					}
+
+					const record = entry as Record<string, unknown>;
+					if (record.type === "prompt") continue; // native LLM hook, allowed as-is
+
+					test(`${label}: delegates to ${WRAPPER_RELATIVE_PATH}`, () => {
+						if (record.type !== undefined && record.type !== "command") {
+							throw new Error(
+								`${pluginName} / ${label}: unexpected hook type "${record.type}" — only "command" and "prompt" are allowed`,
+							);
+						}
+						if (typeof record.command !== "string") {
+							throw new Error(`${pluginName} / ${label}: command hook carries no command`);
+						}
+						if (!isWrapperCommand(record.command)) {
+							throw new Error(
+								`${pluginName} / ${label}: does not delegate to the wrapper: "${record.command}"`,
+							);
+						}
+						expect(isWrapperCommand(record.command)).toBe(true);
+					});
 				}
 			}
 		});

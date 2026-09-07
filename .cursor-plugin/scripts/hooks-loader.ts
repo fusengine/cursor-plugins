@@ -28,7 +28,7 @@ const PLUGINS_DIR = join(
  * @see https://cursor.com/docs/hooks — `subagentStart`/`subagentStop` payloads carry
  * `subagent_type`; Claude Code's `agent_type` does not exist in Cursor's contract.
  */
-type CursorHookInput = HookInput & { subagent_type?: string };
+type CursorHookInput = HookInput & { subagent_type?: string; command?: string };
 
 async function main(): Promise<void> {
 	const hookType = process.argv[2];
@@ -56,6 +56,15 @@ async function main(): Promise<void> {
 
 	const toolName = input.tool_name ?? "";
 	const agentType = input.subagent_type ?? "";
+	// Shell events carry the command line at the payload root; `preToolUse` nests it
+	// under `tool_input`. Both feed the matcher target for beforeShellExecution /
+	// afterShellExecution (see matchTarget in plugin-scanner.ts).
+	const command =
+		typeof input.command === "string"
+			? input.command
+			: typeof input.tool_input?.command === "string"
+				? input.tool_input.command
+				: "";
 
 	// DEBUG: Log subagentStart/subagentStop payload
 	if (hookType === "subagentStart" || hookType === "subagentStop") {
@@ -71,7 +80,7 @@ async function main(): Promise<void> {
 
 	// Extract matching hooks. Cursor has no "notification" event (Claude Code-only),
 	// so that matcher branch in extractHooks is unreachable here — pass "" (dead arg).
-	const hooks = extractHooks(plugins, hookType, toolName, "", agentType);
+	const hooks = extractHooks(plugins, hookType, toolName, "", agentType, command);
 
 	// No matching hooks → exit early
 	if (hooks.length === 0) process.exit(0);
@@ -92,4 +101,13 @@ async function main(): Promise<void> {
 	if (stdout) console.log(stdout);
 }
 
-main().catch(() => process.exit(0));
+// Fail-open on stdout — Cursor must never be blocked by a loader crash — but NEVER
+// silent: a bare `catch(() => exit(0))` once turned a TypeError in the plugin scanner
+// into a clean exit, so every hook of every plugin was dead while the install looked
+// healthy. stderr is the one channel Cursor ignores for the decision yet surfaces in
+// its Hooks output panel, which makes the failure visible without changing behaviour.
+main().catch((err: unknown) => {
+	const detail = err instanceof Error ? (err.stack ?? err.message) : String(err);
+	console.error(`[fusengine] hooks-loader failed for "${process.argv[2] ?? "?"}": ${detail}`);
+	process.exit(0);
+});

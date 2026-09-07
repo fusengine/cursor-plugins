@@ -1,5 +1,12 @@
 /**
- * Tests for plugin-scanner service
+ * Tests for plugin-scanner service.
+ *
+ * Fixtures use Cursor's FLAT entry shape (`{ command, matcher? }`), the only one a
+ * plugin `hooks.json` carries. They previously used Claude Code's nested
+ * `hooks: [{ type, command }]`, which kept this suite green against a shape the
+ * production never produces — while extractHooks crashed on every real manifest.
+ * Matcher-target cases live in plugin-scanner-matcher.test.ts (file-size split).
+ * @see https://cursor.com/docs/hooks
  */
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { mkdirSync, rmSync, writeFileSync } from "node:fs";
@@ -28,7 +35,7 @@ describe("plugin-scanner", () => {
 			mkdirSync(pluginDir, { recursive: true });
 			writeFileSync(
 				join(pluginDir, "hooks.json"),
-				JSON.stringify({ hooks: { PreToolUse: [] } }),
+				JSON.stringify({ hooks: { preToolUse: [] } }),
 			);
 
 			const result = scanPlugins({ pluginsDir: TEST_DIR });
@@ -53,12 +60,10 @@ describe("plugin-scanner", () => {
 		});
 
 		test("scans multiple plugins", () => {
-			// Plugin 1 with hooks
 			const plugin1 = join(TEST_DIR, "plugin-a", "hooks");
 			mkdirSync(plugin1, { recursive: true });
 			writeFileSync(join(plugin1, "hooks.json"), JSON.stringify({ hooks: {} }));
 
-			// Plugin 2 with hooks
 			const plugin2 = join(TEST_DIR, "plugin-b", "hooks");
 			mkdirSync(plugin2, { recursive: true });
 			writeFileSync(join(plugin2, "hooks.json"), JSON.stringify({ hooks: {} }));
@@ -95,19 +100,12 @@ describe("plugin-scanner", () => {
 					path: join(TEST_DIR, "test-plugin"),
 					hasHooks: true,
 					config: {
-						hooks: {
-							PreToolUse: [
-								{
-									matcher: "Write",
-									hooks: [{ type: "command", command: "echo test" }],
-								},
-							],
-						},
+						hooks: { preToolUse: [{ matcher: "Write", command: "echo test" }] },
 					},
 				},
 			];
 
-			const result = extractHooks(plugins, "PreToolUse", "Write", "");
+			const result = extractHooks(plugins, "preToolUse", "Write", "");
 
 			expect(result).toHaveLength(1);
 			expect(result[0].command).toContain("echo test");
@@ -120,75 +118,13 @@ describe("plugin-scanner", () => {
 					name: "test-plugin",
 					path: TEST_DIR,
 					hasHooks: true,
-					config: {
-						hooks: {
-							PreToolUse: [{ hooks: [{ type: "command", command: "echo" }] }],
-						},
-					},
+					config: { hooks: { preToolUse: [{ command: "echo" }] } },
 				},
 			];
 
-			const result = extractHooks(plugins, "PostToolUse", "", "");
+			const result = extractHooks(plugins, "postToolUse", "", "");
 
 			expect(result).toEqual([]);
-		});
-
-		test("filters by tool name matcher", () => {
-			const plugins = [
-				{
-					name: "test-plugin",
-					path: TEST_DIR,
-					hasHooks: true,
-					config: {
-						hooks: {
-							PreToolUse: [
-								{
-									matcher: "Write|Edit",
-									hooks: [{ type: "command", command: "echo write-edit" }],
-								},
-								{
-									matcher: "Bash",
-									hooks: [{ type: "command", command: "echo bash" }],
-								},
-							],
-						},
-					},
-				},
-			];
-
-			const writeHooks = extractHooks(plugins, "PreToolUse", "Write", "");
-			const editHooks = extractHooks(plugins, "PreToolUse", "Edit", "");
-			const bashHooks = extractHooks(plugins, "PreToolUse", "Bash", "");
-			const readHooks = extractHooks(plugins, "PreToolUse", "Read", "");
-
-			expect(writeHooks).toHaveLength(1);
-			expect(editHooks).toHaveLength(1);
-			expect(bashHooks).toHaveLength(1);
-			expect(readHooks).toHaveLength(0);
-		});
-
-		test("matches all when no matcher specified", () => {
-			const plugins = [
-				{
-					name: "test-plugin",
-					path: TEST_DIR,
-					hasHooks: true,
-					config: {
-						hooks: {
-							PreToolUse: [
-								{
-									// No matcher = match all
-									hooks: [{ type: "command", command: "echo all" }],
-								},
-							],
-						},
-					},
-				},
-			];
-
-			const anyHooks = extractHooks(plugins, "PreToolUse", "AnyTool", "");
-
-			expect(anyHooks).toHaveLength(1);
 		});
 
 		test("replaces CURSOR_PLUGIN_ROOT in commands", () => {
@@ -199,23 +135,16 @@ describe("plugin-scanner", () => {
 					hasHooks: true,
 					config: {
 						hooks: {
-							PreToolUse: [
-								{
-									hooks: [
-										{
-											type: "command",
-											// biome-ignore lint/suspicious/noTemplateCurlyInString: shell env var syntax
-											command: "bash ${CURSOR_PLUGIN_ROOT}/scripts/test.sh",
-										},
-									],
-								},
+							preToolUse: [
+								// biome-ignore lint/suspicious/noTemplateCurlyInString: shell env var syntax
+								{ command: "bash ${CURSOR_PLUGIN_ROOT}/scripts/test.sh" },
 							],
 						},
 					},
 				},
 			];
 
-			const result = extractHooks(plugins, "PreToolUse", "", "");
+			const result = extractHooks(plugins, "preToolUse", "", "");
 
 			expect(result[0].command).toBe("bash /path/to/plugin/scripts/test.sh");
 		});
@@ -226,19 +155,11 @@ describe("plugin-scanner", () => {
 					name: "test-plugin",
 					path: TEST_DIR,
 					hasHooks: true,
-					config: {
-						hooks: {
-							Stop: [
-								{
-									hooks: [{ type: "command", command: "afplay /sound.wav" }],
-								},
-							],
-						},
-					},
+					config: { hooks: { stop: [{ command: "afplay /sound.wav" }] } },
 				},
 			];
 
-			const result = extractHooks(plugins, "Stop", "", "");
+			const result = extractHooks(plugins, "stop", "", "");
 
 			expect(result[0].isAsync).toBe(true);
 		});
@@ -253,7 +174,7 @@ describe("plugin-scanner", () => {
 				},
 			];
 
-			const result = extractHooks(plugins, "PreToolUse", "", "");
+			const result = extractHooks(plugins, "preToolUse", "", "");
 
 			expect(result).toEqual([]);
 		});

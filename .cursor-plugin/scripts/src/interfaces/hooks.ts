@@ -7,21 +7,51 @@
 export type { HookType } from "./hook-types";
 export { HOOK_TYPES } from "./hook-types";
 
-/** Configuration d'un hook individuel */
-export interface HookCommand {
-	type: string;
-	command: string;
-}
-
-/** Entrée de hook avec matcher */
+/**
+ * Entrée de hook d'un `hooks.json` de plugin — forme PLATE, la seule que Cursor accepte.
+ *
+ * La commande est portée par l'entrée elle-même. La forme imbriquée de Claude Code
+ * (`{ matcher, hooks: [{ type, command }] }`) n'existe que dans `.claude/settings.json`,
+ * converti par une couche de compatibilité distincte — jamais dans un `hooks.json` natif.
+ * Une entrée peut aussi être évaluée par le LLM (`{ type: "prompt", prompt }`), sans `command`.
+ * @see https://cursor.com/docs/hooks — "Per-Script Configuration Options"
+ * @see https://cursor.com/docs/reference/third-party-hooks — "Migration from Claude Code"
+ */
 export interface HookEntry {
+	/** Regex testée contre une cible dépendant de l'event. Absente = tout passe. */
 	matcher?: string;
-	hooks: HookCommand[];
+	/** Requis pour un hook `command` ; absent sur un hook `prompt`. */
+	command?: string;
+	/** `"command"` (défaut) ou `"prompt"`. */
+	type?: string;
+	/** Condition en langage naturel, requise quand `type === "prompt"`. */
+	prompt?: string;
+	/** Secondes avant kill. */
+	timeout?: number;
+	/** `true` : un échec du hook bloque au lieu de laisser passer. */
+	failClosed?: boolean;
 }
 
 /** Configuration complète des hooks d'un plugin */
 export interface HooksConfig {
 	hooks: Record<string, HookEntry[]>;
+}
+
+/**
+ * Valeurs extraites du payload, contre lesquelles un matcher est confronté.
+ *
+ * Cursor teste le matcher sur une cible qui varie selon l'event ; ce contexte porte
+ * toutes les cibles possibles pour que le choix se fasse en un seul endroit.
+ */
+export interface MatchContext {
+	/** `tool_name` du payload. */
+	toolName: string;
+	/** Ligne de commande, pour les events shell. */
+	command: string;
+	/** `subagent_type`, pour les events de sous-agent. */
+	agentType: string;
+	/** Type de notification — Claude Code uniquement, sans équivalent Cursor. */
+	notifType: string;
 }
 
 /** Commande à exécuter avec métadonnées */

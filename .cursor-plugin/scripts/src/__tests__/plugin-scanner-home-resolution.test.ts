@@ -18,15 +18,13 @@ describe("extractHooks — $HOME runtime resolution", () => {
 				hasHooks: true,
 				config: {
 					hooks: {
-						PreToolUse: [
-							{ hooks: [{ type: "command", command: "bun $HOME/.cursor/bin.mjs" }] },
-						],
+						preToolUse: [{ command: "bun $HOME/.cursor/bin.mjs" }],
 					},
 				},
 			},
 		];
 
-		const result = extractHooks(plugins, "PreToolUse", "", "");
+		const result = extractHooks(plugins, "preToolUse", "", "");
 
 		expect(result[0].command).toBe(`bun ${HOME}/.cursor/bin.mjs`);
 		expect(result[0].command).not.toContain("$HOME");
@@ -40,20 +38,16 @@ describe("extractHooks — $HOME runtime resolution", () => {
 				hasHooks: true,
 				config: {
 					hooks: {
-						PreToolUse: [
-							{
-								hooks: [
-									// biome-ignore lint/suspicious/noTemplateCurlyInString: shell env var syntax
-									{ type: "command", command: "bun ${HOME}/.cursor/bin.mjs" },
-								],
-							},
+						preToolUse: [
+							// biome-ignore lint/suspicious/noTemplateCurlyInString: shell env var syntax
+							{ command: "bun ${HOME}/.cursor/bin.mjs" },
 						],
 					},
 				},
 			},
 		];
 
-		const result = extractHooks(plugins, "PreToolUse", "", "");
+		const result = extractHooks(plugins, "preToolUse", "", "");
 
 		expect(result[0].command).toBe(`bun ${HOME}/.cursor/bin.mjs`);
 		expect(result[0].command).not.toContain("${HOME}");

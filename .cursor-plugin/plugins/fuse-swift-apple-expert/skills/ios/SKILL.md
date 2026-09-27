@@ -2,8 +2,8 @@
 name: ios
 description: Use when building iPhone apps — simulator/device testing, UI automation, or debugging — with XcodeBuildMCP tools.
 versions:
-  ios: 26
-  xcode: 26
+  ios: 27
+  xcode: 27
 user-invocable: false
 references: references/simulator-tools.md, references/device-tools.md, references/ui-automation.md, references/debugging.md, references/uikit-integration.md
 related-skills: swift-core, swiftui-core, ipados, mcp-tools
@@ -26,7 +26,7 @@ iOS-specific development with XcodeBuildMCP automation tools.
 Before ANY implementation, use `TeamCreate` to spawn 3 agents:
 
 1. **fuse-ai-pilot:explore-codebase** - Analyze existing iOS patterns
-2. **fuse-ai-pilot:research-expert** - Verify latest iOS 26 docs via Context7/Exa
+2. **fuse-ai-pilot:research-expert** - Verify latest iOS 27 docs via Context7/Exa
 3. **mcp__XcodeBuildMCP__discover_projs** - Find Xcode projects
 
 After implementation, run **fuse-ai-pilot:sniper** for validation.

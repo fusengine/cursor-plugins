@@ -2,8 +2,8 @@
 name: macos
 description: Use when building Mac apps — menu bar extras, window management, AppKit integration, or notarized distribution outside the App Store.
 versions:
-  macos: 26
-  xcode: 26
+  macos: 27
+  xcode: 27
 user-invocable: false
 references: references/app-structure.md, references/build-tools.md, references/appkit-integration.md, references/notarization.md
 related-skills: swift-core, swiftui-core, mcp-tools, build-distribution
@@ -26,7 +26,7 @@ macOS-specific development with window management and distribution tools.
 Before ANY implementation, use `TeamCreate` to spawn 3 agents:
 
 1. **fuse-ai-pilot:explore-codebase** - Analyze existing macOS patterns
-2. **fuse-ai-pilot:research-expert** - Verify latest macOS 26 docs via Context7/Exa
+2. **fuse-ai-pilot:research-expert** - Verify latest macOS 27 docs via Context7/Exa
 3. **mcp__XcodeBuildMCP__build_macos** - Build for macOS validation
 
 After implementation, run **fuse-ai-pilot:sniper** for validation.

@@ -67,8 +67,8 @@ corpus — re-taken at fifteen pages, and one number moved:**
 - **Theme inversion at section level: 1 of 15.** It was 0 of 10, and `stripe-recode` is the
   exception: a light-locked page carrying a **dark block mid-scroll** (`section.infra`,
   `background-color: var(--d-990)`). It is not an oversight and not a licence. Its own
-  `tokens-stripe.md § 8.1` records the item as *"écarté au nom de la fidélité — la source a
-  un bloc sombre médian (`hds-mode--dark`), reproduit. Signalé, non corrigé"*: the source
+  `tokens-stripe.md § 8.1` records the item as *"set aside in the name of fidelity — the source has
+  a mid-page dark block (`hds-mode--dark`), reproduced. Reported, not corrected"*: the source
   ships the inversion, the rebuild reproduces it, and the check is logged as failed rather
   than argued away. **That is the only shape this exception has** — a reproduction of a
   shipped page, declared as a fail in the deliverable's own report. On original work the
@@ -407,14 +407,14 @@ therefore coexist with illegible content.
 // Part 2 browser session, viewport 360px wide. Rendered size, not declared size:
 // every scale applied by viewBox / width:100% / transform is already in the CTM.
 [...document.querySelectorAll("svg")].flatMap(svg => {
-  const k = svg.getScreenCTM();                     // conteneur → écran
-  const s = Math.sqrt(Math.abs(k.a * k.d - k.b * k.c));   // facteur d'échelle effectif
+  const k = svg.getScreenCTM();                     // container → screen
+  const s = Math.sqrt(Math.abs(k.a * k.d - k.b * k.c));   // effective scale factor
   return [...svg.querySelectorAll("text, tspan")].map(t => ({
     text: t.textContent.trim().slice(0, 40),
     declared: parseFloat(getComputedStyle(t).fontSize),
     rendered: +(parseFloat(getComputedStyle(t).fontSize) * s).toFixed(2),
   }));
-}).filter(r => r.rendered < 14)                      // ce qui passe sous le plancher
+}).filter(r => r.rendered < 14)                      // what falls below the floor
 // dense table cells, same viewport:
 [...document.querySelectorAll("td, th, [role=cell], [role=columnheader]")]
   .map(c => ({ text: c.textContent.trim().slice(0, 40),

@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Professional Cursor plugins with APEX workflow, SOLID principles, and expert development agents for Next.js, Laravel, Swift, Tailwind CSS, and more",
-    "version": "0.1.1"
+    "version": "0.1.4"
   },
   "plugins": [
     {
@@ -58,7 +58,7 @@
       "name": "fuse-astro",
       "source": ".cursor-plugin/plugins/fuse-astro",
       "description": "Expert Astro 6 with Islands Architecture, Content Layer, Actions, View Transitions, and multi-framework integration",
-      "version": "1.0.12",
+      "version": "1.0.13",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"
@@ -81,7 +81,7 @@
       "name": "fuse-cartographer",
       "source": ".cursor-plugin/plugins/fuse-cartographer",
       "description": "Generates indented markdown maps of the plugin ecosystem for agent navigation",
-      "version": "1.0.11",
+      "version": "1.0.12",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"
@@ -145,7 +145,7 @@
       "name": "fuse-design",
       "source": ".cursor-plugin/plugins/fuse-design",
       "description": "Design Director for websites, web apps, iOS, and Android. Generates HTML/CSS directly (Gemini Design MCP, Magic/21st.dev, and shadcn MCP are optional). iOS/Android produce tokens + a device-framed mockup + a handoff spec, never SwiftUI/Compose. Design method, design system tokens, motion, UX copy, and a deterministic design-review gate. Anti-AI-Slop, WCAG 2.2.",
-      "version": "2.2.8",
+      "version": "2.2.9",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"
@@ -181,7 +181,7 @@
       "name": "fuse-go",
       "source": ".cursor-plugin/plugins/fuse-go",
       "description": "Expert Go 1.26+ — idioms, concurrency, backend services, cargo-grade tooling (golangci-lint v2, govulncheck), with SOLID principles",
-      "version": "1.0.5",
+      "version": "1.0.6",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"
@@ -207,7 +207,7 @@
       "name": "fuse-laravel",
       "source": ".cursor-plugin/plugins/fuse-laravel",
       "description": "Expert Laravel 13 + PHP 8.3+ with SOLID principles, first-class PHP Attributes, Laravel AI SDK, JSON:API Resources, native vector search (pgvector), Eloquent, Livewire, queues with routing, and comprehensive documentation",
-      "version": "1.2.6",
+      "version": "1.2.7",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"
@@ -247,7 +247,7 @@
       "name": "fuse-nextjs",
       "source": ".cursor-plugin/plugins/fuse-nextjs",
       "description": "Expert Next.js 16 + React 19 with App Router, Server Components, Prisma 7, and Better Auth",
-      "version": "1.1.22",
+      "version": "1.1.23",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"
@@ -269,7 +269,7 @@
       "name": "fuse-php",
       "source": ".cursor-plugin/plugins/fuse-php",
       "description": "Expert modern PHP 8.5/8.4 for non-Laravel projects — libraries, standalone Symfony components, Slim, API-first apps, and CLI tools, with PER Coding Style 3.0, PHPStan, and SOLID principles",
-      "version": "1.0.5",
+      "version": "1.0.6",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"
@@ -322,7 +322,7 @@
       "name": "fuse-react",
       "source": ".cursor-plugin/plugins/fuse-react",
       "description": "Expert React 19 with hooks, TanStack Router, Zustand, React Hook Form, Testing Library, shadcn/ui, and SOLID principles",
-      "version": "1.0.19",
+      "version": "1.0.20",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"
@@ -359,7 +359,7 @@
       "name": "fuse-rust",
       "source": ".cursor-plugin/plugins/fuse-rust",
       "description": "Expert Rust 1.96+ (2024 edition) — ownership, error handling, async/tokio, axum backends, cargo tooling, with SOLID principles",
-      "version": "1.0.5",
+      "version": "1.0.6",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"
@@ -408,7 +408,7 @@
       "name": "fuse-seo",
       "source": ".cursor-plugin/plugins/fuse-seo",
       "description": "SEO/GEO 2026 plugin. Local-first, framework-aware, zero third-party APIs. Covers technical SEO, schema markup, E-E-A-T, AI Overviews optimization, local SEO, sitemaps, hreflang, internal linking, content briefs, semantic clustering, and search experience optimization.",
-      "version": "1.0.10",
+      "version": "1.0.11",
       "author": {
         "name": "Fusengine"
       },
@@ -438,7 +438,7 @@
       "name": "fuse-shadcn-ui",
       "source": ".cursor-plugin/plugins/fuse-shadcn-ui",
       "description": "Expert shadcn/ui with Radix UI and Base UI detection, component patterns, registries, theming, and migration",
-      "version": "1.0.16",
+      "version": "1.0.17",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"
@@ -462,7 +462,7 @@
       "name": "fuse-solid",
       "source": ".cursor-plugin/plugins/fuse-solid",
       "description": "SOLID principles enforcement with automatic project detection and validation for all languages",
-      "version": "1.0.17",
+      "version": "1.0.18",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"
@@ -483,7 +483,7 @@
       "name": "fuse-swift-apple-expert",
       "source": ".cursor-plugin/plugins/fuse-swift-apple-expert",
       "description": "Expert Swift 6.2 + SwiftUI for iOS 26, macOS 26, iPadOS 26, watchOS 26, visionOS 26, tvOS 26 with Liquid Glass, @Observable, actors, SwiftData inheritance",
-      "version": "1.1.18",
+      "version": "1.1.19",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"
@@ -510,7 +510,7 @@
       "name": "fuse-tailwindcss",
       "source": ".cursor-plugin/plugins/fuse-tailwindcss",
       "description": "Expert Tailwind CSS v4.1 - CSS-first configuration, @theme, @utility, @variant, Oxide engine 5x faster, OKLCH colors, container queries, 15 specialized skills",
-      "version": "1.1.9",
+      "version": "1.1.10",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"
@@ -542,7 +542,7 @@
       "name": "fuse-tanstack-start",
       "source": ".cursor-plugin/plugins/fuse-tanstack-start",
       "description": "Expert TanStack Start (React, RC) full-stack framework with file-based routing, createServerFn server functions, selective SSR, and Nitro deployment",
-      "version": "1.0.4",
+      "version": "1.0.5",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"
@@ -567,7 +567,7 @@
       "name": "fuse-typescript",
       "source": ".cursor-plugin/plugins/fuse-typescript",
       "description": "Expert TypeScript 6.0 for pure TS projects — CLI tools, libraries, scripts, and backends on Node 24 LTS or Bun 1.3, with SOLID principles",
-      "version": "1.0.5",
+      "version": "1.0.6",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"

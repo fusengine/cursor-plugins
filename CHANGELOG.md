@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.1.4] - 27-09-2026
+
+- chore(skills): port the claude-plugins 2026-09-27 skills refresh — latest
+  stable versions (React 19.3, Next.js 16.3, Prisma 7.10, TypeScript 7.0,
+  Tailwind CSS 4.3, Astro 7.3, Laravel 13, PHP 8.5, Go 1.27, Rust 1.98,
+  Swift 6.4 / iOS 27), shadcn/ui Base UI-first, all content in English
+  (707 skill/agent files)
+- chore(plugins): PATCH bump, mirrored in `.cursor-plugin/marketplace.json` —
+  fuse-astro 1.0.13, fuse-cartographer 1.0.12, fuse-design 2.2.9,
+  fuse-go 1.0.6, fuse-laravel 1.2.7, fuse-nextjs 1.1.23, fuse-php 1.0.6,
+  fuse-react 1.0.20, fuse-rust 1.0.6, fuse-seo 1.0.11, fuse-shadcn-ui 1.0.17,
+  fuse-solid 1.0.18, fuse-swift-apple-expert 1.1.19, fuse-tailwindcss 1.1.10,
+  fuse-tanstack-start 1.0.5, fuse-typescript 1.0.6
+- chore(fuse-seo): `package.json` version synced with `plugin.json` (1.0.9 → 1.0.11)
+- chore(marketplace): suite `metadata.version` realigned on the release line
+  (0.1.1 → 0.1.4) and README version badge updated
+
 ## [0.1.3] - 07-09-2026
 
 - fix(hooks): stop Cursor plugin hooks failing silently on every event —

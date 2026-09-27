@@ -2,7 +2,7 @@
 name: watchos
 description: Use when building Apple Watch apps — complications, workouts, HealthKit, or iPhone-Watch connectivity.
 versions:
-  watchos: 26
+  watchos: 27
 user-invocable: false
 references: references/complications.md, references/workouts.md, references/watch-connectivity.md
 related-skills: swift-core, swiftui-core, ios, mcp-tools
@@ -25,7 +25,7 @@ watchOS-specific development for Apple Watch experiences.
 Before ANY implementation, use `TeamCreate` to spawn 3 agents:
 
 1. **fuse-ai-pilot:explore-codebase** - Analyze existing watchOS patterns
-2. **fuse-ai-pilot:research-expert** - Verify latest watchOS 26 docs via Context7/Exa
+2. **fuse-ai-pilot:research-expert** - Verify latest watchOS 27 docs via Context7/Exa
 3. **mcp__apple-docs__search_apple_docs** - Check watchOS patterns
 
 After implementation, run **fuse-ai-pilot:sniper** for validation.

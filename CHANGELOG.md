@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.5] - 28-09-2026
+
+- fix(hooks): core-guards now wires `beforeShellExecution` → `./scripts/hook.sh`,
+  so shell commands pass the git/install/security guards before execution
+  (loader-verified: `git checkout -b` → deny + CONFIRM, `git status` → allow,
+  `git push --force` → deny G4 destructive)
+- chore(gitignore): `.cursor/apex/` and `.cartographer/` added to agent scratch state
+- chore(core-guards): PATCH bump 1.1.37 → 1.1.38, mirrored in `.cursor-plugin/marketplace.json`
+- chore(marketplace): suite `metadata.version` 0.1.4 → 0.1.5, README version badge updated
+
 ## [0.1.4] - 27-09-2026
 
 - chore(skills): port the claude-plugins 2026-09-27 skills refresh — latest

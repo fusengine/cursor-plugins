@@ -7,6 +7,11 @@
         "matcher": "Write|Shell|WebFetch"
       }
     ],
+    "beforeShellExecution": [
+      {
+        "command": "./scripts/hook.sh"
+      }
+    ],
     "beforeMCPExecution": [
       {
         "command": "./scripts/hook.sh",

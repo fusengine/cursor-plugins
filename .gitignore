@@ -23,8 +23,10 @@ coverage/
 .harness/
 .impeccable/
 .codex/apex/
+.cursor/apex/
 .claude/
 MEMORY/
+.cartographer/
 
 # bun.lock IS committed on purpose (bun docs: "Should it be committed to git? Yes."),
 # so `--frozen-lockfile` installs stay reproducible. Do not add it here.

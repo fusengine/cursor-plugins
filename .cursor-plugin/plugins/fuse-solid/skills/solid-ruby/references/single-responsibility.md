@@ -112,7 +112,7 @@ end
 
 ## Shared Logic Location
 
-Code genuinely shared across features → `app/modules/core/`
+Code used by 2+ features → `app/modules/core/`
 
 ```
 app/modules/core/

@@ -3,7 +3,7 @@
 Expert Laravel 13 + PHP 8.3+ with SOLID principles, first-class PHP Attributes, Laravel AI SDK,
 JSON:API Resources, native vector search (pgvector), Eloquent, Livewire, and queues with routing.
 
-Ported from the Claude Code plugin `fuse-laravel` v1.2.5 (source folder `plugins/laravel-expert`).
+Ported from the Claude Code plugin `fuse-laravel` v1.2.10 (source folder `plugins/laravel-expert`).
 The plugin name is deliberately identical across both ecosystems so cross-plugin references
 (`fuse-laravel:<skill>`, and the agent's own `fuse-ai-pilot:fuse-browser-usage`) keep resolving.
 

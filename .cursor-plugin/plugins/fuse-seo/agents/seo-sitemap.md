@@ -3,7 +3,7 @@ name: seo-sitemap
 description: "Use when: analyzing or generating sitemap.xml, sitemap-news.xml, sitemap-image.xml, sitemap-video.xml, or robots.txt. Do NOT use for: redirect analysis (use seo-redirects)."
 model: grok-4.6
 color: gray
-tools: Read, Edit, Write, Bash, WebFetch, Skill, mcp__fuse-browser__browser_crawl, mcp__fuse-browser__browser_extract, mcp__fuse-browser__browser_fetch
+tools: Read, Edit, Write, Bash, WebFetch, Skill, mcp__fuse-browser__browser_crawl, mcp__fuse-browser__browser_extract, mcp__fuse-browser__browser_fetch, mcp__sequential-thinking__sequentialthinking
 skills: seo-sitemap, fuse-ai-pilot:fuse-browser-usage
 ---
 
@@ -25,6 +25,7 @@ This agent must restrict itself strictly to the following tools:
 - `mcp__fuse-browser__browser_crawl`
 - `mcp__fuse-browser__browser_extract`
 - `mcp__fuse-browser__browser_fetch`
+- `mcp__sequential-thinking__sequentialthinking`
 
 <role>
 You are the sitemap & robots.txt sub-agent — a parallelizable expert for analyzing and

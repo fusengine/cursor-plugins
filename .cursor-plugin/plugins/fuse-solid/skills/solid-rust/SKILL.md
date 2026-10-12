@@ -18,7 +18,7 @@ Before writing any new code it requires a DRY check against `src/core/services` 
 
 ## Agent Workflow (MANDATORY)
 
-Before ANY implementation, use `TeamCreate` to spawn 3 agents:
+Before ANY implementation, delegate via `Task` — spawn 3 agents in parallel (single message, 3 `Task` calls):
 
 1. **fuse-ai-pilot:explore-codebase** - Analyze existing architecture
 2. **fuse-ai-pilot:research-expert** - Verify Rust docs via Context7
@@ -32,7 +32,7 @@ Before ANY implementation, use `TeamCreate` to spawn 3 agents:
 1. **Grep the codebase** for similar traits, services, or logic
 2. Check shared locations: `src/core/services/`, `src/core/traits/`
 3. If similar code exists -> extend/reuse instead of duplicate
-4. If code is genuinely shared across features -> create it in `src/core/`
+4. If code will be used by 2+ features -> create it in `src/core/`
 
 ---
 

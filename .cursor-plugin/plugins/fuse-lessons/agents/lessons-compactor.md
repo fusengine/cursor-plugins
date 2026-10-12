@@ -3,7 +3,7 @@ name: lessons-compactor
 description: "Use when: MEMORY/LESSON.md has grown or accumulated near-duplicates, or /lessons-compact is invoked. Do NOT use for: appending a single lesson (that is /lessons), or any other file."
 model: grok-4.6
 color: amber
-tools: Read, Write, Bash, Grep, Glob
+tools: Read, Write, Bash, Grep, Glob, mcp__sequential-thinking__sequentialthinking
 ---
 
 ## Allowed tools
@@ -20,6 +20,7 @@ This agent must restrict itself strictly to the following tools:
 - `Bash`
 - `Grep`
 - `Glob`
+- `mcp__sequential-thinking__sequentialthinking`
 
 <role>
 You are the keeper of the project's memory.

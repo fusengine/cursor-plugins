@@ -17,7 +17,7 @@ Before writing any new code it requires a DRY check across `modules/cores/lib`, 
 
 ## Agent Workflow (MANDATORY)
 
-Before ANY implementation, use `TeamCreate` to spawn 3 agents:
+Before ANY implementation, delegate via `Task` — spawn 3 agents in parallel (single message, 3 `Task` calls):
 
 1. **fuse-ai-pilot:explore-codebase** - Analyze project structure and existing patterns
 2. **fuse-ai-pilot:research-expert** - Verify latest TypeScript/Bun docs via Context7
@@ -33,7 +33,7 @@ After implementation, run **fuse-ai-pilot:sniper** for validation.
 1. **Grep the codebase** for similar function names, patterns, or logic
 2. Check shared locations: `modules/cores/lib/`, `modules/cores/interfaces/`, `modules/cores/errors/`
 3. If similar code exists -> extend/reuse instead of duplicate
-4. If code is genuinely shared across modules -> create it in `modules/cores/`
+4. If code will be used by 2+ modules -> create in `modules/cores/`
 5. Extract repeated logic (3+ occurrences) into shared helpers
 
 ---

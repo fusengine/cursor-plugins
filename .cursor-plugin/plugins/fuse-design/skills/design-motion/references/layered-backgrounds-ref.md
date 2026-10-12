@@ -13,7 +13,7 @@ related-skills: glassmorphism-advanced, generating-components
 
 ## Agent Workflow (MANDATORY)
 
-Before implementation, use `TeamCreate` to spawn 3 agents:
+Before implementation, delegate via `Task` — spawn 3 agents in parallel (single message, 3 `Task` calls):
 
 1. **fuse-ai-pilot:explore-codebase** - Check existing background patterns
 2. **fuse-ai-pilot:research-expert** - CSS filter and blend modes

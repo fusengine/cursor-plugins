@@ -29,12 +29,22 @@ alwaysApply: true
 Use plugin skill paths from runtime context when actually present; Cursor SessionStart delivery remains runtime-unverified. Never hardcode marketplace paths.
 SOLID refs: `skills/solid-*/references/` (inside each agent plugin)
 
+## Memory Hygiene
+- When `MEMORY/LESSON.md` grows or accumulates near-duplicate lessons → run `/lessons-compact` (it delegates to the `lessons-compactor` agent, which proposes; you approve before anything is written) — never let it bloat.
+
 ## Documentation
 ALL docs in `docs/` folder - NEVER outside except root `README.md`
 
+## Dev Workflow
+- **ALWAYS work in dev/source repo** — NEVER write to deployed/production paths directly
+- **Sync to deployed** after changes validated
+- **Commit from source repo only**
+
+**Only exception:** Git read-only (status, log, diff)
+
 ## Git & GitHub Flow (ZERO TOLERANCE)
 
-**Commit tool**: ALWAYS delegate to the agent `fuse-ai-pilot:commit` (it executes `/fuse-commit-pro:commit` end to end). NEVER `git commit` directly, never hand-roll the flow yourself.
+**Commit tool**: ALWAYS delegate to the agent `fuse-ai-pilot:commit` (it executes `/fuse-commit-pro:commit` end to end; it owns the whole flow: security, PATCH bump + marketplace mirror, CI wait before merge, post-merge tag). NEVER `git commit` directly, never hand-roll the flow yourself. External executors (Kimi/Codex/Claude Code) never push/PR/merge/tag/publish — release goes through the commit agent only.
 
 **Branch enforcement**:
 - `main`, `master`, `develop`, `production` → **protected**, no direct commits

@@ -164,7 +164,7 @@ func (r *UserRepository) Save(ctx context.Context, u *User) (*User, error) {
 
 ## Shared Code (DRY)
 
-If multiple features genuinely need shared logic:
+If 2+ features need shared logic:
 
 ```
 internal/core/

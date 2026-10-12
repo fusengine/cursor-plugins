@@ -11,8 +11,8 @@ resolving.
 
 | Component | Count | Cursor discovery |
 | :-- | :-- | :-- |
-| Agents (subagents) | 8 | `agents/*.md` |
-| Skills | 17 | `skills/<name>/SKILL.md` |
+| Agents (subagents) | 9 | `agents/*.md` |
+| Skills | 18 | `skills/<name>/SKILL.md` |
 | Commands | 12 | `commands/*.md` |
 | Hooks | 5 events | `hooks/hooks.json` |
 | Docs | 1 | `docs/*.md` — content, not a Cursor component |
@@ -44,7 +44,7 @@ Cursor's subagent frontmatter is limited to `name`, `description`, `model`, `rea
   exists in the data model, but nothing proves the YAML frontmatter parser populates it from a
   local `.md`, nor that it is enforced as a hard restriction at runtime. Keeping both costs a few
   lines and covers either outcome.
-- **`model:` is `grok-4.6` on all 8 agents** — no `inherit`, no `sonnet`; `claude-opus-*` stays
+- **`model:` is `grok-4.6` on all 9 agents** — no `inherit`, no `sonnet`; `claude-opus-*` stays
   barred by policy. The ID is verified in the binary: `{modelId:"grok-4.6",
   parameters:[{id:"effort",value:"medium"}, {id:"fast",value:"false"}],
   legacyModelName:"cursor-grok-4.6-medium", displayName:"Cursor Grok 4.6 Medium"}`. Because

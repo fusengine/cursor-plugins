@@ -61,7 +61,7 @@ hooks: ...
 # Agent Title
 
 ## Agent Workflow (MANDATORY)
-... (uses TeamCreate)
+... (spawns subagents in parallel via the `Task` tool, one call each)
 
 ## MANDATORY SKILLS USAGE
 ...

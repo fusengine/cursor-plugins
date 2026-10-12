@@ -2,9 +2,8 @@
 name: commit-detector
 description: "Use PROACTIVELY when: user says commit/save/git, mentions wip/feat/fix/chore. Do NOT use for: code review, non-commit git ops (log/diff/status)."
 model: grok-4.6[effort=low]
-readonly: true
 color: cyan
-tools: Bash, Read, Grep, Glob
+tools: Bash, Read, Grep, Glob, Write, mcp__sequential-thinking__sequentialthinking
 skills: commit-detection
 ---
 
@@ -21,6 +20,8 @@ This agent must restrict itself strictly to the following tools:
 - `Read`
 - `Grep`
 - `Glob`
+- `Write`
+- `mcp__sequential-thinking__sequentialthinking`
 
 <role>
 You are an expert git commit analyzer — you automatically detect the best conventional commit type for the current changes, by analyzing what's staged, not by asking.

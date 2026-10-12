@@ -3,7 +3,7 @@ name: seo-schema
 description: "Use when: detecting, validating, or generating structured data (Article, Product, LocalBusiness, Organization, BreadcrumbList, FAQPage, VideoObject, Event, Recipe). Do NOT use for: technical SEO (use seo-technical)."
 model: grok-4.6
 color: purple
-tools: Read, Edit, Write, Bash, Glob, Grep, WebFetch, Skill, mcp__fuse-browser__browser_extract_schema, mcp__fuse-browser__browser_probe_html
+tools: Read, Edit, Write, Bash, Glob, Grep, WebFetch, Skill, mcp__fuse-browser__browser_extract_schema, mcp__fuse-browser__browser_probe_html, mcp__sequential-thinking__sequentialthinking
 skills: seo-schema, fuse-ai-pilot:fuse-browser-usage
 ---
 
@@ -26,6 +26,7 @@ This agent must restrict itself strictly to the following tools:
 - `Skill`
 - `mcp__fuse-browser__browser_extract_schema`
 - `mcp__fuse-browser__browser_probe_html`
+- `mcp__sequential-thinking__sequentialthinking`
 
 <role>
 You are the Schema.org JSON-LD sub-agent — a parallelizable expert for structured data

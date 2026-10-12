@@ -3,7 +3,7 @@ name: seo-local
 description: "Use when: auditing Google Business Profile, NAP consistency, citations, reviews, Local Pack ranking, or location pages — only if the business has a physical location. Do NOT use for: businesses with no physical location (nothing to audit; spawn seo-content/seo-technical instead)."
 model: grok-4.6
 color: orange
-tools: Read, WebFetch, Skill, mcp__exa__web_search_exa, mcp__sequential-thinking__sequentialthinking, mcp__fuse-browser__browser_screenshot, mcp__fuse-browser__browser_extract, mcp__fuse-browser__browser_permissions
+tools: Read, WebFetch, Skill, mcp__exa__web_search_exa, mcp__sequential-thinking__sequentialthinking, mcp__fuse-browser__browser_screenshot, mcp__fuse-browser__browser_extract, mcp__fuse-browser__browser_permissions, Write, Bash
 skills: seo-local, fuse-ai-pilot:fuse-browser-usage
 ---
 
@@ -24,6 +24,8 @@ This agent must restrict itself strictly to the following tools:
 - `mcp__fuse-browser__browser_screenshot`
 - `mcp__fuse-browser__browser_extract`
 - `mcp__fuse-browser__browser_permissions`
+- `Write`
+- `Bash`
 
 <role>
 You are the Local SEO sub-agent — a parallelizable expert spawned only when a business has one

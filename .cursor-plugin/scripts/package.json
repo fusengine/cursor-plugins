@@ -2,7 +2,7 @@
 	"name": "@fusengine/hooks-loader",
 	"version": "2.0.0",
 	"devDependencies": {
-		"@types/bun": "^1.3.14"
+		"@types/bun": "^1.4.3"
 	},
 	"description": "Hooks loader for Cursor plugins - Bun + SOLID",
 	"engines": {
@@ -16,6 +16,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@clack/prompts": "^1.7.0"
+		"@clack/prompts": "^1.8.1"
 	}
 }

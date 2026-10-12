@@ -50,7 +50,7 @@ import type { User } from '../src/interfaces/user.interface'
 // import { orderService } from '@/modules/orders/src/services/order.service'
 ```
 
-If multiple features genuinely need the same code, move it to `modules/cores/`.
+If 2+ features need the same code -> move to `modules/cores/`.
 
 ---
 

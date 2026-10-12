@@ -23,16 +23,16 @@ would be a divergence, not a precaution (R4–R6 / R8–R10 preamble).
 | Skill | Description |
 | :-- | :-- |
 | `swift-core` | Swift 6 fundamentals — concurrency, architecture, testing, i18n, performance — across any Apple platform |
-| `swiftui-core` | SwiftUI views, navigation, persistence, state management — shared across iOS, macOS, watchOS, visionOS |
+| `swiftui-core` | SwiftUI views, navigation, persistence, state management, Liquid Glass, and HIG rules (accessibility, RTL, modality, widgets/Live Activities/notifications/Siri, iPhone Duo) — shared across iOS, macOS, watchOS, visionOS |
 | `ios` | iPhone apps — simulator/device testing, UI automation, debugging — with XcodeBuildMCP tools |
 | `ipados` | iPad apps — split views, external keyboard support, multitasking, Stage Manager, adaptive layouts |
 | `macos` | Mac apps — menu bar extras, window management, AppKit integration, notarized distribution |
 | `watchos` | Apple Watch apps — complications, workouts, HealthKit, iPhone-Watch connectivity |
 | `visionos` | Vision Pro apps — spatial computing, RealityKit 3D content, immersive spaces, volumes |
 | `tvos` | Apple TV apps — focus-based navigation, Siri Remote interactions, media/video streaming UI |
-| `mcp-tools` | Xcode build automation and Apple API/WWDC documentation lookup via XcodeBuildMCP and apple-docs MCP servers |
-| `build-distribution` | Apple releases — code signing, TestFlight upload, App Store submission, app icons, CI |
-| `solid-swift` | SOLID for Swift 6/SwiftUI — file-size limits, protocol separation, `@Observable`, actors, feature-modular architecture |
+| `mcp-tools` | Xcode build automation and Apple API/WWDC documentation lookup via XcodeBuildMCP and apple-docs MCP servers; UI verification on simulator |
+| `build-distribution` | Apple releases — code signing, TestFlight upload, App Store submission, Icon Composer app icons, CI |
+| `solid-swift` | SOLID for Swift 6/SwiftUI — hook size ceiling (`FUSE_SOLID_MAX_LINES`), protocol separation, `@Observable`, actors, feature-modular architecture |
 
 SOLID guidance is **local** here (`solid-swift`), not delegated to `fuse-solid`.
 
@@ -41,6 +41,8 @@ SOLID guidance is **local** here (`solid-swift`), not delegated to `fuse-solid`.
 The agent activates when `Package.swift` or an `*.xcodeproj` is detected — iOS/macOS/watchOS/
 visionOS/tvOS apps, SwiftUI views, Swift concurrency, XcodeBuildMCP automation. Not for web
 frontend, Laravel/PHP, or non-Apple platforms.
+
+For UI changes the agent runs a 10-item HIG gate on the simulator (Dynamic Type AX5, dark mode + Increase Contrast, VoiceOver labels, hit targets, RTL, Reduce Motion/Transparency, Liquid Glass, screen sizes, modality/order), each reported `pass` / `fail` / `not verified`, before `sniper`.
 
 ## Configuration
 
@@ -82,8 +84,12 @@ declares no `mcpServers` of its own; it did not in the source either.
 ### Skills
 
 All 11 satisfy Cursor's hard rule that `name:` equals the parent folder name (R9). `references/` and
-nested `references/templates/` folders are natively supported and were copied verbatim —
-`diff -rq` between the source `skills/` and this one is empty.
+nested `references/templates/` folders are natively supported and were copied verbatim in the
+initial port. On 2026-10-12 the source's uncommitted working-tree improvements were ported on top
+(HIG references, mcp-tools workflows, tvOS/watchOS/visionOS/build-distribution updates), so
+`diff -rq` against the source is no longer empty. Target-only deviations kept on purpose: the
+`Task`-based wording (instead of Claude's `Agent`-with-`name`) in the SKILL.md "Agent Workflow" sections, the `FUSE_SOLID_MAX_LINES` rewrite of
+`solid-swift`, the same ceiling wording in `swiftui-core` (no "30+ lines" view cap), this README's port notes, and the Cursor frontmatter of the agent.
 
 Frontmatter keys preserved verbatim, absent from Cursor's documented skill schema and **not
 verified against the binary**, so their status is unknown rather than unsupported (R7/R19):

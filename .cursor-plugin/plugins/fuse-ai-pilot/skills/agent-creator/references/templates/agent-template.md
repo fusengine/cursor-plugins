@@ -45,7 +45,7 @@ or `Task` surface when it is available:
 
 Then call **mcp__context7__query-docs** separately to check <specific> patterns. Context7 is an MCP
 tool call, not a third agent. If this file is emitted for the explicitly labeled Claude Code
-compatibility target, `TeamCreate` may dispatch the same two agent tasks; keep the MCP call separate.
+compatibility target, parallel `Agent` calls may dispatch the same two agent tasks; keep the MCP call separate.
 
 After implementation, run **fuse-ai-pilot:sniper** for validation.
 

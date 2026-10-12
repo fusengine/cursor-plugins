@@ -2,9 +2,9 @@
 
 Expert **modern, framework-agnostic PHP** development — libraries, standalone Symfony components,
 Slim / API-first applications, and CLI tools. Targets PHP 8.5 (8.4 still supported), with PER Coding
-Style 3.0, PHPStan static analysis, PSR interoperability, and SOLID principles.
+Style 3.1, PHPStan static analysis, PSR interoperability, and SOLID principles.
 
-Ported from the Claude Code plugin `fuse-php` v1.0.4 (source folder `plugins/php-expert`). The
+Ported from the Claude Code plugin `fuse-php` v1.0.9 (source folder `plugins/php-expert`). The
 plugin name is deliberately identical across both ecosystems so cross-plugin references
 (`fuse-php:<skill>`) keep resolving.
 
@@ -24,7 +24,7 @@ would be a divergence, not a precaution (R4–R6 / R8–R10 preamble).
 | Skill | Description |
 | :-- | :-- |
 | `php-language-modern` | PHP 8.5 / 8.4 language features — property hooks, asymmetric visibility, lazy objects, enums, pipe operator, `#[\NoDiscard]`, attributes |
-| `php-standards` | Coding standards — PER Coding Style 3.0, PSR-1/PSR-4/PSR-12, naming, autoloading |
+| `php-standards` | Coding standards — PER Coding Style 3.1, PSR-1/PSR-4/PSR-12, naming, autoloading |
 | `php-quality-tooling` | Quality tooling — PHPStan levels, php-cs-fixer / PHP_CodeSniffer, Rector, CI |
 | `php-testing` | Testing — PHPUnit (attributes-only) or Pest, data providers, mocking, coverage |
 | `php-http-psr` | HTTP and PSR interop — PSR-7/PSR-15/PSR-17/PSR-18, Slim, standalone Symfony HTTP |
@@ -42,7 +42,7 @@ src/
 ├── ...                  # PSR-4 namespaced source
 composer.json            # PSR-4 autoload, PHP version constraint, dev tooling
 phpstan.neon             # static analysis level
-.php-cs-fixer.php        # PER Coding Style 3.0 ruleset
+.php-cs-fixer.php        # PER Coding Style 3.1 ruleset
 tests/                   # PHPUnit or Pest suite
 ```
 

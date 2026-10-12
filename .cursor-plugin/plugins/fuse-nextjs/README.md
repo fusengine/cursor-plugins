@@ -3,7 +3,7 @@
 Expert Next.js 16 + React 19 development: App Router, Server Components, Server Actions, Prisma 7,
 Better Auth, TanStack Form, TanStack Query, Zustand, shadcn/ui, i18n.
 
-Ported from the Claude Code plugin `fuse-nextjs` v1.1.21 (source folder `plugins/nextjs-expert`).
+Ported from the Claude Code plugin `fuse-nextjs` v1.1.26 (source folder `plugins/nextjs-expert`).
 The plugin name is deliberately identical across both ecosystems so cross-plugin references
 (`fuse-nextjs:<skill>`, and the agent's own `fuse-ai-pilot:*` references) keep resolving.
 

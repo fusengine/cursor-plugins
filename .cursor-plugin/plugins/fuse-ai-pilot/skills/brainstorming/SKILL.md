@@ -21,7 +21,7 @@ Skip it entirely for trivial fixes, typos, or simple renames -- those go straigh
 
 ## Agent Workflow (MANDATORY)
 
-Before ANY brainstorming session, use `TeamCreate` to spawn agents:
+Before ANY brainstorming session, spawn subagents in parallel (one Task call each, all in ONE message):
 
 1. **fuse-ai-pilot:explore-codebase** - Understand project context, patterns, constraints
 2. **fuse-ai-pilot:research-expert** - Fetch best practices and documentation

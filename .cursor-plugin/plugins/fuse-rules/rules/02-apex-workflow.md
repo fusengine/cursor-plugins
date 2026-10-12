@@ -9,7 +9,7 @@ alwaysApply: true
 Task = create/build/feature/refactor/debug/multi-file → **consult APEX skills first**: `fuse-ai-pilot:apex` / `fuse-ai-pilot:apex-methodology` (+ `apex-quick` for trivial). The full methodology lives there, not inline here.
 
 **USE APEX:** create, implement, add, build, refactor, migrate, new component, multi-file, architecture changes
-**SKIP APEX:** questions, trivial fix (1-3 lines), read-only, simple git
+**SKIP APEX:** questions, trivial fix (1-3 lines), read-only, simple git — the edit is still made by one delegated agent, never by the lead
 **Debug/Investigation:** "why", "not working", "bug", "crash", "doesn't load" → ALWAYS use Analyze (explore-codebase + research-expert + domain-expert) — always go through Analyze, never straight to a fix
 
 **Shortcuts:** `/apex-quick` command (single-expert fast path — skips Brainstorm+Analyze+team split, linter-only verify) | `--skip-elicit` (skip eLicit, straight to eXamine) — eXamine/sniper itself is NEVER skippable (00-critical-rules)

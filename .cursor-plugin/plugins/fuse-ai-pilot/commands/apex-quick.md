@@ -7,6 +7,8 @@ argument-hint: "<fix description>"
 
 Fast-track workflow for simple bug fixes, typos, and minor changes. No multi-agent orchestration.
 
+**The main session never edits inline.** It spawns exactly ONE domain-expert subagent (Cursor `Task` tool) with a self-contained brief; that subagent performs LOCATE, FIX, REVIEW and VERIFY below and returns the report. The main session only verifies the result on disk.
+
 ---
 
 ## When to Use
@@ -45,7 +47,7 @@ Fast-track workflow for simple bug fixes, typos, and minor changes. No multi-age
 └─────────────────────────────────────────────────────────┘
 ```
 
-**Total: 4 steps, 1 expert, no handoffs**
+**Total: 4 steps, 1 delegated domain-expert subagent, no handoffs**
 
 ---
 
@@ -100,7 +102,7 @@ Quick verification:
 /apex-quick Fix typo in login button text
 ```
 
-**Expert executes:**
+**The spawned domain-expert subagent executes:**
 ```
 1. LOCATE: Grep "login" → Found LoginButton.tsx:23
 2. FIX: Change "Logi" → "Login"
@@ -116,7 +118,7 @@ Quick verification:
 
 | Aspect | APEX Full | APEX Quick |
 |--------|-----------|------------|
-| Agents | 3+ parallel | 1 expert |
+| Agents | 3+ parallel | 1 delegated expert subagent |
 | Phases | 4-5 (A-P-E-L-X) | 4 (Locate-Fix-Review-Verify) |
 | TaskCreate | Yes | No |
 | Sniper | Full 6-phase | Linter only |

@@ -1,10 +1,10 @@
 # fuse-go (Cursor Plugin)
 
 Expert **simple, idiomatic Go** development — CLI tools, libraries, concurrent systems, and backend
-services. Targets Go 1.26+, with a small-interfaces mindset, `golangci-lint`-clean code, and SOLID
+services. Targets Go 1.27+, with a small-interfaces mindset, `golangci-lint`-clean code, and SOLID
 principles.
 
-Ported from the Claude Code plugin `fuse-go` v1.0.4 (source folder `plugins/go-expert`). The plugin
+Ported from the Claude Code plugin `fuse-go` v1.0.9 (source folder `plugins/go-expert`). The plugin
 name is deliberately identical across both ecosystems so cross-plugin references
 (`fuse-go:<skill>`) keep resolving.
 
@@ -23,7 +23,7 @@ would be a divergence, not a precaution (R4–R6 / R8–R10 preamble).
 
 | Skill | Description |
 | :-- | :-- |
-| `go-core-idioms` | Idioms, error handling (`errors.Is`/`As`/`AsType`), generics, slices/maps, zero values, `defer`, Go 1.26 features |
+| `go-core-idioms` | Idioms, error handling (`errors.Is`/`As`/`AsType`), generics, slices/maps, zero values, `defer`, Go 1.26–1.27 features (generic methods) |
 | `go-concurrency` | Goroutines, channels, `select`, `sync`, `context` cancellation, `errgroup`, structured concurrency |
 | `go-architecture` | Package/module architecture, `internal/`, dependency boundaries, backend services (net/http, routing, middleware) |
 | `go-testing-quality` | Table-driven tests, `testing`, `go test -race`, fuzzing, benchmarks, coverage |

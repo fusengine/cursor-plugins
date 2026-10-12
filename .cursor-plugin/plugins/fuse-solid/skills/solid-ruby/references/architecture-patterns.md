@@ -24,7 +24,7 @@ app/modules/[feature]/
 
 app/modules/core/
 ├── contracts/       # Shared interfaces
-├── services/        # Logic genuinely shared across features
+├── services/        # Shared logic (2+ features)
 ├── concerns/        # Shared mixins
 └── models/
 ```
@@ -82,8 +82,8 @@ app/modules/users/
 ## DRY: Shared Code Location
 
 - **Feature contracts** → `[feature]/contracts/`
-- **Shared contracts** → `core/contracts/` (genuinely shared across features)
-- **Shared services** → `core/services/` (genuinely shared across features)
+- **Shared contracts** → `core/contracts/` (2+ features)
+- **Shared services** → `core/services/` (2+ features)
 - **Shared concerns** → `core/concerns/` (mixins)
 
 ---

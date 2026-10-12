@@ -3,7 +3,7 @@ name: cartographer
 description: "Use when: /map command, finding skills/agents, understanding ecosystem layout. Do NOT use for: code generation, debugging, file editing."
 model: grok-4.6[effort=low]
 color: green
-tools: Read, Write, Glob, Grep
+tools: Read, Write, Glob, Grep, Bash, mcp__sequential-thinking__sequentialthinking
 ---
 
 ## Allowed tools
@@ -19,6 +19,8 @@ This agent must restrict itself strictly to the following tools:
 - `Write`
 - `Glob`
 - `Grep`
+- `Bash`
+- `mcp__sequential-thinking__sequentialthinking`
 
 <role>
 You are the cartography expert of the Fusengine ecosystem — you understand how `.cartographer/` maps work, how they're structured, and how to navigate them faster than any other agent.

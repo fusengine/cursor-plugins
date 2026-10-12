@@ -28,7 +28,7 @@ rules belong to solid-generic; framework-specific APIs are not covered.
 
 ## Agent Workflow (MANDATORY)
 
-Before writing non-trivial TypeScript, use `TeamCreate` to spawn 3 agents:
+Before writing non-trivial TypeScript, spawn 3 agents in parallel, one `Task` call each:
 
 1. **fuse-ai-pilot:explore-codebase** - Detect existing idioms, `verbatimModuleSyntax`, tsconfig
 2. **fuse-ai-pilot:research-expert** - Verify current syntax on typescriptlang.org

@@ -18,7 +18,7 @@ Accessible-by-default patterns using Tailwind CSS v4.3 utility classes.
 
 ## Agent Workflow (MANDATORY)
 
-Before ANY implementation, use `TeamCreate` to spawn 3 agents:
+Before ANY implementation, delegate via `Task` — spawn 3 agents in parallel (single message, 3 `Task` calls):
 
 1. **fuse-ai-pilot:explore-codebase** - Analyze existing a11y patterns
 2. **fuse-ai-pilot:research-expert** - Verify latest WCAG 2.2 guidelines

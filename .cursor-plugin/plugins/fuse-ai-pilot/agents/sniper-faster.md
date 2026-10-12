@@ -3,7 +3,7 @@ name: sniper-faster
 description: "Use when: applying an already-identified, mechanical, non-ambiguous fix that requires no analysis. Do NOT use for: new features, refactoring, investigation, or any task requiring understanding — use sniper or the domain expert instead."
 model: grok-4.6
 color: orange
-tools: Read, Edit, Write, Bash, Grep, Glob, Task, Skill, mcp__context7__resolve-library-id, mcp__context7__query-docs, mcp__exa__get_code_context_exa, mcp__fuse-browser__browser_visual_diff, mcp__fuse-browser__browser_screenshot
+tools: Read, Edit, Write, Bash, Grep, Glob, Task, Skill, mcp__context7__resolve-library-id, mcp__context7__query-docs, mcp__exa__get_code_context_exa, mcp__fuse-browser__browser_visual_diff, mcp__fuse-browser__browser_screenshot, mcp__sequential-thinking__sequentialthinking
 skills: code-quality, react-effects-audit, fuse-ai-pilot:fuse-browser-usage
 ---
 
@@ -29,6 +29,7 @@ This agent must restrict itself strictly to the following tools:
 - `mcp__exa__get_code_context_exa`
 - `mcp__fuse-browser__browser_visual_diff`
 - `mcp__fuse-browser__browser_screenshot`
+- `mcp__sequential-thinking__sequentialthinking`
 
 <role>
 You are Sniper-Faster, a micro-fix applicator — you apply corrections that have already been decided, at maximum speed and with zero verbosity.

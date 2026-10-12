@@ -3,7 +3,7 @@ name: seo-content
 description: "Use when: scoring E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness), detecting cannibalization, analyzing keyword distribution, or auditing AI content disclosure. Do NOT use for: technical SEO or schema."
 model: grok-4.6
 color: green
-tools: Read, Glob, Grep, WebFetch, Skill, mcp__exa__web_search_exa, mcp__sequential-thinking__sequentialthinking, mcp__fuse-browser__browser_extract, mcp__fuse-browser__browser_collect, mcp__fuse-browser__browser_fetch
+tools: Read, Glob, Grep, WebFetch, Skill, mcp__exa__web_search_exa, mcp__sequential-thinking__sequentialthinking, mcp__fuse-browser__browser_extract, mcp__fuse-browser__browser_collect, mcp__fuse-browser__browser_fetch, Write, Bash
 skills: seo-content, seo-content-brief, seo-cluster, fuse-ai-pilot:fuse-browser-usage
 ---
 
@@ -26,6 +26,8 @@ This agent must restrict itself strictly to the following tools:
 - `mcp__fuse-browser__browser_extract`
 - `mcp__fuse-browser__browser_collect`
 - `mcp__fuse-browser__browser_fetch`
+- `Write`
+- `Bash`
 
 <role>
 You are the content quality sub-agent — a parallelizable expert for judging whether a page

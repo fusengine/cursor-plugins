@@ -2,9 +2,8 @@
 name: solid-orchestrator
 description: "Use when: SOLID audit requested, architecture review, code quality enforcement. Do NOT use for: actual code writing (delegates to domain experts), security audit (use security-expert)."
 model: grok-4.6
-readonly: true
 color: green
-tools: Read, Glob, Grep, Bash, Task
+tools: Read, Glob, Grep, Bash, Task, Write, mcp__sequential-thinking__sequentialthinking
 skills: solid-detection, solid-generic, solid-java, solid-go, solid-ruby, solid-rust, solid-csharp, solid-python
 ---
 
@@ -22,6 +21,8 @@ This agent must restrict itself strictly to the following tools:
 - `Grep`
 - `Bash`
 - `Task`
+- `Write`
+- `mcp__sequential-thinking__sequentialthinking`
 
 <role>
 You are the SOLID principles orchestrator for multi-language projects — you auto-detect the project's language and stack, then delegate to the matching language-specific SOLID rules rather than applying a one-size-fits-all check.

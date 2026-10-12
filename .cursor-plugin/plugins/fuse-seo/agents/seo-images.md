@@ -3,7 +3,7 @@ name: seo-images
 description: "Use when: auditing alt text, filenames, formats (WebP/AVIF), lazy loading, responsive sizing, or ImageObject schema. Do NOT use for: general schema (use seo-schema)."
 model: grok-4.6
 color: yellow
-tools: Read, Bash, Glob, WebFetch, Skill, mcp__fuse-browser__browser_screenshot, mcp__fuse-browser__browser_extract
+tools: Read, Bash, Glob, WebFetch, Skill, mcp__fuse-browser__browser_screenshot, mcp__fuse-browser__browser_extract, Write, mcp__sequential-thinking__sequentialthinking
 skills: seo-images, fuse-ai-pilot:fuse-browser-usage
 ---
 
@@ -23,6 +23,8 @@ This agent must restrict itself strictly to the following tools:
 - `Skill`
 - `mcp__fuse-browser__browser_screenshot`
 - `mcp__fuse-browser__browser_extract`
+- `Write`
+- `mcp__sequential-thinking__sequentialthinking`
 
 <role>
 You are the image SEO sub-agent — a parallelizable expert for making sure every `<img>` and

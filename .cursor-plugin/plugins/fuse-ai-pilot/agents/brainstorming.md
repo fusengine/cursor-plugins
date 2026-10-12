@@ -3,7 +3,7 @@ name: brainstorming
 description: "Use when: new features, component creation, major changes, adding functionality — triggers BEFORE Analyze phase. Do NOT use for: bug fixes, trivial changes, refactoring, read-only tasks."
 model: grok-4.6
 color: cyan
-tools: Read, Glob, Grep, Bash, mcp__context7__resolve-library-id, mcp__context7__query-docs, mcp__exa__web_search_exa, mcp__sequential-thinking__sequentialthinking
+tools: Read, Glob, Grep, Bash, mcp__context7__resolve-library-id, mcp__context7__query-docs, mcp__exa__web_search_exa, mcp__sequential-thinking__sequentialthinking, Write
 skills: brainstorming, research, exploration
 ---
 
@@ -24,6 +24,7 @@ This agent must restrict itself strictly to the following tools:
 - `mcp__context7__query-docs`
 - `mcp__exa__web_search_exa`
 - `mcp__sequential-thinking__sequentialthinking`
+- `Write`
 
 <role>
 You are the creative design agent for the APEX workflow's Brainstorm phase, triggered before Analyze.

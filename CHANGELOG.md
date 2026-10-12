@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.1.6] - 12-10-2026
+
+- feat(port): port claude-plugins improvements adapted to Cursor — new
+  fuse-ai-pilot `lead-orchestration` skill; rules 00/01/02/03/04/06/08,
+  `AGENTS.md` and `user-rules/fuse-global.mdc` in sync (AUTONOMY, RECURRING
+  TRAPS); solid-detection; commit-pro Step 9 release watch (conditional on a
+  publish workflow) + `git-flow/references/release-workflow.md`; verification
+  skill; sniper/challenger/explore-codebase/commit agents; design-ios
+  (+4 references) and design-method; swift-apple-expert skills (+5 HIG refs,
+  +2 mcp-tools refs) and the swift-expert agent
+- chore(deps): scripts `@clack/prompts` ^1.8.1, `@types/bun` ^1.4.3
+  (`bun.lock` refreshed); fuse-seo `package.json` dependencies bumped
+- chore(parity): skills/agents parity with claude-plugins — TeamCreate → Task
+  wording, new `fuse-ai-pilot/agents/skill-creator.md`, agent `tools:` lists
+  synced, `readonly` removed on 3 agents, README version refreshes (Go 1.27,
+  Rust 1.98, PHP PER-CS 3.1, TypeScript 7.0 / Bun 1.4), fuse-design
+  fora-recode translated to English
+- chore(plugins): PATCH bump, mirrored in `.cursor-plugin/marketplace.json` —
+  fuse-ai-pilot 1.2.42, fuse-astro 1.0.14, fuse-cartographer 1.0.13,
+  fuse-changelog 1.0.15, fuse-commit-pro 1.2.26, fuse-design 2.2.10,
+  fuse-go 1.0.7, fuse-laravel 1.2.8, fuse-lessons 1.0.7, fuse-nextjs 1.1.24,
+  fuse-php 1.0.7, fuse-prompt-engineer 1.1.12, fuse-react 1.0.21,
+  fuse-rules 1.0.22, fuse-rust 1.0.7, fuse-seo 1.0.12, fuse-shadcn-ui 1.0.18,
+  fuse-solid 1.0.19, fuse-swift-apple-expert 1.1.20, fuse-tailwindcss 1.1.11,
+  fuse-typescript 1.0.7
+- chore(fuse-seo): `package.json` version synced with `plugin.json` (1.0.12)
+- chore(marketplace): suite `metadata.version` 0.1.5 → 0.1.6, README version badge updated
+
 ## [0.1.5] - 28-09-2026
 
 - fix(hooks): core-guards now wires `beforeShellExecution` → `./scripts/hook.sh`,

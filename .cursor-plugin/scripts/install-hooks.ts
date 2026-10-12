@@ -26,6 +26,7 @@ const PATHS = {
 	marketplace: join(HOME, ".cursor"),
 	pluginsDir: join(HOME, ".cursor/plugins/local"),
 	loaderSrc: join(SCRIPT_DIR, "hooks-loader.ts"),
+	harnessManifestSrc: join(PROJECT_ROOT, "harness/package.json"),
 	cursorMdSrc: join(
 		PROJECT_ROOT,
 		"plugins/fuse-rules/templates/CLAUDE.md.template",

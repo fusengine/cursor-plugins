@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.1.8] - 12-10-2026
+
+- fix(installer): keep the shared harness on latest — every installer run
+  refreshes `@fusengine/harness` in the shared control root (`bun update`,
+  falling back to `bun install`; fail-open) via new
+  `scripts/src/services/harness-vendor.ts` (+ interface, 6 tests); the
+  `hook.sh` wrapper comment (21 plugins + `plugin-runtime`) no longer claims
+  auto-upgrade and names the upgrade path; installation docs updated
+- chore(plugins): PATCH bump, mirrored in `.cursor-plugin/marketplace.json` —
+  core-guards 1.1.39, fuse-ai-pilot 1.2.44, fuse-cartographer 1.0.14,
+  fuse-changelog 1.0.16, fuse-design 2.2.11, fuse-go 1.0.8, fuse-laravel 1.2.9,
+  fuse-lessons 1.0.8, fuse-nextjs 1.1.25, fuse-php 1.0.8, fuse-react 1.0.22,
+  fuse-rules 1.0.24, fuse-rust 1.0.8, fuse-security 1.0.18, fuse-seo 1.0.13,
+  fuse-shadcn-ui 1.0.19, fuse-solid 1.0.20, fuse-swift-apple-expert 1.1.21,
+  fuse-tailwindcss 1.1.12, fuse-tanstack-start 1.0.6, fuse-typescript 1.0.8
+- chore(marketplace): suite `metadata.version` 0.1.7 → 0.1.8, README version badge updated
+
 ## [0.1.7] - 12-10-2026
 
 - fix(rules): "always delegate" made consistent — Scope Ladder first row is

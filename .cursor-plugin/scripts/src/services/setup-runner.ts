@@ -10,6 +10,7 @@ import { installBrowserBinary } from "./browser-binary";
 import { setHarnessRefs } from "./harness-env";
 import { resolveHomeInHooks } from "./harness-path-resolver";
 import { promptHarnessGates } from "./harness-gates";
+import { vendorHarness } from "./harness-vendor";
 import { promptHarnessTuning } from "./harness-tuning";
 import { promptEnforceTtl } from "./enforce-ttl";
 import { promptSolidMaxLines } from "./solid-lines";
@@ -59,6 +60,20 @@ export async function runSetup(
 	// explicit @mention, and its body is Claude Code's prompt, not Cursor's.
 	// `installClaudeMd` stays available for the project scope.
 	await installDeps(pluginsDir);
+
+	// Shared harness: the hook.sh wrappers run whatever is vendored and never
+	// upgrade it, so THIS is the upgrade path — every run moves it to the latest
+	// published release (spec `latest`, never a pinned version). Fail-open.
+	const vendorSpinner = p.spinner();
+	vendorSpinner.start("Refreshing shared @fusengine/harness to latest...");
+	const vendored = await vendorHarness({
+		manifestSrc: paths.harnessManifestSrc,
+		controlRoot: join(paths.marketplace, ".fusengine-global"),
+	});
+	vendorSpinner.stop(`Shared harness: ${vendored}`);
+	if (vendored === "failed") {
+		p.log.warn("Harness refresh failed — the hook wrappers keep the vendored copy (or self-heal).");
+	}
 
 	const homeSpinner = p.spinner();
 	homeSpinner.start("Resolving $HOME in hook paths...");

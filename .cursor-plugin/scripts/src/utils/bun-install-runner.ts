@@ -3,6 +3,27 @@
  * no node_modules import), so it works even when node_modules is entirely gone.
  */
 import type { InstallFn } from "../interfaces/ensure-deps";
+import type { BunRunFn } from "../interfaces/harness-vendor";
+
+/**
+ * Run the current `bun` binary with `args` in `cwd`, hard-killing it after
+ * `timeoutMs`. Never throws on timeout/non-zero exit: the exit code is returned.
+ *
+ * @param cwd - Directory the command runs in
+ * @param args - Arguments passed to bun (e.g. `["install", "--silent"]`)
+ * @param timeoutMs - Hard kill timeout in milliseconds
+ * @returns The process exit code (non-zero when killed)
+ */
+export const runBun: BunRunFn = async (cwd, args, timeoutMs) => {
+	const proc = Bun.spawn([process.execPath, ...args], {
+		cwd,
+		stdout: "ignore",
+		stderr: "ignore",
+		timeout: timeoutMs,
+		killSignal: "SIGKILL",
+	});
+	return proc.exited;
+};
 
 /**
  * Run `bun install --silent` in `cwd`, hard-killing it after `timeoutMs`.
@@ -13,12 +34,5 @@ import type { InstallFn } from "../interfaces/ensure-deps";
  * @param timeoutMs - Hard kill timeout in milliseconds
  */
 export const runBunInstall: InstallFn = async (cwd, timeoutMs) => {
-	const proc = Bun.spawn([process.execPath, "install", "--silent"], {
-		cwd,
-		stdout: "ignore",
-		stderr: "ignore",
-		timeout: timeoutMs,
-		killSignal: "SIGKILL",
-	});
-	await proc.exited;
+	await runBun(cwd, ["install", "--silent"], timeoutMs);
 };

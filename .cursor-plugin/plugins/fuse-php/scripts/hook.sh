@@ -7,9 +7,13 @@
 #   2. a self-heal `bun install` of that same shared directory, once
 #   3. `npx` on latest (last resort, network)
 #
-# Always tracks the LATEST published harness: the vendored manifest uses the
-# `latest` dist-tag and the npx fallback resolves it too, so a new release is
-# picked up without editing 21 wrappers.
+# Installs the LATEST published harness the first time (the manifest uses the
+# `latest` dist-tag, and so does the npx fallback), so no wrapper needs editing
+# per release. It does NOT upgrade an existing install: the fast path runs the
+# vendored bin as is, and rewriting it in place while up to 62 hooks load it
+# could crash a guard mid-run (hooks fail open). The upgrade path is the
+# installer (`install.sh` runs `bun update @fusengine/harness` on every run) or,
+# by hand: `cd ~/.cursor/.fusengine-global && bun update @fusengine/harness`.
 #
 # Resolution is relative to THIS file, never to the caller's cwd. Always exits 0
 # on its own failures: Cursor fails hooks open, and a broken guard must never

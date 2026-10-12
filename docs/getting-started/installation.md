@@ -70,13 +70,26 @@ runtime-unverified until executed on Windows.
 ├── rules/fuse-global.mdc
 └── .fusengine-global/
     ├── .managed-by-fusengine
-    └── receipt.json
+    ├── receipt.json
+    ├── package.json        # spec "latest", copied from .cursor-plugin/harness
+    ├── bun.lock
+    └── node_modules/@fusengine/harness
 ```
 
 The bundled installer copies each repository plugin as an immediate child of
 `plugins/local`; the marketplace root is never installed as one plugin.
 Existing foreign plugin directories are preserved. Reinstall refreshes only
 intact installer-owned copies and refuses modified or colliding targets.
+
+### Shared harness upgrades
+
+Every `install.sh` run rewrites `.fusengine-global/package.json` from the repo
+manifest (`"@fusengine/harness": "latest"`, never a pinned version) and runs
+`bun update @fusengine/harness`, which keeps the dist-tag and advances
+`bun.lock` to the newest release. The `hook.sh` wrappers only install the
+harness when it is missing; they never upgrade it. Without re-running the
+installer, upgrade by hand with
+`cd ~/.cursor/.fusengine-global && bun update @fusengine/harness`.
 
 ## Project installation layout
 

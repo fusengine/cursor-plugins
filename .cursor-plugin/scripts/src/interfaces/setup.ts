@@ -15,4 +15,10 @@ export interface SetupPaths {
 	 * with no intermediate `plugins/` level like Claude Code's marketplace.
 	 */
 	pluginsDir: string;
+	/**
+	 * Repo manifest of the shared harness (`.cursor-plugin/harness/package.json`,
+	 * spec `latest`). Copied to `~/.cursor/.fusengine-global/package.json` and
+	 * refreshed on every install run.
+	 */
+	harnessManifestSrc: string;
 }

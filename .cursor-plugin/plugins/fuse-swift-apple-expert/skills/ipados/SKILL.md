@@ -22,7 +22,7 @@ iPadOS-specific development for tablet and productivity experiences.
 
 ## Agent Workflow (MANDATORY)
 
-Before ANY implementation, use `TeamCreate` to spawn 3 agents:
+Before ANY implementation, delegate via `Task` — spawn 3 agents in parallel (single message, 3 `Task` calls):
 
 1. **fuse-ai-pilot:explore-codebase** - Analyze existing iPad patterns
 2. **fuse-ai-pilot:research-expert** - Verify latest iPadOS 27 docs via Context7/Exa

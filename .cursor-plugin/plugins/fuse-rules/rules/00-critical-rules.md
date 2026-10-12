@@ -24,4 +24,5 @@ alwaysApply: true
 2. **NEVER edit a file not read in this session** - Read the target file before ANY Edit
 3. **Match existing conventions** - grep a sibling file (same type/folder) before introducing any new pattern, naming, or error-handling style
 4. **Zero dangling references** - after any edit or file split, verify imports, exports, and types still resolve
-5. **NEVER report done with failing checks** - done = sniper ZERO errors (lint + types). A hidden failure is a lie, not a completion
+5. **NEVER report done with failing checks** - done = sniper ZERO errors (lint + types) AND `verification` passed: real output opened, each part of the request ticked by name, unverified = "not verified". A hidden failure is a lie, not a completion
+6. **Challenger before any claim** - the lead runs the `challenger` agent (fresh context, verdict CONFIRMED / REFUTED / UNCERTAIN) BEFORE reporting to the owner any root-cause, any done/verified claim, any irreversible action (commit/deploy/rm/push) or a 2nd-time fix — inside an APEX task or in plain conversation — and at every eLicit + Verify gate. A REFUTED is resolved or owner-accepted before a "done" claim reaches the owner. Challenger = claims/root-causes; sniper = code

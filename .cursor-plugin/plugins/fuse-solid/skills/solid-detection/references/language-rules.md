@@ -149,6 +149,7 @@
 | File limit | `FUSE_SOLID_MAX_LINES` (default `200`) |
 | Interface location | `src/interfaces/` |
 | Forbidden | ABC outside interfaces/ |
+| SOLID skill | `solid-python` |
 
 **Pattern detection**:
 ```regex

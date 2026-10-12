@@ -14,14 +14,14 @@ Enforces SOLID and DRY principles for Swift 6 and SwiftUI (iOS 27+) projects: a 
 
 Covers all five SOLID principles with dedicated references (SRP, OCP, LSP, ISP, DIP), concurrency patterns (actors, @MainActor, Sendable), an anti-pattern catalog, and code templates for views, view models, services, protocols, and models.
 
-Requires grepping the codebase for reusable protocols/services before writing new code, and checking shared locations (Core/Extensions/, Core/Utilities/, Core/Protocols/) before duplicating logic genuinely shared across features.
+Requires grepping the codebase for reusable protocols/services before writing new code, and checking shared locations (Core/Extensions/, Core/Utilities/, Core/Protocols/) before duplicating logic used by 2+ features.
 </objective>
 
 # SOLID Swift - Apple Best Practices 2026
 
 ## Agent Workflow (MANDATORY)
 
-Before ANY implementation, use `TeamCreate` to spawn 3 agents:
+Before ANY implementation, delegate via `Task` — spawn 3 agents in parallel (single message, 3 `Task` calls):
 
 1. **fuse-ai-pilot:explore-codebase** - Analyze existing architecture
 2. **fuse-ai-pilot:research-expert** - Verify Swift/Apple docs via Apple Docs MCP + Context7
@@ -35,7 +35,7 @@ Before ANY implementation, use `TeamCreate` to spawn 3 agents:
 1. **Grep the codebase** for similar protocols, services, or logic
 2. Check shared locations: `Core/Extensions/`, `Core/Utilities/`, `Core/Protocols/`
 3. If similar code exists -> extend/reuse instead of duplicate
-4. If code is genuinely shared across features -> create it in `Core/` directly
+4. If code will be used by 2+ features -> create it in `Core/` directly
 
 ---
 
@@ -48,6 +48,8 @@ Before ANY implementation, use `TeamCreate` to spawn 3 agents:
 | Services | `Features/[Feature]/Services/` | Business logic and I/O |
 | Protocols | `Features/[Feature]/Protocols/` | Contracts |
 | Shared | `Core/{Models,Protocols,Services,Extensions,Utilities}/` | Cross-feature code |
+
+File size: the only line limit is the hook ceiling (`FUSE_SOLID_MAX_LINES`). Split by responsibility well before it; if a legitimate fix cannot fit, report it - never bypass the hook.
 
 **NEVER use flat `Sources/` structure - always `Features/[Feature]/`**
 

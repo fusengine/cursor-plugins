@@ -11,7 +11,7 @@ related-skills: swift-core, ios, macos, mcp-tools
 <objective>
 Covers app build, code signing, and distribution across all Apple platforms: certificate/profile management, TestFlight beta distribution, App Store submission, app icon/asset preparation, and StoreKit 2 in-app purchases/subscriptions.
 
-Includes a release checklist (version/build number, app icons for light/dark/tinted, privacy manifest, release configuration, archive validation, TestFlight testing, screenshots, App Store metadata) and guidance on automating releases with fastlane and CI/CD (e.g. GitHub Actions).
+Includes a release checklist (version/build number, layered Icon Composer app icon checked in default/dark/clear/tinted appearances, privacy manifest, release configuration, archive validation, TestFlight testing, screenshots, App Store metadata) and guidance on automating releases with fastlane and CI/CD (e.g. GitHub Actions).
 
 Best practices favor automatic signing, TestFlight testing before any public release, incrementing the build number on every upload, and a mandatory privacy manifest for App Store submission.
 </objective>
@@ -22,7 +22,7 @@ App build, signing, and distribution for all Apple platforms.
 
 ## Agent Workflow (MANDATORY)
 
-Before ANY distribution, use `TeamCreate` to spawn 3 agents:
+Before ANY distribution, delegate via `Task` — spawn 3 agents in parallel (single message, 3 `Task` calls):
 
 1. **fuse-ai-pilot:explore-codebase** - Check existing build configuration
 2. **fuse-ai-pilot:research-expert** - Verify latest App Store requirements
@@ -69,7 +69,7 @@ After implementation, run **fuse-ai-pilot:sniper** for validation.
 ## Release Checklist
 
 - [ ] Version and build number updated
-- [ ] App icons complete (light/dark/tinted)
+- [ ] Layered app icon (Icon Composer) checked in default/dark/clear/tinted appearances, incl. alternate icons ([HIG app icons](https://developer.apple.com/design/human-interface-guidelines/app-icons))
 - [ ] Privacy manifest (PrivacyInfo.xcprivacy)
 - [ ] Release configuration
 - [ ] Archive validates

@@ -117,8 +117,11 @@ on purpose.
 | `user-rules/fuse-global.mdc` | **User** — every project | Deployed to `~/.cursor/rules/fuse-global.mdc`, `alwaysApply: true` |
 
 `AGENTS.md` is the source of truth; `fuse-global.mdc` is a copy of its body with a two-key
-frontmatter (`description`, `alwaysApply: true`) prepended. Their bodies are byte-identical
-(`diff` from `## Identity` onward is empty) and **must stay so** — edit `AGENTS.md`, then re-copy.
+frontmatter (`description`, `alwaysApply: true`) prepended. Their bodies are identical
+from `## HARD STOPS` onward except the final `Rules location:` line, which is deliberate: `AGENTS.md`
+gives the repo-relative path (`.cursor-plugin/plugins/fuse-rules/rules/*.md`), while the user-level
+copy, read in every project where that path does not exist, gives `fuse-rules/rules/*.md`. Keep
+everything else in sync — edit `AGENTS.md`, then re-copy, preserving that one line.
 
 ### Why these two channels and not the others
 

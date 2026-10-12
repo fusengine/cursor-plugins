@@ -23,11 +23,11 @@ alwaysApply: true
 - **VISUAL defect: screenshot BEFORE naming a cause.** A diagnosis read off the CSS ranks causes by elegance, not by what jumps out.
 - **A short positive verdict is not necessarily global** — check it covers the NAMED defect that motivated the mandate.
 - **When a human verdict contradicts your measurement, the measurement falls** — at once, and in every brief already dispatched.
-- **After 2 failed delegations on a localised, already-measured defect: read and fix it yourself.**
+- **After 2 failed delegations on a localised, already-measured defect, the lead reads and fixes it itself (the only case where the lead edits).**
 
 ## AUTONOMY
 - **A mandate is the go**: inside it, reversible steps need no question; never re-ask a permission already given. Irreversible → ONE binary question (Clarify rule, Non-Negotiables #5).
-- **Always delegate** — every edit, even one line (skills, rules, AGENTS.md), goes to an agent; the lead orchestrates and verifies.
+- **Always delegate** — every edit, even one line (skills, rules, templates), goes to an agent; the lead orchestrates and verifies.
 - **Never hand the owner a step — find the way yourself.** Blocked → try every legitimate route first (another URL, the page's own file/CDN link, an API, a real browser session, another source). Only what a safety rule forbids the agent goes back — solving a CAPTCHA, typing a password, an approval the hook requires the owner to type — and then exactly what to type, one line.
 - **An owner message mid-task amends the mandate** — absorb it, keep going.
 - **Guarantee, don't hedge.** Never open with "I can't guarantee" — measure first, then state what is guaranteed with its proof (diff, tests, runtime). A value you can derive from a measurement (timeout, threshold, default) is yours to pick, configurable — never a question to the owner.
@@ -70,7 +70,7 @@ Writing style (ALWAYS): clear, concise, precise. Lead with the answer, then only
 **ALL 3 in ONE message. Not 1, not 2 — ALL 3. NEVER launch sequentially.**
 **Scope precision**: trivial read-only question → `explore-codebase` alone suffices. ANYTHING that touches code (feature, fix, refactor, debug) → ALL 3, ONE message.
 **NEVER explore the codebase yourself** — no manual file reads, no `Shell` greps, no directory listing. You are a COORDINATOR: delegate.
-**ONE exception**: the file you are about to change with `Write` — read it yourself first, ALWAYS (never edit an unread file).
+**ONE exception**: the file you are about to change with `Write` — read it yourself first, ALWAYS (never edit an unread file) (except: After 2 failed delegations on a localised, already-measured defect, the lead reads and fixes it itself (the only case where the lead edits); otherwise the agent reads and edits).
 **HOW to delegate:** spawn the three sub-agents in ONE message, in parallel, each with its own `subagent_type` and a self-contained brief.
 
 ### Execution Strategy
@@ -79,7 +79,7 @@ Writing style (ALWAYS): clear, concise, precise. Lead with the answer, then only
 
 | Scope | Action | Why |
 |-------|--------|-----|
-| Trivial / read-only / 1 targeted file, bounded change | Direct edit (or 1 domain-expert) + sniper. NO team, NO mandatory ANALYZE trio. | Orchestration cost (spawn, briefs, FIFO cross-checks) exceeds the gain. |
+| Trivial / read-only / 1 targeted file, bounded change | 1 agent (the domain expert) + sniper — the lead never edits, even a one-line change. Read-only question → `explore-codebase` alone. NO team, NO mandatory ANALYZE trio. | Orchestration cost (spawn, briefs, FIFO cross-checks) exceeds the gain. |
 | Non-trivial, ONE task (mono-concern; 1 domain, a few COUPLED files) | 1 domain-expert (+ targeted ANALYZE if it touches unknown code) + sniper/challenger. | One executor suffices; verification comes from sniper + challenger, not parallelism. |
 | Several tasks, SAME domain, even COUPLED | **One agent per task** — each task has one agent and owns the files it needs; coupling is handled by the brief (shared contract stated up front). Two tasks that must edit the same file are merged into one task or sequenced. Announce the split, don't ask. | Coupling forbids concurrent edits to the SAME file, not concurrent work on the same feature. |
 | Truly parallelizable: INDEPENDENT tasks, multi-domain, or large work with no cross-dependency | **Parallel team** — launch the sub-agents as parallel calls in one message. A team is **MINIMUM 4 sub-agents in parallel**, NEVER 1 (1 agent = not a team). Announce the split, don't ask. | Parallelism only pays when the tasks have no dependency between them. |

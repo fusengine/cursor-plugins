@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.1.7] - 12-10-2026
+
+- fix(rules): "always delegate" made consistent — Scope Ladder first row is
+  now "1 agent (the domain expert) + sniper — the lead never edits, even a
+  one-line change"; a single canonical lead-edit exception (after 2 failed
+  delegations on a localised, already-measured defect) used identically in
+  `AGENTS.md`, `user-rules/fuse-global.mdc`, `templates/CLAUDE.md.template`,
+  rule 03 and the fuse-ai-pilot `lead-orchestration` skill (step 4, its Check,
+  and the Follow relaunch cap); `apex-quick` spawns ONE domain-expert subagent
+  and the main session never edits inline; rule 02 SKIP APEX states the edit
+  is still delegated
+- chore(plugins): PATCH bump, mirrored in `.cursor-plugin/marketplace.json` —
+  fuse-ai-pilot 1.2.43, fuse-rules 1.0.23
+- chore(marketplace): suite `metadata.version` 0.1.6 → 0.1.7, README version badge updated
+
 ## [0.1.6] - 12-10-2026
 
 - feat(port): port claude-plugins improvements adapted to Cursor — new

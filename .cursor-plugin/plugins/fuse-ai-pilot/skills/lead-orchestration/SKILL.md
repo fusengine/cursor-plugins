@@ -59,11 +59,11 @@ Fill `references/brief-template.md`: context, exact files, the owner's words quo
 **Check:** an agent with zero conversation context could execute it; every checklist part from step 1 appears as an acceptance criterion.
 
 ### 4. Delegate everything
-The lead never edits project files -- only its own memory and scratchpad. Every edit, even one line in a skill or rule, goes to an agent. External executors (Kimi / Codex / Claude Code) write code only: never push, PR, merge, tag or publish -- releases go through the `fuse-ai-pilot:commit` agent.
-**Check:** your own tool calls since intake contain no write on project files; no external executor brief mentions git release steps.
+The lead never edits project files -- only its own memory and scratchpad. Every edit, even one line in a skill or rule, goes to an agent. Sole exception: After 2 failed delegations on a localised, already-measured defect, the lead reads and fixes it itself (the only case where the lead edits). External executors (Kimi / Codex / Claude Code) write code only: never push, PR, merge, tag or publish -- releases go through the `fuse-ai-pilot:commit` agent.
+**Check:** your own tool calls since intake contain no write on project files, except: After 2 failed delegations on a localised, already-measured defect, the lead reads and fixes it itself (the only case where the lead edits); no external executor brief mentions git release steps.
 
 ### 5. Follow -- the owner never asks "is it moving?"
-Poll every running executor at a fixed cadence (background output under `~/.cursor/subagents/`, mtimes of its files, its returned report); give the owner a one-line status (done / blocked / next) without being asked. Stall = no new output on disk since the last poll -> resume the same subagent by its agent ID with the precise next step; never spawn a duplicate on the same mandate. Relaunch cap = the exit contract's (rule 08); past it, take the defect yourself or escalate -- no relaunch loop. Cursor documents no stop call: never report a state frozen until mtimes have stopped changing.
+Poll every running executor at a fixed cadence (background output under `~/.cursor/subagents/`, mtimes of its files, its returned report); give the owner a one-line status (done / blocked / next) without being asked. Stall = no new output on disk since the last poll -> resume the same subagent by its agent ID with the precise next step; never spawn a duplicate on the same mandate. Relaunch cap: after 2 failed delegations on a localised, already-measured defect, the lead reads and fixes it itself (the only case where the lead edits); any other blocked mandate past the 3-cycle cap → escalate to the owner with a root-cause note. Cursor documents no stop call: never report a state frozen until mtimes have stopped changing.
 **Check:** you can answer "where is it?" with the last measurement (time, files changed, tests), never "I don't know".
 
 ### 6. Blocks -- find the legitimate route

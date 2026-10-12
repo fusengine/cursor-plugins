@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Professional Cursor plugins with APEX workflow, SOLID principles, and expert development agents for Next.js, Laravel, Swift, Tailwind CSS, and more",
-    "version": "0.1.6"
+    "version": "0.1.7"
   },
   "plugins": [
     {
@@ -36,7 +36,7 @@
       "name": "fuse-ai-pilot",
       "source": ".cursor-plugin/plugins/fuse-ai-pilot",
       "description": "AI Pilot workflow agents: sniper (code quality), research-expert, explore-codebase, websearch",
-      "version": "1.2.42",
+      "version": "1.2.43",
       "author": {
         "name": "Fusengine",
         "email": "hello@fusengine.ch"
@@ -346,7 +346,7 @@
       "name": "fuse-rules",
       "source": ".cursor-plugin/plugins/fuse-rules",
       "description": "Global rules for all sessions: APEX workflow, SOLID/DRY enforcement, project detection, agent delegation, frontend/git standards",
-      "version": "1.0.22",
+      "version": "1.0.23",
       "author": {
         "name": "Fusengine"
       },
